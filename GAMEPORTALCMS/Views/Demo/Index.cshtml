@@ -1,0 +1,409 @@
+﻿@{
+    ViewData["Title"] = "Game Info";
+}
+<style scoped>
+
+    .search-container {
+        float: right;
+        margin: 10px;
+    }
+
+        .search-container input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 200px;
+        }
+
+</style>
+<div id="vc_app">
+    <div class="container-fluid" id="appD">
+        <div class="card mt-2">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h5 class="mr-auto">Game Info</h5>
+                </div>
+                <div class="card-body">
+                    <div class="col-12">
+                        <div class="row mb-3">
+                            <div class="input-group input-group-sm" style="width: 400px">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">Game Portal</label>
+                                </div>
+                                <select class="custom-select" id="portalId" v-model="selectedGamePortal">
+                                    <option value="1">Play2Win</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group input-group-sm" style="width: 400px; margin-left: 10px;">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">Game Type</label>
+                                </div>
+
+                                <select class="custom-select" id="gameTypeId" v-model="selectedGameType">
+                                    
+                                    <option value="">Select Game Type</option>
+                                    <option value="1">Downloadable</option>
+                                    <option value="2">Online</option>
+
+                                </select>
+                   
+                            </div>
+
+
+                            <div class="input-group input-group-sm" style="width: 400px; margin-left: 10px;">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">Game Category</label>
+                                </div>
+
+                             
+                                <select v-model="categoryId" class="form-control" id="gameCategoryId">
+                                        <option value="">Select Game Type</option>
+                                        <option v-for="item in gateCategoryList" :key="item.id" :value="item.id">
+                                            {{ item.categoryName }}
+                                        </option>
+                                </select>
+
+
+                              
+                            </div>
+
+
+                            <button style="margin-left: 10px" class="btn btn-info btn-sm" @@click="getData()">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+          
+        </div>
+        <div class="card mt-2" v-cloak>
+            <div class="card-body">
+                <div class="col-12" id="OnlinegameLstId" v-if="typeSelected==2">
+                    <h4>Online Game List</h4>
+
+                    <div class="table-responsive mt-2" style="overflow-x: auto;">
+                        <div class="search-container">
+                            <input type="text" v-model="searchTerm" placeholder="Search">
+                        </div>
+                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Play URL</th>
+                                    <th>Banner Image</th>
+                                    <th>Preview Image</th>
+                                    <th>Portrait Image</th>
+                                    <th style="width:7%">Status</th>
+                                    <th style="width:7%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="game in filteredGames" :key="game.id">
+                                    <td>{{ game.gameName }}</td>
+                                    <td>{{ game.categoryName }}</td>
+                                    <td>{{ game.gameURL }}</td>
+                                    <td><img :src="game.bannerImage" style="width:100%" alt="Banner Image"></td>
+                                    <td><img :src="game.previewImage" style="width:100%" alt="previewImage"></td>
+                                    <td><img :src="game.portraitImage" style="width:100%" alt="portraitImage"></td>
+
+                                    <td>
+                                        <span v-if="game.status==true" class="label label-success">Active</span>
+                                        <span v-if="game.status==false" class="label label-warning">InActive</span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" v-on:click="editGame(game)"><i class="far fa-edit"></i></a>
+                                        <a href="javascript:;"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+                <div class="col-12" id="OnlinegameLstId" v-if="typeSelected==1">
+                    <h4>Downloadable Game List</h4>
+
+                    <div class="table-responsive mt-2" style="overflow-x: auto;">
+                        <div class="search-container">
+                            <input type="text" v-model="searchTerm" placeholder="Search">
+                        </div>
+                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Size</th>
+                                    <th>Android Version</th>
+                                    <th>APK Location</th>
+                                    <th>Banner Image</th>
+                                    <th>Preview Image</th>
+                                    <th>Portrait Image</th>
+                                    <th style="width:7%">Status</th>
+                                    <th style="width:7%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="game in filteredGames" :key="game.id">
+                                    <td>{{ game.gameName }}</td>
+                                    <td>{{ game.categoryName }}</td>
+                                    <td>{{ game.size }}</td>
+                                    <td>{{ game.androidVersion }}</td>
+                                    <td>{{ game.apkLocation }}</td>
+                                    <td><img :src="game.bannerImage" style="width:100%" alt="Banner Image"></td>
+                                    <td><img :src="game.previewImage" style="width:100%" alt="previewImage"></td>
+                                    <td><img :src="game.portraitImage" style="width:100%" alt="portraitImage"></td>
+
+                                    <td>
+                                        <span v-if="game.status==true" class="label label-success">Active</span>
+                                        <span v-if="game.status==false" class="label label-warning">InActive</span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" @@click="editGame(game)"><i class="far fa-edit"></i></a>
+                                        <a href="javascript:;"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal" id="mdl_game" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Game Update</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <form action="javascript:;" data-vv-scope="frmgame">
+                                    <div class="form-row">
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Game Name</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.gameName" placeholder="Game Name" aria-label="Game Name" aria-describedby="basic-addon1">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Category</span>
+                                                    </div>
+                                                    <select v-model="itemG.categoryId" class="form-control">
+                                                        <option v-for="item in gateCategoryList" :key="item.id" :value="item.id">
+                                                            {{ item.categoryName }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Banner Image</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.bannerImageMockURL">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Preview Image</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.previewImageMockURL">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Portrait Image</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.portraitImageMockURL">
+                                                </div>
+                                            </div>
+                                            <div class="col" v-if="typeSelected == 1">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">APK URL</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.apkMockURL">
+                                                </div>
+                                            </div>
+                                            <div class="col" v-if="typeSelected == 2">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Game URL</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.gameURL">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Description</span>
+                                                    </div>
+                                                    <textarea class="form-control" v-model="itemG.description" rows="3"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" v-model="itemG.status" id="isactiveCheckbox">
+                                                    <label style="margin-left:20px" class="form-check-label" for="isactiveCheckbox">
+                                                        Is Active
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" v-on:click="UpdateGame"><i class="far fa-save"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+@section scripts{
+    <script>
+        var app = new Vue({
+            el: '#vc_app',
+            data() {
+                return {
+                    selectedGamePortal: 1,
+                    selectedGameType: '',
+                    categoryId:'',
+                    typeSelected: '',
+                    games: [],
+                    gateCategoryList: [],
+                    searchTerm: '',
+                    itemG: {},
+                    isActiveChecked: false,
+                    datatableOptions: {
+                        searching: true,
+                        paging: true,
+                        lengthChange: false,
+                        ordering: true,
+                        info: false,
+                        responsive: true,
+                    },
+                    ddlGameType:[],
+                };
+            },
+
+            computed: {
+                filteredGames() {
+                    if (!this.searchTerm) {
+                        return this.games;
+                    } else {
+                        const searchTermLower = this.searchTerm.toLowerCase();
+                        return this.games.filter(game => {
+                            return (
+                                game.gameName.toLowerCase().includes(searchTermLower) ||
+                                game.categoryName.toLowerCase().includes(searchTermLower)
+                            );
+                        });
+                    }
+                }
+            },
+            methods: {
+                getData() {
+                    const portalId = this.selectedGamePortal;
+                    const gameTypeId = this.selectedGameType;
+                    const CategoryId = this.categoryId;
+
+                    this.typeSelected = gameTypeId;
+
+                    console.log(categoryId)
+                    helper.get('/game/GetGameList',
+                        { clientaValue: portalId, type: gameTypeId, catId: CategoryId.Id },
+                        (response) => {
+                            console.log(response);
+                            this.games = response;
+
+                        });
+                },
+                editGame(game) {
+                    this.itemG = game;
+                    $('#mdl_game').modal('show');
+
+                },
+               
+
+                getGameCategory() {
+                    helper.get('/game/GetGameCategory',
+                        {},
+                        (response) => {
+                            console.log(response);
+                            this.gateCategoryList = response;
+
+                        });
+                },
+                GetGameType() {
+                helper.get('/Demo/Get_Game_Type',
+                        {},
+                        (response) => {
+                            console.log(response);
+                            this.ddlGameType = response;
+
+                        });
+                },
+                UpdateGame() {
+                    debugger;
+                    console.log(this.itemG);
+                    helper.post('/game/UpdateGameInfo', this.itemG, (response) => {
+                        debugger;
+                        if (response) {
+                            this.getData();
+                            $('#mdl_game').modal('hide');
+                        }
+                        else {
+                            $.notify(response.message, 'error');
+                        }
+                    });
+                },
+
+                
+            },
+
+            mounted() {
+                //  this.getData();
+                this.getGameCategory();
+                this.GetGameType();
+            },
+
+        });
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿@using GAMEPORTALCMS.Models.DTO;
+@model GameInfoDTO
+
+<style>
+    /* Custom styles for the container */
+    .container {
+        background-color: #f7f7f7;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    /* Custom styles for the card */
+    .property-card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+        /* Custom styles for card hover effect */
+        .property-card:hover {
+            transform: translateY(-5px);
+        }
+
+    /* Custom styles for card title */
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* Custom styles for card text */
+    .card-text {
+        font-size: 16px;
+    }
+
+    /* Custom styles for images */
+    .property-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    /* Custom styles to make the card smaller */
+    .small-card {
+        max-width: 600px; /* Adjust the maximum width as needed */
+        margin: 0 auto;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card property-card small-card">
+                <img src="@Model.BannerImage" alt="Banner Image" class="card-img-top property-image">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.GameName</h5>
+                    <p class="card-text">
+                        <strong>Category:</strong> @Model.CategoryName<br>
+                        <strong>Size:</strong> @Model.Size<br>
+                        <strong>Android Version:</strong> @Model.AndroidVersion<br>
+                        <strong>Status:</strong> @Model.Status
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

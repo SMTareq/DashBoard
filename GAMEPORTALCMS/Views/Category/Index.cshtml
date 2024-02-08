@@ -1,0 +1,238 @@
+﻿@{
+    ViewData["Title"] = "Game Category";
+}
+
+<div id="vc_app">
+    <div class="container-fluid" id="appD">
+        <div class="card mt-2">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h5 class="mr-auto">Category Info</h5>
+                </div>
+@*                <div class="card-body">
+                    <div class="col-12">
+                        <div class="row mb-3">
+                            <div class="input-group input-group-sm" style="width: 400px">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">Game Portal</label>
+                                </div>
+                                <select class="custom-select" id="portalId" v-model="selectedGamePortal">
+                                    <option value="1">Play2Win</option>
+                                </select>
+                            </div>
+                            <button style="margin-left: 10px" class="btn btn-info btn-sm" @@click="getData()">Search</button>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+
+        </div>
+        <div class="card mt-2" v-cloak>
+            <div class="card-body">
+                <div class="col-12">
+                    <div  style="overflow-x: auto;">
+                        <div class="button-container">
+                            <button type="button" class="btn btn-outline-info btn-sm" @@click="AddBillboard">Add Category</button>
+
+                        </div>
+
+                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Icon</th>
+                                    <th>Image</th>
+                                    <th>Serial</th>
+                                    <th style="width:7%">Status</th>
+                                    <th style="width:7%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in categoryList" :key="item.id">
+                                    <td>{{ item.categoryName }}</td>
+                                    <td><img :src="item.mock_IconUrl" alt="imageUrl"></td>
+                                    <td><img :src="item.mock_ImageUrl" alt="imageUrl"></td>
+                                    <td>{{item.seial}}</td>
+                                    <td>
+                                        <span v-if="item.isActive==true" class="label label-success">Active</span>
+                                        <span v-if="item.isActive==false" class="label label-warning">InActive</span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" v-on:click="editGame(item)"><i class="far fa-edit"></i></a>
+                                        <a href="javascript:;"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal" id="mdl_game" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Category</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <form action="javascript:;" data-vv-scope="frmgame">
+                                    <div class="form-row">
+                                        <div class="row col-12">
+                                            <div class="col">
+
+                                                <template>
+                                                    <div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span style="font-size: 14px" class="input-group-text">Category</span>
+                                                            </div>
+                                                            <input type="text" class="form-control" placeholder="Category Name" v-model="itemG.categoryName">
+                                                        </div>
+                                                 
+                                                    </div>
+                                                </template>
+
+                                            </div>
+
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Image URL</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.imageUrl">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Icon URL</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.iconUrl">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Serial</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" v-model="itemG.seial" placeholder="Serial">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" v-model="itemG.isActive" id="isactiveCheckbox">
+                                                    <label style="margin-left:20px" class="form-check-label" for="isactiveCheckbox">
+                                                        Is Active
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" v-on:click="UpdateGame"><i class="far fa-save"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+@section scripts{
+    <script>
+        var app = new Vue({
+            el: '#vc_app',
+            data() {
+                return {
+                    selectedGamePortal: 1,
+                    billboardData: [],
+                    searchTerm: '',
+                    itemG: {},
+                    games: [],
+                    gameSearchTerm: '',
+                    lastSelectedGame: '',
+                    categoryList:[],
+
+                };
+            },
+
+            computed: {
+            },
+            methods: {
+                getData() {
+                    helper.get('/Category/GetGameCategory',
+                        { },
+                        (response) => {
+                            console.log(response);
+                            this.categoryList = response;
+                            console.log(categoryList);
+                        });
+                },
+                editGame(game) {
+                    this.itemG = game;
+                    $('#mdl_game').modal('show');
+
+                },
+
+                AddBillboard() {
+                    this.itemG = {};
+                    $('#mdl_game').modal('show');
+                },
+
+                getGameCategory() {
+                    helper.get('/game/GetGameCategory',
+                        {},
+                        (response) => {
+                            console.log(response);
+                            this.gateCategoryList = response;
+
+                        });
+                },
+
+
+     
+                UpdateGame() {                  
+                    helper.post('/category/SaveCategory', this.itemG, (response) => {
+                        if (response) {
+                            this.getData();
+                            $('#mdl_game').modal('hide');
+                        }
+                        else {
+                            $.notify(response.message, 'error');
+                        }
+                    });
+                },
+            },
+
+            mounted() {
+                 this.getData();
+                // this.getGameCategory();
+            },
+
+        });
+    </script>
+}

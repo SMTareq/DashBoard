@@ -1,0 +1,402 @@
+﻿@{
+    ViewData["Title"] = "Billboard";
+}
+<style scoped>
+
+    .search-container {
+        float: left;
+        margin: 10px;
+    }
+
+    .button-container {
+        float: right;
+        margin: 10px;
+    }
+
+    .search-container input[type="text"] {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        width: 200px;
+    }
+
+    .autocomplete-results {
+        position: absolute;
+        z-index: 9999;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        max-height: 250px;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+        .autocomplete-results li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+            .autocomplete-results li:hover {
+                background-color: #e2e2e2;
+            }
+</style>
+<div id="vc_app">
+    <div class="container-fluid" id="appD">
+        <div class="card mt-2">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h5 class="mr-auto">Billboard Info</h5>
+                </div>
+                <div class="card-body">
+                    <div class="col-12">
+                        <div class="row mb-3">
+                            <div class="input-group input-group-sm" style="width: 400px">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">Game Portal</label>
+                                </div>
+                                <select v-model="selectedGamePortal" class="custom-select">
+                                    <option v-for="item in portalList" :key="item.clientValue" :value="item.clientValue">
+                                        {{ item.clientName }}
+                                    </option>
+                                </select>
+                            </div>
+
+
+                            <button style="margin-left: 10px" class="btn btn-info btn-sm" @@click="getData()">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card mt-2" v-cloak>
+            <div class="card-body">
+                <div class="col-12">
+                    <h4>Billboard List</h4>
+                    <div style="overflow-x: auto;">
+                        <div class="button-container">
+                            <button type="button" class="btn btn-outline-info btn-sm" @@click="AddBillboard">Add Billboard</button>
+
+                        </div>
+                        <div class="search-container">
+                            <input type="text" v-model="searchTerm" placeholder="Search">
+                        </div>
+                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Game Type</th>
+                                    <th>Image URL</th>
+                                    <th>Serial</th>
+                                    <th style="width:7%">Status</th>
+                                    <th style="width:7%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in filteredGames" :key="item.id">
+                                    <td>{{ item.gameName }}</td>
+                                    <td>{{ item.gameTypeId === 2 ? 'Online' : 'Downloadable' }}</td>
+                                    <td><img :src="item.imageUrl" style="width:75%" alt="imageUrl"></td>
+                                    <td>{{item.serial}}</td>
+                                    <td>
+                                        <span v-if="item.isActive==true" class="label label-success">Active</span>
+                                        <span v-if="item.isActive==false" class="label label-warning">InActive</span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" v-on:click="editGame(item)"><i class="far fa-edit"></i></a>
+                                        <a href="javascript:;"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="mdl_game" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Billboard</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <form action="javascript:;" data-vv-scope="frmgame">
+                                    <div class="form-row">
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Game Type</span>
+                                                    </div>
+                                                    <select class="custom-select" id="gameTypeId" v-model="itemG.gameTypeId">
+                                                        <option value="">Select Game Type</option>
+                                                        <option value="1">Downloadable</option>
+                                                        <option value="2">Online</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+
+                                                <template>
+                                                    <div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span style="font-size: 14px" class="input-group-text">Game</span>
+                                                            </div>
+                                                            <input type="text"
+                                                                   class="form-control"
+                                                                   v-model="gameSearchTerm"
+                                                                   @@input="fetchGames"
+                                                                   placeholder="Game Name"
+                                                                   aria-label="Game Name"
+                                                                   aria-describedby="basic-addon1" />
+                                                        </div>
+                                                        <ul v-if="showResults" class="autocomplete-results">
+                                                            <li v-for="game in games" :key="game.id" @@click="selectGame(game)">
+                                                                {{ game.gameName }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </template>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Image URL</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" v-model="itemG.bannerImageMockURL">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Serial</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" v-model="itemG.serial" placeholder="Serial">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span style="font-size:14px" class="input-group-text">Portal</span>
+                                                    </div>
+                                                    <multiselect v-model="selectedOptionPortal"
+                                                                 :options="portalList"
+                                                                 track-by="clientValue"
+                                                                 label="clientName"
+                                                                 placeholder="Select an option"
+                                                                 multiple
+                                                                 class="custom-multiselect"></multiselect>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row col-12">
+                                            <div class="col">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="isactiveSwitch" v-model="itemG.isActive">
+                                                    <label class="custom-control-label" for="isactiveSwitch">Is Active</label>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" v-on:click="UpdateGame"><i class="far fa-save"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+@section scripts{
+    <script>
+        var app = new Vue({
+            el: '#vc_app',
+            components: {
+                // Register the vue-multiselect component
+                'multiselect': window.VueMultiselect.default
+            },
+            data() {
+                return {
+                    selectedGamePortal: '',
+                    billboardData: [],
+                    searchTerm: '',
+                    itemG: {},
+                    games: [],
+                    gameSearchTerm: '',
+                    lastSelectedGame: '',
+                    portalList: [],
+                    selectedOptionPortal: [],
+
+
+
+                };
+            },
+
+            computed: {
+                filteredGames() {
+                    if (!this.searchTerm) {
+                        return this.billboardData;
+                    } else {
+                        const searchTermLower = this.searchTerm.toLowerCase();
+                        return this.billboardData.filter(billboardData => {
+                            return (
+                                billboardData.gameName.toLowerCase().includes(searchTermLower)
+                            );
+                        });
+                    }
+                },
+                showResults() {
+                    return this.gameSearchTerm.length > 0 && this.games.length > 0;
+                },
+            },
+            methods: {
+                fetchGames() {
+                    if (this.gameSearchTerm.length >= 3) {
+                        helper.get('/game/GetGameBySearchTerm',
+                            { portalValue: this.selectedGamePortal, gameType: this.itemG.gameTypeId, searchTerm: this.gameSearchTerm },
+                            (response) => {
+                                this.games = response;
+
+                            });
+                    } else {
+                        this.games = [];
+
+                    }
+                },
+                getPortals() {
+                    helper.get('/PortalClient/GetActivePortal',
+                        {},
+                        (response) => {
+                            this.portalList = response;
+
+                        });
+                },
+                selectGame(game) {
+                    this.gameSearchTerm = game.gameName;
+                    this.games = [];
+                    this.itemG.gameId = game.id;
+
+                },
+                getData() {
+                    const portalId = this.selectedGamePortal;
+                    helper.get('/game/GetBillboardList',
+                        { portalValue: portalId },
+                        (response) => {
+                            console.log(response);
+                            this.billboardData = response;
+
+                        });
+                },
+                editGame(game) {
+                    this.selectedOptionPortal = [];
+                    this.itemG = game;
+                    this.gameSearchTerm = game.gameName;
+
+                    const valuesArray = game.clientValueDetails.split(',');
+
+                    for (let i = 0; i < valuesArray.length; i++) {
+                        const value = parseInt(valuesArray[i], 10);
+
+                        if (!isNaN(value)) { 
+                            const portal = this.portalList.find(pt => pt.clientValue === value);
+
+                            if (portal) {
+                                this.selectedOptionPortal.push(portal);
+                            } 
+                        }
+                    }
+
+
+
+                    $('#mdl_game').modal('show');
+
+                },
+
+                AddBillboard() {
+                    this.itemG = {};
+                   
+                    $('#mdl_game').modal('show');
+                },
+
+                getGameCategory() {
+                    helper.get('/game/GetGameCategory',
+                        {},
+                        (response) => {
+                            console.log(response);
+                            this.gateCategoryList = response;
+
+                        });
+                },
+                UpdateGame() {
+
+
+                    if (this.selectedOptionPortal.length == 0) {
+                        $.notify("Select portal first", 'error');
+                        return;
+                    }
+
+                    var clientValue = 0;
+                    var clientDetails = "";
+
+                    for (var i = 0; i < this.selectedOptionPortal.length; i++) {
+                        clientValue = clientValue | this.selectedOptionPortal[i].clientValue;
+
+                        clientDetails += this.selectedOptionPortal[i].clientValue;
+
+                        if (i < this.selectedOptionPortal.length - 1) {
+                            clientDetails += ",";
+                        }
+                    }
+
+                    this.itemG.portal = clientValue;
+                    this.itemG.clientDetails = clientDetails;
+                    helper.post('/game/SaveBillboard', this.itemG, (response) => {
+                        if (response) {
+                            this.getData();
+                            $('#mdl_game').modal('hide');
+                        }
+                        else {
+                            $.notify(response.message, 'error');
+                        }
+                    });
+                },
+            },
+
+            mounted() {
+                this.getPortals();
+            },
+
+        });
+    </script>
+}

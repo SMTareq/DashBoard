@@ -1,0 +1,369 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.btn-xs {
+    padding: 0.16rem .58em;
+    font-size: .745rem;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    /*margin-bottom: 60px;*/
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.link-edit {
+    color: #0366d6 !important;
+}
+
+.pushmenu-button {
+    color: white;
+}
+
+    .pushmenu-button:hover {
+        color: darkgray;
+    }
+
+.pointer {
+    cursor: pointer;
+}
+
+.main-footer {
+    font-size: 12px;
+}
+
+.fa-trash, .fa-trash-alt {
+    color: #dc3545 !important;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.VueTables__sort-icon {
+    margin-top: 4px;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+/* Pagination style override */
+.VuePagination nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.VuePagination__count {
+    max-width: fit-content;
+    align-self: center;
+    text-align: end !important;
+    flex: 1;
+}
+
+.VueTables__sort-icon {
+    margin-top: .2rem;
+}
+
+/* Custom Scrollbar design */
+.custom-scroll {
+    overflow: auto;
+}
+
+    .custom-scroll::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        border-radius: 5px;
+    }
+
+    .custom-scroll::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .custom-scroll::-webkit-scrollbar-thumb {
+        background: #cccccc;
+    }
+
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #a5a5a5;
+        }
+
+/* # Custom Scrollbar design */
+
+/* Table Scrollbar */
+.table-responsive {
+    overflow: auto;
+}
+
+    .table-responsive::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        border-radius: 5px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #cccccc;
+    }
+
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: #a5a5a5;
+        }
+/* Table Scrollbar END -- */
+
+/* Sweet alert 2 Scrollbar */
+.swal2-content {
+    max-height: calc(100vh - 350px);
+    overflow: auto;
+}
+
+    .swal2-content::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        border-radius: 5px;
+    }
+
+    .swal2-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .swal2-content::-webkit-scrollbar-thumb {
+        background: #cccccc;
+    }
+
+        .swal2-content::-webkit-scrollbar-thumb:hover {
+            background: #a5a5a5;
+        }
+
+/* Sweet alert 2 Scrollbar end */
+
+.width-100 {
+    min-width: 100px;
+}
+
+.width-110 {
+    min-width: 110px;
+}
+
+.width-120 {
+    min-width: 120px;
+}
+
+.width-140 {
+    min-width: 140px;
+}
+
+.width-150 {
+    min-width: 150px;
+}
+
+.width-160 {
+    min-width: 160px;
+}
+
+.width-180 {
+    min-width: 180px;
+}
+
+.width-200 {
+    min-width: 200px;
+}
+
+.width-220 {
+    min-width: 220px;
+}
+
+.width-240 {
+    min-width: 240px;
+}
+
+.width-260 {
+    min-width: 260px;
+}
+
+.width-280 {
+    min-width: 280px;
+}
+
+.width-300 {
+    min-width: 300px;
+}
+
+
+/* Alert styling */
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.VueTables__search label, .VueTables__limit label {
+    display: none;
+}
+
+.VueTables__search {
+    float: left;
+    width: 40%;
+}
+
+.VueTables__limit {
+    float: right;
+    width: 40%;
+}
+
+    .VueTables__limit .VueTables__limit-field {
+        width: 100%;
+        text-align: right;
+    }
+
+
+.e-control, .e-css {
+    font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+}
+
+@media (min-width: 768px){
+    .e-control, .e-css, .e-treeview .e-list-text {
+        font-size: 16px;
+    }
+}
+
+.accordion > .card .card-header {
+    margin-bottom: -1px;
+    padding: .35rem 1.25rem;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.accordion > .card .card-body {
+    padding: 0.75rem 1.25rem .75rem 0.7rem;
+}
+
+    .accordion > .card:not(:first-of-type) .card-header:first-child {
+        border-radius: 0;
+    }
+.accordion > .card {
+    margin-bottom: 0;
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: none;
+}
+
+
+/********** Bootstrap alert style override *************/
+.alert-primary {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.alert-secondary {
+    color: #383d41;
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
+}
+
+/********** End bootstrap alert style override *************/
+
+.error-input {
+    border-color: #dc3545
+}
+
+.mx-input:hover, .mx-input:focus {
+    border-color: #80bdff
+}
+
+.custom-control-label::before {
+    background-color: #e9ecef;
+    box-shadow: none;
+    /*border: none;*/
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: normal;
+}

@@ -23,6 +23,7 @@ builder.Services.AddScoped<PatchGameRepository>();
 builder.Services.AddScoped<CommonDataLoadRepository>();
 builder.Services.AddScoped<GamePortalClientRepository>();
 builder.Services.AddScoped<PromotionRepository>();
+builder.Services.AddScoped<EBL_MigrationRepo>();
 
 var app = builder.Build();
 

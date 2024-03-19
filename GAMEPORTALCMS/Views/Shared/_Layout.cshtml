@@ -38,6 +38,9 @@
             color: #343a40;
         }
 
+
+
+
         body{
             font-size:14px;
         }
@@ -77,6 +80,22 @@
             width: 90%; /* Set a custom width that fits within your layout */
         }
 
+
+
+        .navbar {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-align: center;
+            align-items: center;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            /* padding: 0.5rem 0.5rem; */
+        }
+
+
     </style>
     <link href="~/css/site-env.css" rel="stylesheet" asp-append-version="true" />
 
@@ -95,19 +114,24 @@
             </ul>
         </nav>
         <aside class="main-sidebar sidebar-light-violet elevation-4">
-            <a href="/Dashboard/Index" style="text-align:center" href="#" class="brand-link">
-                GAME PORTAL CMS
+            @* <a href="/Dashboard/Index" style="text-align:center" href="#" class="brand-link">
+                EBL Migration 
+            </a> *@
+
+            <a class="menuzord-brand pull-left flip mb-5" href="https://www.ebl.com.bd/">
+                <img src="https://www.ebl.com.bd/images/eastern-bank-plc.png" alt="Eastern Bank PLC. logo">
+
             </a>
 
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <a class="img-circle elevation-2 fas fa-sign-out-alt" style="margin-top: 10px;" title="Logga ut"></a>
+                        <a class="" style="margin-top: 10px;" title="Logga ut"></a>
 
                     </div>
-                    <div class="info">
+                 @*    <div class="info">
                         <a href="javascript:void(0)" class="d-block" onclick="Remove()">@ViewBag.UserName</a>
-                    </div>
+                    </div> *@
                 </div>
 
                 <nav class="mt-2">

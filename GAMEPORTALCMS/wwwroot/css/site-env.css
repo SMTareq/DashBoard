@@ -75,7 +75,8 @@
             New
 --------------------------*/
 .advania-background-color, .navbar-violet {
-    background-color: var(--site-gs);
+ /*   background-color: var(--site-gs);*/
+    background-color: #28a745;
 }
 
 .sidebar-light-violet .nav-sidebar > .nav-item > .nav-link.active {

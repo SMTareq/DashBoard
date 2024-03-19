@@ -156,7 +156,7 @@
             <div class="small-box" style="background-color : aliceblue">
                 <div class="inner">
                     <h3>400</h3>
-                    <p>Total Downloadable Games</p>
+                    <p>Total TCL </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -170,7 +170,7 @@
             <div class="small-box">
                 <div class="inner">
                     <h3>350</h3>
-                    <p>Total Online Games</p>
+                    <p>Total AOF </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -184,7 +184,7 @@
             <div class="small-box" style="background-color : aliceblue">
                 <div class="inner">
                     <h3>5</h3>
-                    <p>Total Active Portal</p>
+                    <p>Total Document</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -198,7 +198,7 @@
             <div class="small-box" style="background-color : cornsilk">
                 <div class="inner">
                     <h3>7</h3>
-                    <p>Total Active Patch</p>
+                    <p>Total Limit</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
@@ -209,10 +209,9 @@
 
     </div>
 
-
         <div class="card mt-2">
             <div class="card-header">
-              
+   @*            
                 <div class="card-body">
                     <div class="col-12"> 
                         <div class="row mb-3">
@@ -233,11 +232,11 @@
 
                         </div>
                     </div>
-                </div>
+                </div> *@
             </div>
 
 
-
+@* 
             <div class="row">
                 <div class="col-lg-6 col-xs-6">
 
@@ -258,7 +257,7 @@
                 </div>
 
 
-            </div>
+            </div> *@
 
 
             <div class="row">
@@ -275,112 +274,71 @@
 
 
 
-            <div class="card mt-2" v-cloak>
-                <div class="card-body">
 
-                    <div class="col-12" id="OnlinegameLstId" v-if="typeSelected==2">
-                        <h4>Online Game List</h4>
+                <div class="row">
+
+
+@* 
+                    v-cloak
+
+                    id="OnlinegameLstId" v-if="typeSelected==2" *@
+
+                    <div class="col-12" >
+                        <h4>EBL Migration List</h4>
                         <div style="overflow-x: auto;">
                             <div class="search-container">
-                                <input type="text" v-model="searchTerm" placeholder="Search">
+           @*                      <input type="text" v-model="searchTerm" placeholder="Search"> *@
                             </div>
                             <div class="button-container">
-             @*                    <button type="button" class="btn btn-outline-info btn-sm" @@click="OpenModalOnlone()">Game Add</button> *@
 
+                            <div class="input-group input-group-sm" style="width: 400px; margin-left: 10px;">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">Status</label>
+                                </div>
+                                <select class="custom-select" id="gameTypeId" v-model="selectedGameType" @@change="btnSearch()">
+                                    <option value="0">Select Status</option>
+                                    <option value="NEWDOC">NEWDOC</option>
+                                    <option value="NEWREQUEST">NEWREQUEST</option>
+                                    <option value="COMPLETED">COMPLETED</option>
+                                    
+                                </select>
+                            </div>
+
+                                
                             </div>
                             <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
 
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Category</th>
-                                        <th>Play URL</th>
-                                        <th>Banner Image</th>
-                                        <th>Preview Image</th>
-                                        <th>Portrait Image</th>
-                                        <th style="width:7%">Status</th>
-                                        <th style="width:7%">Action</th>
+                                        <th>Document Store Date</th>
+                                        <th>Account NO</th>
+                                        <th>Product Type</th>
+                                        <th>Document Type</th>
+                                        <th>Status </th>
+                                        <th>Migration Create Date</th>
+                     
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="game in filteredGames" :key="game.id">
-                                        <td>{{ game.gameName }}</td>
-                                        <td>{{ game.categoryName }}</td>
-                                        <td>{{ game.gameURL }}</td>
-                                        <td><img :src="game.bannerImage" style="width:100%" alt="Banner Image"></td>
-                                        <td><img :src="game.previewImage" style="width:100%" alt="previewImage"></td>
-                                        <td><img :src="game.portraitImage" style="width:100%" alt="portraitImage"></td>
-
-                                        <td>
-                                            <span v-if="game.status==true" class="label label-success">Active</span>
-                                            <span v-if="game.status==false" class="label label-warning">InActive</span>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:;" v-on:click="editGame(game)"><i class="far fa-edit"></i></a>
-                                            <a href="javascript:;"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
+                                    <tr v-for="game in filteredGames" :key="game.DWDOCID">
+                                    <td>{{ game.dwstoredatetime }}</td>
+                                    <td>{{ game.accounT_NO }}</td>
+                                    <td>{{ game.producT_TYPE }}</td>
+                                    <td>{{ game.documenT_TYPE }}</td>
+                                    <td>{{ game.status }}</td>
+                                    <td>{{ game.m_CREATED_DATE }}</td>
+                           
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
 
 
                     </div>
-                    <div class="col-12" id="OnlinegameLstId" v-if="typeSelected==1">
-
-                        <h4>Downloadable Game List</h4>
-                        <div style="overflow-x: auto;">
-                            <div class="search-container">
-                                <input type="text" v-model="searchTerm" placeholder="Search">
-                            </div>
-                            <div class="button-container">
-                               @*  <button type="button" class="btn btn-outline-info btn-sm" @@click="OpenModalDownload()">Game Add</button> *@
-
-                            </div>
-                            <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
-
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Category</th>
-                                        <th>Size</th>
-                                        <th>Android Version</th>
-                                        <th>APK Location</th>
-                                        <th>Banner Image</th>
-                                        <th>Preview Image</th>
-                                        <th>Portrait Image</th>
-                                        <th style="width:7%">Status</th>
-                                        @* <th style="width:7%">Action</th> *@
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="game in filteredGames" :key="game.id">
-                                        <td>{{ game.gameName }}</td>
-                                        <td>{{ game.categoryName }}</td>
-                                        <td>{{ game.size }}</td>
-                                        <td>{{ game.androidVersion }}</td>
-                                        <td>{{ game.apkLocation }}</td>
-                                        <td><img :src="game.bannerImage" style="width:100%" alt="Banner Image"></td>
-                                        <td><img :src="game.previewImage" style="width:100%" alt="previewImage"></td>
-                                        <td><img :src="game.portraitImage" style="width:100%" alt="portraitImage"></td>
-
-                                        <td>
-                                            <span v-if="game.status==true" class="label label-success">Active</span>
-                                            <span v-if="game.status==false" class="label label-warning">InActive</span>
-                                        </td>
-                                     @*    <td>
-                                            <a href="javascript:;" @@click="editGame(game)"><i class="far fa-edit"></i></a>
-                                            <a href="javascript:;"><i class="fas fa-trash"></i></a>
-                                        </td> *@
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
+           
 
                 </div>
-            </div>
+       
 
           
 
@@ -392,13 +350,8 @@
 </div>
 
 
-            
-
-
+           
 @section scripts{
-
-
-
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
@@ -407,14 +360,12 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script>
-
-   
         var app = new Vue({
             el: '#vc_app',
             data() {
                 return {
 
-                    selectedGameType: '',
+                    selectedGameType: '0',
                     typeSelected: '',
                     games: [],
                     gateCategoryList: [],
@@ -447,14 +398,12 @@
             },
             methods: {
 
-
-
                 btnSearch(){
 
                   this.getData();
-                  this.getDataPie();
-                    this.getBarChatData();
-                    this.getLineChatData();
+                  // this.getDataPie();
+                  //   this.getBarChatData();
+                  //   this.getLineChatData();
                 },
 
 
@@ -464,13 +413,16 @@
 
                     this.typeSelected = gameTypeId;
 
+
+
                     // /game/GetGameList
 
-                    helper.get('api/Billboards/GetGameList',
-                        { type: gameTypeId },
+                    helper.get('api/EBL_Migration/MigrationList',
+                        { type: 1 },
                         (response) => {
-                            console.log(response);
+                          
                             this.filteredGames = response;
+                            console.log(this.filteredGames);
 
                         });
                 },
@@ -718,29 +670,26 @@
 
                             });
 
-
-
-
                         });
 
                 },
 
 
-                editGame(game) {
-                    this.itemG = game;
-                    $('#mdl_game').modal('show');
+                // editGame(game) {
+                //     this.itemG = game;
+                //     $('#mdl_game').modal('show');
 
-                },
+                // },
 
-                OpenModalDownload() {
-                    $('#mdl_gamee').modal('show');
-                    $('#mdl_gameOnline').modal('hide');
-                },
+                // OpenModalDownload() {
+                //     $('#mdl_gamee').modal('show');
+                //     $('#mdl_gameOnline').modal('hide');
+                // },
 
-                OpenModalOnlone() {
-                    $('#mdl_gameOnline').modal('show');
-                    $('#mdl_gamee').modal('hide');
-                },
+                // OpenModalOnlone() {
+                //     $('#mdl_gameOnline').modal('show');
+                //     $('#mdl_gamee').modal('hide');
+                // },
 
 
                 handleFileUpload(event) {
@@ -946,8 +895,11 @@
             mounted() {
               //  this.getData();
 
+
                 helper.blockUI();
                 helper.unBlockUI();
+
+                this.getData();
 
           //     this.getDataPie();
          

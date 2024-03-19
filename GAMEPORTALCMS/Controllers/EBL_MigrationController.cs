@@ -20,11 +20,11 @@ namespace GAMEPORTALCMS.Controllers
         }
 
         [HttpGet("MigrationList")]
-        public async Task<IActionResult> GetEBL_MigrationList(int type)
+        public async Task<IActionResult> GetEBL_MigrationList(string type)
         {
             try
             {
-                var data = await eBL_Migration.GetGameList(type);
+                var data = await eBL_Migration.GetEBLMigrationData(type);
                 return Ok(data);
             }
             catch (Exception e)

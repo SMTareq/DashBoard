@@ -14,47 +14,50 @@ namespace GAMEPORTALCMS.Repository.Implementation
             _dbContext = dbContext;
         }
 
-        public async Task<List<EBL_MigrationDTO>> GetGameList(int type)
+        public async Task<List<EBL_MigrationDTO>> GetEBLMigrationData(string type)
         {
             List<EBL_MigrationDTO> gameInfos = new List<EBL_MigrationDTO>();
+            
+            //gameInfos = await (from x in _dbContext.EBL_Migrations.AsNoTracking()
 
-            gameInfos = await (from x in _dbContext.EBL_Migrations.AsNoTracking()
+            //                   select new EBL_MigrationDTO
+            //                   {  
+            //                       DWDOCID = x.DWDOCID,
+            //                       DWSTOREDATETIME = x.DWSTOREDATETIME,
+            //                       ACCOUNT_NO = x.ACCOUNT_NO,
+            //                       PRODUCT_TYPE = x.PRODUCT_TYPE,
+            //                       STATUS = x.STATUS,
+            //                       M_CREATED_DATE = x.M_CREATED_DATE,
+            //                       DOCUMENT_TYPE = x.DOCUMENT_TYPE,
 
-                               select new EBL_MigrationDTO
-                               {
-                                   DWDOCID = x.DWDOCID,
-                                   DWNAME = x.DWNAME,
-                                   DOCUMENT_NAME = x.DOCUMENT_NAME,
-                                   STATUS = x.STATUS,
-                               }).ToListAsync();
+            //                   }).ToListAsync();
 
 
-         
 
-            //if (type == 2)
+
+            var query = from x in _dbContext.EBL_Migrations.AsNoTracking()
+                        select new EBL_MigrationDTO
+                        {
+                            DWDOCID = x.DWDOCID,
+                            DWSTOREDATETIME = x.DWSTOREDATETIME,
+                            ACCOUNT_NO = x.ACCOUNT_NO,
+                            PRODUCT_TYPE = x.PRODUCT_TYPE,
+                            STATUS = x.STATUS,
+                            M_CREATED_DATE = x.M_CREATED_DATE,
+                            DOCUMENT_TYPE = x.DOCUMENT_TYPE,
+                        };
+
+            //if (startDate.HasValue && endDate.HasValue)
             //{
-            //    gameInfos = await (from x in _dbContext.OnlineGamess.AsNoTracking()
-            //                       join y in _dbContext.GameCategorys on x.CategoryId equals y.Id
-            //                       select new GameInfoDTO
-            //                       {
-            //                           Id = x.Id,
-            //                           GameName = x.GameName,
-            //                           Name = x.GameName,
-            //                           Description = x.Description,
-            //                           PortraitImage = Config.BaseImageURL + x.PortraitURL,
-            //                           BannerImage = Config.BaseImageURL + x.BannerURL,
-            //                           PreviewImage = Config.BaseImageURL + x.PreviewURL,
-            //                           GameURL = x.GameURL,
-            //                           CategoryId = x.CategoryId,
-            //                           CategoryName = y.CategoryName,
-            //                           GameType = x.Type,
-            //                           Status = x.IsActive,
-            //                           BannerImageMockURL = x.BannerURL,
-            //                           PortraitImageMockURL = x.PortraitURL,
-            //                           PreviewImageMockURL = x.PreviewURL,
-            //                       }).ToListAsync();
+            //    query = query.Where(x => x.M_CREATED_DATE >= startDate && x.M_CREATED_DATE <= endDate);
             //}
 
+            //if (!string.IsNullOrEmpty(type))
+            //{
+            //    query = query.Where(x => x.STATUS == type);
+            //}
+
+            gameInfos = await query.ToListAsync();
 
             return gameInfos;
         }

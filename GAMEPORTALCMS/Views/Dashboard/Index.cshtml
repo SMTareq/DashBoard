@@ -1,4 +1,6 @@
 ﻿
+
+
 <style>
 
 
@@ -156,7 +158,7 @@
             <div class="small-box" style="background-color : aliceblue">
                 <div class="inner">
                     <h3>400</h3>
-                    <p>Total TCL </p>
+                        <p class="fw-bold">Total TCL </p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -276,36 +278,89 @@
 
 
                 <div class="row">
-
-
-@* 
+@*
                     v-cloak
-
                     id="OnlinegameLstId" v-if="typeSelected==2" *@
-
                     <div class="col-12" >
-                        <h4>EBL Migration List</h4>
+                     
                         <div style="overflow-x: auto;">
-                            <div class="search-container">
-           @*                      <input type="text" v-model="searchTerm" placeholder="Search"> *@
-                            </div>
+      
+
                             <div class="button-container">
 
-                            <div class="input-group input-group-sm" style="width: 400px; margin-left: 10px;">
+                        
+                            <div class="input-group input-group-sm" style="width: 1000px; margin-left: 10px;">
+                         
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">Department</label>
+                                </div>
+                                <select class="custom-select" id="DepartmentId" v-model="selectedDepartment">
+                                                        
+                                    <option value="EBLMigration">EBL Migration</option>
+                                    <option value="EBLPOC">EBL POC</option>
+                                </select>
+
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">Document Class</label>
+                                </div>
+                                <select class="custom-select" id="DocClassId" v-model="SelectDocClassType">
+                                    <option value="0">Select Doc Class</option>
+                                    <option value="NEWDOC">NEWDOC</option>
+                                    <option value="NEWREQUEST">NEWREQUEST</option>
+                                    <option value="COMPLETED">COMPLETED</option>
+
+                                </select>
+
+                                @* @@change="btnSearch()" *@
+
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">Status</label>
                                 </div>
-                                <select class="custom-select" id="gameTypeId" v-model="selectedGameType" @@change="btnSearch()">
+                                <select class="custom-select" id="gameTypeId" v-model="selectedGameType">
                                     <option value="0">Select Status</option>
                                     <option value="NEWDOC">NEWDOC</option>
                                     <option value="NEWREQUEST">NEWREQUEST</option>
                                     <option value="COMPLETED">COMPLETED</option>
                                     
                                 </select>
+
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">From Date</label>
+                                </div>
+                                <input type="date" class="form-control" placeholder="From Date" required v-model="itemG.clientName">
+
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="balanceSheetDropdown">To Date</label>
+                                </div>
+                                <input type="date" class="form-control" placeholder="To Date" required v-model="itemG.clientName">
+
+                                <div class="input-group-prepend">
+                                  @*   <label class="input-group-text" for="balanceSheetDropdown">Search</label> *@
+
+                                    <button type="button" class="btn btn-outline-info btn-sm" @@Click="btnSearch()">Search</button>
+                                </div>
+
+                                               
                             </div>
 
-                                
+
+                            <div style="padding-top:10px"></div>
+
+                            <div class="row" style="width: 100px; margin-right: 500px;">
+
+                                <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
+                                <button  id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+
                             </div>
+                                                      
+                            </div>
+
+
+                 @*        <h4 v-if="typeSelected=='">EBL Migration List</h4> *@
+
+
+                 <div id="content">
+
                             <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
 
                                 <thead>
@@ -316,26 +371,30 @@
                                         <th>Document Type</th>
                                         <th>Status </th>
                                         <th>Migration Create Date</th>
-                     
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="game in filteredGames" :key="game.DWDOCID">
-                                    <td>{{ game.dwstoredatetime }}</td>
-                                    <td>{{ game.accounT_NO }}</td>
-                                    <td>{{ game.producT_TYPE }}</td>
-                                    <td>{{ game.documenT_TYPE }}</td>
-                                    <td>{{ game.status }}</td>
-                                    <td>{{ game.m_CREATED_DATE }}</td>
-                           
-                                </tr>
+                                        <td>{{ game.dwstoredatetime }}</td>
+                                        <td>{{ game.accounT_NO }}</td>
+                                        <td>{{ game.producT_TYPE }}</td>
+                                        <td>{{ game.documenT_TYPE }}</td>
+                                        <td>{{ game.status }}</td>
+                                        <td>{{ game.m_CREATED_DATE }}</td>
+
+                                    </tr>
                                 </tbody>
                             </table>
-                        </div>
 
+                 </div>
 
+                          
+                        </div>                   
                     </div>
-           
+
+               
+
 
                 </div>
        
@@ -360,12 +419,17 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script>
+
+ 
         var app = new Vue({
+ 
             el: '#vc_app',
             data() {
                 return {
 
                     selectedGameType: '0',
+                    selectedDepartment: 'EBLMigration',
+                    SelectDocClassType: '0',
                     typeSelected: '',
                     games: [],
                     gateCategoryList: [],
@@ -386,10 +450,12 @@
 
                     LineChart: [],
                     dataa:[],
-                    selectedFile: null
+                    selectedFile: null,
+                    xlsxLoaded: false,
+                    jsPDFLoaded: false,
 
-                    
-
+                    jsPDF:[]
+                  
                 };
             },
 
@@ -397,6 +463,28 @@
            
             },
             methods: {
+
+                exportToExcel() {
+                    if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
+                    const wb = XLSX.utils.book_new();
+                    const ws = XLSX.utils.json_to_sheet(this.filteredGames);
+                    XLSX.utils.book_append_sheet(wb, ws, 'People');
+                    XLSX.writeFile(wb, 'Eastern_Bank_PLC.xlsx');
+                },
+
+            
+                // exportToPDF() {
+                //     if (typeof jsPDF === 'undefined') {
+                //         console.log('jsPDF is not loaded yet');
+                //         return;
+                //     }
+
+                //     const doc = new jsPDF();
+                //     const table = document.querySelector('gameTable');
+                //     doc.autoTable({ html: table });
+                //     doc.save('people.pdf');
+                // },
+
 
                 btnSearch(){
 
@@ -406,19 +494,14 @@
                   //   this.getLineChatData();
                 },
 
-
                 getData() {
 
                     const gameTypeId = this.selectedGameType;
-
-                    this.typeSelected = gameTypeId;
-
-
-
-                    // /game/GetGameList
+                    const DepartmentId = this.selectedDepartment;
+                    const DocClass = this.SelectDocClassType;
 
                     helper.get('api/EBL_Migration/MigrationList',
-                        { type: 1 },
+                        { Department: DepartmentId, DocClass: DocClass, status: gameTypeId, FromDate: null, Todate:null },
                         (response) => {
                           
                             this.filteredGames = response;
@@ -901,14 +984,42 @@
 
                 this.getData();
 
-          //     this.getDataPie();
-         
+    
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';
+                script.onload = () => {
+                    this.xlsxLoaded = true; // Set flag to true when script is loaded
+                };
+                document.head.appendChild(script);
+          
         
             },
 
         });
       
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <script>
+            $(document).ready(function () {
+                $('#downloadPdf').click(function () {
+                    // Create new jsPDF instance
+                    var doc = new jsPDF();
+
+                    // Add content to the PDF
+                    doc.text("Hello, World!", 10, 10);
+
+                    // Save the PDF
+                    doc.save("document.pdf");
+                });
+            });
+    </script>
+
+
+
+
 
 
 

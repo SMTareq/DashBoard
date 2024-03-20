@@ -308,7 +308,6 @@
                                     <option value="NEWDOC">NEWDOC</option>
                                     <option value="NEWREQUEST">NEWREQUEST</option>
                                     <option value="COMPLETED">COMPLETED</option>
-
                                 </select>
 
                                 @* @@change="btnSearch()" *@
@@ -327,12 +326,12 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">From Date</label>
                                 </div>
-                                <input type="date" class="form-control" placeholder="From Date" required v-model="itemG.clientName">
+                                <input type="date" class="form-control" placeholder="From Date" required v-model="">
 
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">To Date</label>
                                 </div>
-                                <input type="date" class="form-control" placeholder="To Date" required v-model="itemG.clientName">
+                                <input type="date" class="form-control" placeholder="To Date" required v-model="">
 
                                 <div class="input-group-prepend">
                                   @*   <label class="input-group-text" for="balanceSheetDropdown">Search</label> *@
@@ -356,7 +355,7 @@
                             </div>
 
 
-                 @*        <h4 v-if="typeSelected=='">EBL Migration List</h4> *@
+
 
 
                  <div id="content">

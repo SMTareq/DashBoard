@@ -306,7 +306,6 @@
                     this.gameSearchTerm = game.gameName;
                     this.games = [];
                     this.itemG.gameId = game.id;
-
                 },
                 getData() {
                     const portalId = this.selectedGamePortal;
@@ -315,7 +314,6 @@
                         (response) => {
                             console.log(response);
                             this.billboardData = response;
-
                         });
                 },
                 editGame(game) {
@@ -336,8 +334,6 @@
                             } 
                         }
                     }
-
-
 
                     $('#mdl_game').modal('show');
 

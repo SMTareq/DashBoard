@@ -2,7 +2,12 @@
 using GAMEPORTALCMS.Data;
 using GAMEPORTALCMS.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
+using System.Xml.Linq;
 
 namespace GAMEPORTALCMS.Repository.Implementation
 {
@@ -46,60 +51,41 @@ namespace GAMEPORTALCMS.Repository.Implementation
                                 M_CREATED_DATE = x.M_CREATED_DATE,
                                 DOCUMENT_TYPE = x.DOCUMENT_TYPE,
                             };
+               
+                Func<EBL_MigrationDTO,bool> filter = x => x.DWDOCID != null;
 
-                //string param = "";
-
-                //if (!string.IsNullOrEmpty(DocClass))
-                //{
-                //    param = param + "x => x.PRODUCT_TYPE == DocClass";
-                //}
-
-                //if (!string.IsNullOrEmpty(status))
-                //{
-                //    param = param + "&& x => x.STATUS == status";
-                //}
-
-                //if (!string.IsNullOrEmpty(param))
-                //{
-                //    query = query.Where(param);
-                //}
-
-                if (!string.IsNullOrEmpty(DocClass) && !string.IsNullOrEmpty(status))
-                {
-                    if(DocClass !="0" && status != "0") {
-                        query = query.Where(x => x.PRODUCT_TYPE == DocClass && x.STATUS == status);
-                    }                  
+                if (!string.IsNullOrEmpty(DocClass) && DocClass != "0")
+                { 
+                    filter = x => filter(x) && x.PRODUCT_TYPE == DocClass;
                 }
-                if (!string.IsNullOrEmpty(DocClass) && DocClass!="0")
+
+                if (!string.IsNullOrEmpty(status) && status != "0")
                 {
-                    query = query.Where(x => x.PRODUCT_TYPE == DocClass);
+                    filter = x => filter(x) && x.STATUS == status;
                 }
-                if (!string.IsNullOrEmpty(status) && status !="0")
-                {
-                    query = query.Where(x => x.STATUS == status);
+
+                if (FromDate != null && Todate != null)
+                {            
+                    filter = x => filter(x) && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate;
                 }
+
+              // query = query.Where(filter);
+                
+                gameInfos = await query.ToListAsync();
 
                 //if (FromDate != null && Todate != null)
                 //{
                 //    query = query.Where(x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
                 //}
 
-                //if (FromDate != null && Todate != null)
-                //{
-                //    param = param + " && x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate";
-                //}
-
-                //if (!string.IsNullOrEmpty(param))
-                //{
-                //    query = query.Where(param);
-                //}
-
-                gameInfos = await query.ToListAsync();
             }
 
 
             return gameInfos;
         }
+
+
+
 
     }
 }

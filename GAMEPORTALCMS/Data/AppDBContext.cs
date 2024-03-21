@@ -21,9 +21,9 @@ namespace GAMEPORTALCMS.Data
         public DbSet<PatchGame> PatchGames { get; set; }
         public DbSet<Promotion> Promotions { get; set; }
         public DbSet<CMSUser> CMSUsers { get; set; }
-
         public DbSet<GamePortalClient> GamePortalClients { get; set; }
         public DbSet<EBL_Migration> EBL_Migrations { get; set; }
+        public DbSet<_EBL_POC> _EBL_POCs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,8 @@ namespace GAMEPORTALCMS.Data
             modelBuilder.Entity<CMSUser>().HasKey(u => u.Id);
             modelBuilder.Entity<GamePortalClient>().HasKey(u => u.Id);
             modelBuilder.Entity<EBL_Migration>().HasKey(u => u.DWDOCID);
+            modelBuilder.Entity<_EBL_POC>().HasKey(u=>u.DWDOCID);
+
 
         }
     }

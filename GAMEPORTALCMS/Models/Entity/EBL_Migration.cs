@@ -14,5 +14,6 @@ namespace GAMEPORTALCMS.Models.Entity
         public string? PRODUCT_TYPE { get; set; }
         public string? M_CREATED_DATE { get; set; }
         public string? DOCUMENT_TYPE { get; set; }
+        public string? DATA_CLASS { get; set; }
     }
 }

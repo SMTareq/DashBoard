@@ -145,172 +145,112 @@
         min-width: 50px;
     }
 
-
 </style>
 
 
 
 <div id="vc_app">
-<div class="container-fluid p-3" >
-    <div class="row">
-        <div class="col-lg-3 col-xs-6">
+    <div class="container-fluid p-3">
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
 
-            <div class="small-box" style="background-color : aliceblue">
-                <div class="inner">
-                    <h3>400</h3>
+                <div class="small-box" style="background-color : aliceblue">
+                    <div class="inner">
+                        <h3>400</h3>
                         <p class="fw-bold">Total TCL </p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-xs-6">
-
-            <div class="small-box">
-                <div class="inner">
-                    <h3>350</h3>
-                    <p>Total AOF </p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-xs-6">
-
-            <div class="small-box" style="background-color : aliceblue">
-                <div class="inner">
-                    <h3>5</h3>
-                    <p>Total Document</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-xs-6">
-
-            <div class="small-box" style="background-color : cornsilk">
-                <div class="inner">
-                    <h3>7</h3>
-                    <p>Total Limit</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-
-    </div>
-
-        <div class="card mt-2">
-            <div class="card-header">
-   @*            
-                <div class="card-body">
-                    <div class="col-12"> 
-                        <div class="row mb-3">
-
-                            <div class="input-group input-group-sm" style="width: 400px; margin-left: 10px;">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="balanceSheetDropdown">Game Type</label>
-                                </div>
-                                <select class="custom-select" id="gameTypeId" v-model="selectedGameType">
-                                    <option value="">Select Game Type</option>
-                                    <option value="1">Downloadable</option>
-                                    <option value="2">Online</option>
-                                </select>
-                            </div>
-
-                            <button style="margin-left: 10px" class="btn btn-info btn-sm" @@click="btnSearch()">Search</button>
-
-
-                        </div>
                     </div>
-                </div> *@
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
             </div>
 
+            <div class="col-lg-3 col-xs-6">
 
-@* 
-            <div class="row">
-                <div class="col-lg-6 col-xs-6">
-
-                    <figure class="highcharts-figure">
-                        <div id="container"></div>
-                    
-                    </figure>
-
+                <div class="small-box">
+                    <div class="inner">
+                        <h3>350</h3>
+                        <p>Total AOF </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
-
-                <div class="col-lg-6 col-xs-6">
-
-                    <figure class="highcharts-figure">
-                        <div id="containerBar"></div>
-                      
-                    </figure>
-
-                </div>
-
-
-            </div> *@
-
-
-            <div class="row">
-                <div class="col-lg-6 col-xs-6">
-                    <figure class="highcharts-figure">
-                        <div id="containerPie"></div>
-                      
-                    </figure>
-
-                </div>
-
             </div>
 
+            <div class="col-lg-3 col-xs-6">
+
+                <div class="small-box" style="background-color : aliceblue">
+                    <div class="inner">
+                        <h3>5</h3>
+                        <p>Total Document</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xs-6">
+
+                <div class="small-box" style="background-color : cornsilk">
+                    <div class="inner">
+                        <h3>7</h3>
+                        <p>Total Limit</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card mt-2" v-cloak>
+
+            <div class="card-body">
+
+                <div class="col-12">
+
+                   
+
+                        <div class="button-container">
 
 
 
 
-                <div class="row">
-@*
-                    v-cloak
-                    id="OnlinegameLstId" v-if="typeSelected==2" *@
-                    <div class="col-12" >
-                     
-                        <div style="overflow-x: auto;">
-      
+                            <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
 
-                            <div class="button-container">
-
-                        
-                            <div class="input-group input-group-sm" style="width: 1000px; margin-left: 10px;">
-                         
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="balanceSheetDropdown">Department</label>
+                                    <label class="input-group-text" for="">Department</label>
                                 </div>
-                                <select class="custom-select" id="DepartmentId" v-model="selectedDepartment">
-                                                        
-                                    <option value="EBLMigration">EBL Migration</option>
-                                    <option value="EBLPOC">EBL POC</option>
+                                <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
+
+                                    <option value="1">EBL Migration</option>
+                                    <option value="2">EBL POC</option>
                                 </select>
+
 
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">Document Class</label>
                                 </div>
-                                <select class="custom-select" id="DocClassId" v-model="SelectDocClassType">
+                            @*     <select class="custom-select" id="DocClassId" v-model="SelectDocClassType">
                                     <option value="0">Select Doc Class</option>
                                     <option value="NEWDOC">NEWDOC</option>
                                     <option value="NEWREQUEST">NEWREQUEST</option>
                                     <option value="COMPLETED">COMPLETED</option>
-                                </select>
+                                </select> *@
 
-                                @* @@change="btnSearch()" *@
+                            <select v-model="SelectDocClassType" class="custom-select">
+                                <option v-for="item in portalList" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+
 
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">Status</label>
@@ -320,96 +260,163 @@
                                     <option value="NEWDOC">NEWDOC</option>
                                     <option value="NEWREQUEST">NEWREQUEST</option>
                                     <option value="COMPLETED">COMPLETED</option>
-                                    
+
                                 </select>
+
 
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">From Date</label>
                                 </div>
-                                <input type="date" class="form-control" placeholder="From Date" required v-model="">
+                                <input type="date" class="form-control" placeholder="From Date" required >
 
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">To Date</label>
                                 </div>
-                                <input type="date" class="form-control" placeholder="To Date" required v-model="">
+                                <input type="date" class="form-control" placeholder="To Date" required >
 
                                 <div class="input-group-prepend">
-                                  @*   <label class="input-group-text" for="balanceSheetDropdown">Search</label> *@
 
-                                    <button type="button" class="btn btn-outline-info btn-sm" @@Click="btnSearch()">Search</button>
+                                <button type="button" class="btn btn-outline-info btn-sm" @@Click="getData()">Search</button>
                                 </div>
-
-                                               
+                            
                             </div>
 
 
-                            <div style="padding-top:10px"></div>
-
-                            <div class="row" style="width: 100px; margin-right: 500px;">
-
-                                <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
-                                <button  id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
-
                             </div>
-                                                      
-                            </div>
-
-
-
-
-
-                 <div id="content">
-
-                            <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
-
-                                <thead>
-                                    <tr>
-                                        <th>Document Store Date</th>
-                                        <th>Account NO</th>
-                                        <th>Product Type</th>
-                                        <th>Document Type</th>
-                                        <th>Status </th>
-                                        <th>Migration Create Date</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="game in filteredGames" :key="game.DWDOCID">
-                                        <td>{{ game.dwstoredatetime }}</td>
-                                        <td>{{ game.accounT_NO }}</td>
-                                        <td>{{ game.producT_TYPE }}</td>
-                                        <td>{{ game.documenT_TYPE }}</td>
-                                        <td>{{ game.status }}</td>
-                                        <td>{{ game.m_CREATED_DATE }}</td>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                 </div>
-
-                          
-                        </div>                   
-                    </div>
-
-               
-
-
+                    
                 </div>
-       
 
-          
+
+            </div>
 
         </div>
 
 
-</div>
+        <div class="card mt-2" v-cloak>
+            <div class="card-body">
+
+                <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==1">
+                  
+                    <div class="row">
+
+                        <div class="col-md-5">
+                            <h4>EBL Migration List</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
+                            <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+                        </div>
+
+                    </div>
+
+                    <div style="overflow-x: auto;">
+
+                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+
+                            <thead>
+                                <tr>
+                                    <th>Document Store Date</th>
+                                    <th>Account NO</th>
+                                    <th>Product Type</th>
+                                    <th>Document Type</th>
+                                    <th>Status </th>
+                                    <th>Migration Create Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="game in filteredGames" :key="game.DWDOCID">
+                                    <td>{{ game.dwstoredatetime }}</td>
+                                    <td>{{ game.accounT_NO }}</td>
+                                    <td>{{ game.producT_TYPE }}</td>
+                                    <td>{{ game.documenT_TYPE }}</td>
+                                    <td>{{ game.status }}</td>
+                                    <td>{{ game.m_CREATED_DATE }}</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==2">
+
+
+
+
+                    <div class="row">
+
+                        <div class="col-md-5">
+                            <h4>EBL POC List</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <button v-on:click="exportToExcelPOC" class="btn btn-outline-info btn-sm">Excel</button>
+                            <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+                        </div>
+
+                    </div>
+
+
+                    <div style="overflow-x: auto;">
+                                      
+                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+
+                            <thead>
+                                <tr>
+                                    <th>Document Store Date</th>
+                                    <th>Account NO</th>
+                                    <th>Product Type</th>
+                                    <th>Document Class</th>
+                                    <th>Status </th>
+                                    <th>WF_CREATOR</th>
+                                    <th>WF_CREATOR_COMMENTS</th>
+                                    <th>WF_MAKER</th>
+                                    <th>WF_MAKER_COMMENTS</th>
+                                    <th>WF_CHECKER</th>
+                                    <th>WF_CHECKER_COMMENTS</th>
+                                    <th>WF_MANAGER</th>
+                                    <th>WF_MANAGER_COMMENTS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="game in filteredGames" :key="game.DWDOCID">
+                                    <td>{{ game.dwstoredatetimE_ }}</td>
+                                    <td>{{ game.accounT_NO }}</td>
+                                    <td>{{ game.producT_TYPE }}</td>
+                                    <td>{{ game.datA_CLASS }}</td>
+                                    <td>{{ game.status }}</td>             
+                                    <td>{{ game.wF_CREATOR }}</td>
+                                    <td>{{ game.wF_CREATOR_COMMENTS }}</td>
+                                    <td>{{ game.wF_MAKER }}</td>
+                                    <td>{{ game.wF_MAKER_COMMENTS }}</td>
+                                    <td>{{ game.wF_CHECKER }}</td>
+                                    <td>{{ game.wF_CHECKER_COMMENTS }}</td>
+                                    <td>{{ game.wF_MANAGER }}</td>
+                                    <td>{{ game.wF_MANAGER_COMMENTS }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
 
 </div>
 
 
-           
-@section scripts{
+
+@section scripts {
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
@@ -419,15 +426,15 @@
 
     <script>
 
- 
+
         var app = new Vue({
- 
+
             el: '#vc_app',
             data() {
                 return {
-
+                    portalList: [],
                     selectedGameType: '0',
-                    selectedDepartment: 'EBLMigration',
+                    selectedDepartment:'1',
                     SelectDocClassType: '0',
                     typeSelected: '',
                     games: [],
@@ -444,22 +451,21 @@
                         responsive: true,
                     },
                     filteredGames: [],
-                    PiE:[],
+                    PiE: [],
                     BarChartZ: [],
 
                     LineChart: [],
-                    dataa:[],
+                    dataa: [],
                     selectedFile: null,
                     xlsxLoaded: false,
-                    jsPDFLoaded: false,
+                    jsPDFLoaded: false
+                    
 
-                    jsPDF:[]
-                  
                 };
             },
 
             computed: {
-           
+
             },
             methods: {
 
@@ -468,10 +474,41 @@
                     const wb = XLSX.utils.book_new();
                     const ws = XLSX.utils.json_to_sheet(this.filteredGames);
                     XLSX.utils.book_append_sheet(wb, ws, 'People');
-                    XLSX.writeFile(wb, 'Eastern_Bank_PLC.xlsx');
+                    XLSX.writeFile(wb, 'Eastern_Bank_PLC_Migration.xlsx');
                 },
 
-            
+                exportToExcelPOC() {
+                    if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
+                    const wb = XLSX.utils.book_new();
+                    const ws = XLSX.utils.json_to_sheet(this.filteredGames);
+                    XLSX.utils.book_append_sheet(wb, ws, 'People');
+                    XLSX.writeFile(wb, 'Eastern_Bank_PLC_POC.xlsx');
+                },
+
+                
+                Onchange() {
+                    DepartmentId = this.selectedDepartment;
+                    if (DepartmentId=="1"){
+                        helper.get('api/EBL_Migration/EblDataClassPopulate',
+                            { DepartmentId: DepartmentId },
+                            (response) => {
+                                this.portalList = [];
+                                this.portalList = response;
+                                console.log(portalList);
+                                
+                            });
+                    }
+                    if (DepartmentId == "2") {
+                        helper.get('api/EBL_Migration/EblDataClassPopulate',
+                            { DepartmentId: DepartmentId },
+                            (response) => {
+                                this.portalList = [];
+                                this.portalList = response;          
+                            });
+                    }                  
+                },
+
+          
                 // exportToPDF() {
                 //     if (typeof jsPDF === 'undefined') {
                 //         console.log('jsPDF is not loaded yet');
@@ -483,537 +520,61 @@
                 //     doc.autoTable({ html: table });
                 //     doc.save('people.pdf');
                 // },
-
-
-                btnSearch(){
-
-                  this.getData();
-                  // this.getDataPie();
-                  //   this.getBarChatData();
-                  //   this.getLineChatData();
-                },
-
+          
                 getData() {
 
+                    const DepartmetId = this.selectedDepartment;
                     const gameTypeId = this.selectedGameType;
                     const DepartmentId = this.selectedDepartment;
                     const DocClass = this.SelectDocClassType;
 
-                    helper.get('api/EBL_Migration/MigrationList',
-                        { Department: DepartmentId, DocClass: DocClass, status: gameTypeId, FromDate: null, Todate:null },
-                        (response) => {
-                          
-                            this.filteredGames = response;
-                            console.log(this.filteredGames);
+                    if (DepartmetId == 1) {
 
-                        });
-                },
+                        helper.get('api/EBL_Migration/MigrationList',
+                            { DocClass: DocClass, status: gameTypeId, FromDate: null, Todate: null },
+                            (response) => {
 
-
-                // async fetchData() {
-                //     await this.getDataPie();
-                //     this.PieChat();
-                // },
-
-
-                getDataPie() {
-
-                    const gameTypeId = this.selectedGameType;
-
-                    this.typeSelected = gameTypeId;
-
-                    // /game/GetGameList
-
-                    helper.get('api/Billboards/PIEChart',
-                        { type: gameTypeId },
-                        (response) => {
-                            // console.log(response);
-                            this.PiE = response;
-
-                            var dataaaaa = [];
-
-                            for (var i in this.PiE) {
-                                var serie = new Array(this.PiE[i].categoryName, this.PiE[i].total);
-
-                                dataaaaa.push(serie);
-
-                            }
-
-                            Highcharts.chart('containerPie', {
-                                chart: {
-                                    type: 'pie'
-                                },
-                                title: {
-                                    text: 'Games Type'
-                                },
-                                tooltip: {
-                                    valueSuffix: '%'
-                                },
-                                subtitle: {
-                                    text:
-                                        ':<a href="#" target="_default"></a>'
-                                },
-                                plotOptions: {
-                                    series: {
-                                        allowPointSelect: true,
-                                        cursor: 'pointer',
-                                        dataLabels: [{
-                                            enabled: true,
-                                            distance: 20
-                                        }, {
-                                            enabled: true,
-                                            distance: -40,
-                                            format: '{point.percentage:.1f}%',
-                                            style: {
-                                                fontSize: '1.2em',
-                                                textOutline: 'none',
-                                                opacity: 0.7
-                                            },
-                                            filter: {
-                                                operator: '>',
-                                                property: 'percentage',
-                                                value: 10
-                                            }
-                                        }]
-                                    }
-                                },
-                                series: [
-                                    {
-                                        name: 'Percentage',
-
-                                        data: dataaaaa
-
-                                    }
-                                ]
+                                this.filteredGames = response;
+                                console.log(this.filteredGames);
                             });
-
-
-
-                        });
-
-                },
-
-
-                getBarChatData(){
-
-
-                    const gameTypeId = this.selectedGameType;
-
-                    this.typeSelected = gameTypeId;
-
-                    helper.get('api/Billboards/BARChart',
-                        { type: gameTypeId },
-                        (response) => {
-
-                            this.BarChartZ = response;
-
-
-
-                            Highcharts.chart('containerBar', {
-                                chart: {
-                                    type: 'bar'
-                                },
-                                title: {
-                                    text: 'Year Wise Games User',
-                                    align: 'left'
-                                },
-                                subtitle: {
-                                    text: ': <a ' +
-                                        'href="#"' +
-                                        'target="_blank"></a>',
-                                    align: 'left'
-                                },
-                                xAxis: {
-                                    categories: ['Action', 'Puzzle','Racing','strategy','Sport'],
-                                    title: {
-                                        text: null
-                                    },
-                                    gridLineWidth: 1,
-                                    lineWidth: 0
-                                },
-                                yAxis: {
-                                    min: 0,
-                                    title: {
-                                        text: 'Population (millions)',
-                                        align: 'high'
-                                    },
-                                    labels: {
-                                        overflow: 'justify'
-                                    },
-                                    gridLineWidth: 0
-                                },
-                                tooltip: {
-                                    valueSuffix: ' millions'
-                                },
-                                plotOptions: {
-                                    bar: {
-                                        borderRadius: '50%',
-                                        dataLabels: {
-                                            enabled: true
-                                        },
-                                        groupPadding: 0.1
-                                    }
-                                },
-                                legend: {
-                                    layout: 'vertical',
-                                    align: 'right',
-                                    verticalAlign: 'top',
-                                    x: -40,
-                                    y: 80,
-                                    floating: true,
-                                    borderWidth: 1,
-                                    backgroundColor:
-                                        Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-                                    shadow: true
-                                },
-                                credits: {
-                                    enabled: false
-                                },
-                                series: this.BarChartZ
-                            });
-                      
-
-
-                        });
-       
-                },
-
-
-                getLineChatData() {
-
-                    const gameTypeId = this.selectedGameType;
-
-                    this.typeSelected = gameTypeId;
-
-                    helper.get('api/Billboards/LineChart',
-                        { type: gameTypeId },
-                        (response) => {
-
-                            this.LineChart = response;
-
-
-                            console.log(this.LineChart);
-
-                            Highcharts.chart('container', {
-
-                                title: {
-                                    text: 'Year Wise Games User',
-                                    align: 'left'
-                                },
-
-                                subtitle: {
-                                    text: ' : <a href="#" target="_blank"></a>.',
-                                    align: 'left'
-                                },
-
-                                yAxis: {
-                                    title: {
-                                        text: 'Number of User'
-                                    }
-                                },
-
-                                xAxis: {
-                                    accessibility: {
-                                        rangeDescription: 'Range: 2010 to 2020'
-                                    }
-                                },
-
-                                legend: {
-                                    layout: 'vertical',
-                                    align: 'right',
-                                    verticalAlign: 'middle'
-                                },
-
-                                plotOptions: {
-                                    series: {
-                                        label: {
-                                            connectorAllowed: false
-                                        },
-                                        pointStart: 2010
-                                    }
-                                },
-
-                                series: this.LineChart,
-
-                                responsive: {
-                                    rules: [{
-                                        condition: {
-                                            maxWidth: 500
-                                        },
-                                        chartOptions: {
-                                            legend: {
-                                                layout: 'horizontal',
-                                                align: 'center',
-                                                verticalAlign: 'bottom'
-                                            }
-                                        }
-                                    }]
-                                }
-
-                            });
-
-                        });
-
-                },
-
-
-                // editGame(game) {
-                //     this.itemG = game;
-                //     $('#mdl_game').modal('show');
-
-                // },
-
-                // OpenModalDownload() {
-                //     $('#mdl_gamee').modal('show');
-                //     $('#mdl_gameOnline').modal('hide');
-                // },
-
-                // OpenModalOnlone() {
-                //     $('#mdl_gameOnline').modal('show');
-                //     $('#mdl_gamee').modal('hide');
-                // },
-
-
-                handleFileUpload(event) {
-                    // Access the selected file from the event
-                    this.selectedFile = event.target.files[0];
-                },
-                UploadDownlodableFile() {
-
-                    if (this.selectedFile) {
-
-                        const formData = new FormData()
-                        formData.append('file', this.selectedFile)
-                        console.log(formData);
-                   
-                        $.ajax({
-                            url: '/Game/ImportExcelDownloadable',
-                            type: 'POST',
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            async: true,
-                            success: function (data) {
-
-                                $('#mdl_gamee').modal('hide');
-                                fileInput.value = null;
-                                this.selectedFile = null;
-                                alert('Successfully importing Excel file.');
-                                // $.notify(response.message, 'success');
-                            },
-                            error: function () {
-                                // alert('Error importing Excel file.');
-                                $.notify(response.message, 'error');
-                            },
-                            complete: function () {
-
-                            }
-
-                        });
-                    } else {
-                        this.selectedFileName = 'No file selected';
                     }
-                },
-
-                handleFileUploadOnline(event) {
-                    // Access the selected file from the event
-                    this.selectedFile = event.target.files[0];
 
 
-                },
+                    if (DepartmetId == 2) {
 
-              
+                        helper.get('api/EBL_Migration/EBLPOCList',
+                            { DocClass: DocClass, status: gameTypeId, FromDate: null, Todate: null },
+                            (response) => {
 
-
-                UploadOnlineFile() {
-                    // Update the displayed file name
-                    if (this.selectedFile) {
-
-                        const formData = new FormData()
-                        formData.append('file', this.selectedFile)
-                        console.log(formData);
-             
-                        $.ajax({
-                            url: '/Game/ImportExcelOnline',
-                            type: 'POST',
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            async: true,
-                            success: function (data) {
-                                $('#mdl_gameOnline').modal('hide');
-                                this.fileInputOn.value = null;
-                                this.selectedFile = null;
-                                alert('Successfully importing Excel file.');
-
-                            },
-                            error: function () {
-
-                                $.notify(response.message, 'error');
-                            },
-                            complete: function () {
-
-                            }
-
-                        });
-
-                    } else {
-                        this.selectedFileName = 'No file selected';
+                                this.filteredGames = response;
+                                console.log(this.filteredGames);
+                            });
                     }
-                },
-
-                BarChart() {
-
-                    Highcharts.chart('containerBar', {
-                        chart: {
-                            type: 'bar'
-                        },
-                        title: {
-                            text: 'Historic World Population by Region',
-                            align: 'left'
-                        },
-                        subtitle: {
-                            text: 'Source: <a ' +
-                                'href="https://en.wikipedia.org/wiki/List_of_continents_and_continental_subregions_by_population"' +
-                                'target="_blank">Wikipedia.org</a>',
-                            align: 'left'
-                        },
-                        xAxis: {
-                            categories: ['Africa', 'America'],
-                            title: {
-                                text: null
-                            },
-                            gridLineWidth: 1,
-                            lineWidth: 0
-                        },
-                        yAxis: {
-                            min: 0,
-                            title: {
-                                text: 'Population (millions)',
-                                align: 'high'
-                            },
-                            labels: {
-                                overflow: 'justify'
-                            },
-                            gridLineWidth: 0
-                        },
-                        tooltip: {
-                            valueSuffix: ' millions'
-                        },
-                        plotOptions: {
-                            bar: {
-                                borderRadius: '50%',
-                                dataLabels: {
-                                    enabled: true
-                                },
-                                groupPadding: 0.1
-                            }
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            align: 'right',
-                            verticalAlign: 'top',
-                            x: -40,
-                            y: 80,
-                            floating: true,
-                            borderWidth: 1,
-                            backgroundColor:
-                                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-                            shadow: true
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        series: [{
-                            name: 'Year 1990',
-                            data: [631,10]
-                        }, {
-                            name: 'Year 2000',
-                            data: [814,30]
-                        }]
-                    });
-                
-                },
-
-
-                downloadFile() {
-                    // Replace 'yourFileName' with the actual file name you want to download
-                    // const fileName = "Game_Upload_List.xlsx";
-
-                    const fileName = "";
-                    // window.location.href = "@Url.Action("DownloadFile", "Game")?fileName=" + fileName;
-                    window.location.href = "@Url.Action("DownloadFile", "Game")";
-                },
-
-                getGameCategory() {
-
-                    // /game/GetGameCategory
-
-                    helper.get('api/Billboards/GetGameCategory',
-                        {},
-                        (response) => {
-                            console.log(response);
-                            this.gateCategoryList = response;
-                        });
-                },
-                UpdateGame() {
-                    debugger;
-                    console.log(this.itemG);
-                    helper.post('/game/UpdateGameInfo', this.itemG, (response) => {
-                        debugger;
-                        if (response) {
-
-                            this.getData();
-                            $('#mdl_game').modal('hide');
-                        }
-                        else {
-                            $.notify(response.message, 'error');
-                        }
-                    });
-                },
-             
-                                                                                                     
-            },     
+                }
+            },
             mounted() {
-              //  this.getData();
+                //  this.getData();
 
 
                 helper.blockUI();
                 helper.unBlockUI();
 
-                this.getData();
+                // this.getData();
 
-    
+
                 const script = document.createElement('script');
                 script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';
                 script.onload = () => {
                     this.xlsxLoaded = true; // Set flag to true when script is loaded
                 };
                 document.head.appendChild(script);
-          
-        
+
+
+                this.Onchange();
             },
 
         });
-      
-    </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
-    <script>
-            $(document).ready(function () {
-                $('#downloadPdf').click(function () {
-                    // Create new jsPDF instance
-                    var doc = new jsPDF();
-
-                    // Add content to the PDF
-                    doc.text("Hello, World!", 10, 10);
-
-                    // Save the PDF
-                    doc.save("document.pdf");
-                });
-            });
     </script>
 
 
@@ -1024,6 +585,6 @@
 
 
 
- 
 
-    }
+
+}

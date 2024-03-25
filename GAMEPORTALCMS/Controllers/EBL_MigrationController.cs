@@ -14,9 +14,7 @@ namespace GAMEPORTALCMS.Controllers
 
         public EBL_MigrationController(EBL_MigrationRepo bL_MigrationRepo, AppDBContext dbContext)
         {
-            eBL_Migration = bL_MigrationRepo;
-
-   
+            eBL_Migration = bL_MigrationRepo; 
         }
 
         [HttpGet("MigrationList")]

@@ -2,34 +2,102 @@
 using GAMEPORTALCMS.Data;
 using GAMEPORTALCMS.Models.DTO;
 using GAMEPORTALCMS.Models.Entity;
+using iRely.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace GAMEPORTALCMS.Repository.Implementation
 {
     public class UserRepository
     {
         private readonly AppDBContext _dbContext;
+        private readonly LoginDBContext _loginDBContext;
 
-        public UserRepository(AppDBContext dbContext)
+        public UserRepository(AppDBContext dbContext, LoginDBContext loginDBContext)
         {
             _dbContext = dbContext;
+            _loginDBContext = loginDBContext;
         }
 
-        public async Task<CMSUser> ValidateUser(string userName,string password)
+        public async Task<DWUser> ValidateUser(string userName,string password)
         {
-            CMSUser data = new CMSUser();
+
+         
+            DWUser data = new DWUser();
             try
             {
-                 data = await _dbContext.CMSUsers.FirstOrDefaultAsync(x => x.Username == userName && x.Password == password);
-
+                 data = await _loginDBContext.DWUsers.FirstOrDefaultAsync(x => x.name == userName);
+                // string Mew= Decrypt(data.password, "0123456789abcdef0123456789abcdef", "0123456789abcdef");
             }
             catch (Exception ex)
             {
                 string str = "dsa";
-
             }
             return data;
         }
+
+        public static string Encrypt(string plainText, string key, string iv)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] ivBytes = Encoding.UTF8.GetBytes(iv);
+
+            using (AesManaged aes = new AesManaged())
+            {
+                aes.KeySize = 256;
+                aes.BlockSize = 128;
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+                aes.Key = keyBytes;
+                aes.IV = ivBytes;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter writer = new StreamWriter(cs))
+                        {
+                            writer.Write(plainText);
+                        }
+                    }
+                    return Convert.ToBase64String(ms.ToArray());
+                }
+            }
+        }
+
+        public static string Decrypt(string cipherText, string key, string iv)
+        {
+            byte[] encryptedBytes = Convert.FromBase64String(cipherText);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] ivBytes = Encoding.UTF8.GetBytes(iv);
+
+            using (AesManaged aes = new AesManaged())
+            {
+                aes.KeySize = 256;
+                aes.BlockSize = 128;
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+                aes.Key = keyBytes;
+                aes.IV = ivBytes;
+
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                using (MemoryStream ms = new MemoryStream(encryptedBytes))
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader reader = new StreamReader(cs))
+                        {
+                            return reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+        }
+
+
 
         #region CMSUSERCRUD
         public async Task<List<CMSuserDTO>> GetAllCMSUser()

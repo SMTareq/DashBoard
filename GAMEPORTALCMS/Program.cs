@@ -6,8 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
 builder.Services.AddDbContext<AppDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<LoginDBContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("LoginConnection")));
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(50); // session timeout duration

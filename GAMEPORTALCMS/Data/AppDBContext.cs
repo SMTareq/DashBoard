@@ -1,5 +1,6 @@
 ﻿using GAMEPORTALCMS.Models.Entity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -7,10 +8,11 @@ namespace GAMEPORTALCMS.Data
 {
     public class AppDBContext : DbContext
     {
-        public AppDBContext(DbContextOptions options) : base(options)
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
-        }
 
+        }
+     
         public DbSet<User> Users { get; set; }
         public DbSet<Billboard> Billboards { get; set; }
         public DbSet<DownloadableGame> DownloadableGames { get; set; }

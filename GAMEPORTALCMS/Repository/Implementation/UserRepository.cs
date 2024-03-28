@@ -97,8 +97,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
             }
         }
 
-
-
         #region CMSUSERCRUD
         public async Task<List<CMSuserDTO>> GetAllCMSUser()
         {
@@ -115,7 +113,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
             return data;
         }
-
 
         public async Task<bool> SaveCMSUser(CMSuserDTO cat, string sessinUser)
         {
@@ -207,7 +204,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
         }
         #endregion
-
 
     }
 }

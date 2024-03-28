@@ -11650,9 +11650,14 @@ h1, h2, h3, h4, h5,
     }
 
     .btn.btn-primary {
-        background: tomato !important;
+
+        background: red !important;
         border: 1px solid tomato !important;
         color: #fff !important;
+
+ /*     background: Navy Blue !important;
+        border: 1px solid Navy Blue !important;
+        color: #fff !important;*/
     }
 
         .btn.btn-primary:hover {

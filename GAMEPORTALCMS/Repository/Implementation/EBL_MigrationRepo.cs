@@ -6,12 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.Net.Mail;
+
+using System.Net;
+
 
 //using System.Data.Entity;
 
 using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Xml.Linq;
+using iRely.Common;
 
 namespace GAMEPORTALCMS.Repository.Implementation
 {
@@ -319,9 +324,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
         }
 
-
-
-
         #region PIEChart
 
         public async Task<List<PieChartDTO>> GetPieList(string type)
@@ -354,8 +356,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
       
             return gameInfos;
         }
-
-
 
         public List<PieChartDTO> GetPieListSync(string type)
         {
@@ -430,7 +430,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
         #endregion
 
-
         #region BARCHART
 
 
@@ -465,10 +464,25 @@ namespace GAMEPORTALCMS.Repository.Implementation
         public  List<BarChart> GetEblMigration_BarChart_List(string type)
         {
             List<BarChart> gameInfos = new List<BarChart>();
+
             if (type == "Status")
             {
                 var EbLMigration = _dbContext.EBL_Migrations.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.STATUS != null
+                             group e by e.STATUS into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
 
+            if (type == "DOCClass")
+            {
+                var EbLMigration = _dbContext.EBL_Migrations.ToList();
                 // Perform left join in-memory
                 var result = from e in EbLMigration
                              where e.DATA_CLASS != null
@@ -479,14 +493,68 @@ namespace GAMEPORTALCMS.Repository.Implementation
                                  data = new int[] { g.Count() }
                              };
                 gameInfos = result.ToList();
+            }
 
-                //        var chartData = await _dbContext.EBL_Migrations
-                //.Select(cd => new BarChart { Name = cd.Name, data = new[] { cd.Data } })
-                //.ToListAsync();
 
+            if (type == "MCIF")
+            {
+                var EbLMigration = _dbContext.EBL_Migrations.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.M_CIF != null
+                             group e by e.M_CIF into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
             }
 
             return gameInfos;
+        }
+
+        #endregion
+
+        #region Mail
+
+        private void SendMail(string toEmail)
+        {
+            // Sender's email address and password
+            string fromEmail = "tareq@digiqoresystems.com";
+            string password = "Digiqore@2024@";
+
+            // Recipient's email address
+           // string toEmail = "dereklee@digiqoresystems.com";
+
+            // SMTP server address and port
+            string smtpAddress = "smtp-mail.outlook.com";
+            int portNumber = 587; // or 25
+
+            // Create the email message
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(fromEmail);
+            mail.To.Add(toEmail);
+            mail.Subject = "Test Email From EBl Dashboard";
+            mail.Body = "This is a test email body.";
+
+            // Set up SMTP client
+            SmtpClient smtp = new SmtpClient(smtpAddress, portNumber);
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential(fromEmail, password);
+            smtp.EnableSsl = true; // Set to true if your SMTP server requires SSL
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            try
+            {
+                // Send the email
+                smtp.Send(mail);
+                Console.WriteLine("Email sent successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to send email. Error: " + ex.Message);
+            }
         }
 
         #endregion

@@ -209,7 +209,9 @@
         </div>
 
 
-        <div class="=card mt-2">
+
+        <div class="card mt-2" v-cloak>
+
             <div class="card-body">
 
                 <div class="col-md-12">
@@ -250,13 +252,20 @@
                                 <button type="button" class="btn btn-outline-info btn-sm" @@Click="getDta()">Search</button>
                             </div>
 
-                        </div>                 
+                        </div>
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+
+         <div class="card mt-2" v-cloak>
+             <div class="card-body">
+
                 <div class="col-md-6">
                     <figure class="highcharts-figure">
-                        <div id="container"></div>                    
+                        <div id="container"></div>
                     </figure>
                 </div>
 
@@ -266,11 +275,8 @@
                     </figure>
                 </div>
 
-            </div>
-        </div>
-
-
-
+             </div>
+         </div>
 
 
 
@@ -364,7 +370,7 @@
                         <div class="col-md-4">
                             <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
                             <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
-                            <button id="EamilSend" class="btn btn-outline-info btn-sm">Mail</button>
+                            <button id="EamilSend" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
                         </div>
 
                     </div>
@@ -466,6 +472,66 @@
 
 
 
+        @* Modal Start Hare *@
+
+        <div class="modal" id="mdl_game" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Mail  Box</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <form action="javascript:;" data-vv-scope="frmgame">
+
+                          
+                                    <div class="form-row">
+
+                                        <div class="row col-12">
+
+                                            <div class="col">
+
+                                                <template>
+                                                    <div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span style="font-size: 14px" class="input-group-text">Mail</span>
+                                                            </div>
+                                                 
+
+
+
+                                                            <select class="custom-select" id="Departmen" v-model="selectedPIEDepartment">
+                                                                <option value="1">admin</option>
+                                                                <option value="2">Cash</option>
+                                                            </select>
+
+                                                        </div>
+
+                                                    </div>
+                                                </template>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" v-on:click="UpdateGame"><i class="fa fa-envelope"></i> Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 
 </div>
@@ -527,6 +593,11 @@
             },
             methods: {
 
+                SendMain() {
+                    this.itemG = {};
+                    $('#mdl_game').modal('show');
+                },
+
                 exportToExcel() {
                     if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
                     const wb = XLSX.utils.book_new();
@@ -585,7 +656,10 @@
                                 chart: {
                                     type: 'pie'
                                 },
-
+                                title: {
+                                    text: '',
+                                    align: 'left'
+                                },
                                 tooltip: {
                                     valueSuffix: '%'
                                 },
@@ -625,35 +699,20 @@
                       
                         });
 
-
-
-
-                    BarChart();
-                },
-
-
-               
-                
-                BarChart() {
-
-                    PieDepartment = this.selectedPIEDepartment;
-                    CategoryType = this.selectedCategory;
-
                     helper.get('api/EBL_Migration/BarChartForDashBoard',
                         { Department: PieDepartment, type: CategoryType },
                         (response) => {
                             this.BarChartZ = [];
                             this.BarChartZ = response;
-                            console.log(this.BarChartZ);
-
+                        
                             Highcharts.chart('container_', {
                                 chart: {
                                     type: 'column'
                                 },
                                 title: {
-                                    text: 'Category Wise Column',
+                                    text: '',
                                     align: 'left'
-                                },                              
+                                },
                                 xAxis: {
                                     categories: [],
                                     crosshair: true,
@@ -680,9 +739,28 @@
                             });
 
                         });
-                },
-
                     
+                },
+                      
+             
+
+                UpdateGame() {
+
+                    if (!this.itemG.clientName) {
+                        this.errors.push('Client name required');
+                    } else {
+                        helper.post('/PortalClient/SavePortalClint', this.itemG, (response) => {
+                            if (response) {
+                                this.getData();
+                                $('#mdl_game').modal('hide');
+                            }
+                            else {
+                                $.notify(response.message, 'error');
+                            }
+                        });
+                    }
+                },
+               
                 getData() {
 
                     const DepartmetId = this.selectedDepartment;

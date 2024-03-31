@@ -1,8 +1,6 @@
 ﻿
 
-
 <style>
-
 
     .highcharts-figure,
     .highcharts-data-table table {
@@ -210,29 +208,92 @@
 
         </div>
 
+
+        <div class="=card mt-2">
+            <div class="card-body">
+
+                <div class="col-md-12">
+                    <div class="button-container">
+                        <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">Department</label>
+                            </div>
+
+                            <select class="custom-select" id="DepartmentId" v-model="selectedPIEDepartment" @@change="Onchange()">
+                                <option value="1">EBL Migration</option>
+                                <option value="2">EBL POC</option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">Category</label>
+                            </div>
+                            <select class="custom-select" id="CategoryId" v-model="selectedCategory">
+                                <option value="0">Select From List</option>
+                                <option value="DOCClass">Document Class</option>
+                                <option value="Status">Status</option>
+                                <option value="MCIF">CIF</option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">From Date</label>
+                            </div>
+                            <input type="date" class="form-control" placeholder="From Date" required>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">To Date</label>
+                            </div>
+                            <input type="date" class="form-control" placeholder="To Date" required>
+
+                            <div class="input-group-prepend">
+
+                                <button type="button" class="btn btn-outline-info btn-sm" @@Click="getDta()">Search</button>
+                            </div>
+
+                        </div>                 
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <figure class="highcharts-figure">
+                        <div id="container"></div>                    
+                    </figure>
+                </div>
+
+                <div class="col-md-6">
+                    <figure class="highcharts-figure">
+                        <div id="container_"></div>
+                    </figure>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
         <div class="card mt-2" v-cloak>
 
             <div class="card-body">
 
                 <div class="col-12">
-
-                   
-
+                 
                         <div class="button-container">
-
-
-
 
                             <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
 
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="">Department</label>
                                 </div>
-                                <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
 
-                                    <option value="1">EBL Migration</option>
-                                    <option value="2">EBL POC</option>
-                                </select>
+
+                            <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
+                                <option value="1">EBL Migration</option>
+                                <option value="2">EBL POC</option>
+                            </select>
+
 
 
                                 <div class="input-group-prepend">
@@ -286,11 +347,9 @@
                     
                 </div>
 
-
             </div>
 
         </div>
-
 
         <div class="card mt-2" v-cloak>
             <div class="card-body">
@@ -305,6 +364,7 @@
                         <div class="col-md-4">
                             <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
                             <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+                            <button id="EamilSend" class="btn btn-outline-info btn-sm">Mail</button>
                         </div>
 
                     </div>
@@ -343,11 +403,7 @@
 
                 </div>
 
-
                 <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==2">
-
-
-
 
                     <div class="row">
 
@@ -432,10 +488,12 @@
             el: '#vc_app',
             data() {
                 return {
+                    selectedPIEDepartment:'',
                     portalList: [],
+                    selectedCategory:'',
                     selectedGameType: '0',
                     selectedDepartment:'1',
-                    SelectDocClassType: '0',
+                    SelectDocClassType: '',
                     typeSelected: '',
                     games: [],
                     gateCategoryList: [],
@@ -494,7 +552,7 @@
                             (response) => {
                                 this.portalList = [];
                                 this.portalList = response;
-                                console.log(portalList);
+                                
                                 
                             });
                     }
@@ -508,19 +566,123 @@
                     }                  
                 },
 
-          
-                // exportToPDF() {
-                //     if (typeof jsPDF === 'undefined') {
-                //         console.log('jsPDF is not loaded yet');
-                //         return;
-                //     }
 
-                //     const doc = new jsPDF();
-                //     const table = document.querySelector('gameTable');
-                //     doc.autoTable({ html: table });
-                //     doc.save('people.pdf');
-                // },
-          
+
+                getDta() {
+
+
+                    PieDepartment = this.selectedPIEDepartment;
+                    CategoryType = this.selectedCategory;
+
+                    helper.get('api/EBL_Migration/PIEChart',
+                        { Department: PieDepartment, type: CategoryType },
+                        (response) => {
+                            this.PiE = [];
+                            this.PiE = response;
+                            console.log(this.PiE);
+
+                            Highcharts.chart('container', {
+                                chart: {
+                                    type: 'pie'
+                                },
+
+                                tooltip: {
+                                    valueSuffix: '%'
+                                },
+
+                                plotOptions: {
+                                    series: {
+                                        allowPointSelect: true,
+                                        cursor: 'pointer',
+                                        dataLabels: [{
+                                            enabled: true,
+                                            distance: 20
+                                        }, {
+                                            enabled: true,
+                                            distance: -40,
+                                            format: '{point.percentage:.1f}%',
+                                            style: {
+                                                fontSize: '1.2em',
+                                                textOutline: 'none',
+                                                opacity: 0.7
+                                            },
+                                            filter: {
+                                                operator: '>',
+                                                property: 'percentage',
+                                                value: 10
+                                            }
+                                        }]
+                                    }
+                                },
+                                series: [
+                                    {
+                                        name: 'Percentage',
+                                        colorByPoint: true,
+                                        data: this.PiE
+                                    }
+                                ]
+                            });
+                      
+                        });
+
+
+
+
+                    BarChart();
+                },
+
+
+               
+                
+                BarChart() {
+
+                    PieDepartment = this.selectedPIEDepartment;
+                    CategoryType = this.selectedCategory;
+
+                    helper.get('api/EBL_Migration/BarChartForDashBoard',
+                        { Department: PieDepartment, type: CategoryType },
+                        (response) => {
+                            this.BarChartZ = [];
+                            this.BarChartZ = response;
+                            console.log(this.BarChartZ);
+
+                            Highcharts.chart('container_', {
+                                chart: {
+                                    type: 'column'
+                                },
+                                title: {
+                                    text: 'Category Wise Column',
+                                    align: 'left'
+                                },                              
+                                xAxis: {
+                                    categories: [],
+                                    crosshair: true,
+                                    accessibility: {
+                                        description: 'Countries'
+                                    }
+                                },
+                                yAxis: {
+                                    min: 0,
+                                    title: {
+                                        text: ''
+                                    }
+                                },
+                                tooltip: {
+                                    valueSuffix: ' '
+                                },
+                                plotOptions: {
+                                    column: {
+                                        pointPadding: 0.2,
+                                        borderWidth: 0
+                                    }
+                                },
+                                series: this.BarChartZ
+                            });
+
+                        });
+                },
+
+                    
                 getData() {
 
                     const DepartmetId = this.selectedDepartment;
@@ -538,7 +700,6 @@
                                 console.log(this.filteredGames);
                             });
                     }
-
 
                     if (DepartmetId == 2) {
 

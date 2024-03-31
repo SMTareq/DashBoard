@@ -3,9 +3,8 @@
     public class BarChart
     {
 
-        public string? Name { get; set; }
-        public List<int>? Data { get; set; }
-
+        public string Name { get; set; }
+        public int[] data { get; set; }
 
     }
 }

@@ -107,9 +107,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                               })
                              .ToList();
 
-
                 gameInfos = result.ToList();
-
 
                 Dictionary<string, int> pivotTable = result
                    .GroupBy(x => x.CategoryName)
@@ -202,16 +200,16 @@ namespace GAMEPORTALCMS.Repository.Implementation
             {
                 chartDataList = new List<BarChart>
                 {
-                  new BarChart { Name = "Year 2023", Data = new List<int> { 310, 300,200,250,350 } },
-                  new BarChart { Name = "Year 2024", Data = new List<int> { 214, 250,350,355,210 } }
+                 // new BarChart { Name = "Year 2023", Data = new List<int> { 310, 300,200,250,350 } },
+                 // new BarChart { Name = "Year 2024", Data = new List<int> { 214, 250,350,355,210 } }
                 };
             }
             else
             {
                 chartDataList = new List<BarChart>
                 {
-                   new BarChart { Name = "Year 2023", Data = new List<int> { 350, 330,222,253,350} },
-                   new BarChart { Name = "Year 2024", Data = new List<int> { 420, 280,220,336,444} }
+                  // new BarChart { Name = "Year 2023", Data = new List<int> { 350, 330,222,253,350} },
+                  // new BarChart { Name = "Year 2024", Data = new List<int> { 420, 280,220,336,444} }
                 };
             }
 

@@ -27,7 +27,7 @@ namespace GAMEPORTALCMS.Controllers
             else
             {
                 HttpContext.Session.SetString("UserName", data.name);
-              //  ViewBag.UserName = data.name;
+                // ViewBag.UserName = data.name;
                 return new JsonResult(new ResponseModel { Success = true, Message = "Login successfull" });
             }
        

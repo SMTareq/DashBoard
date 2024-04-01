@@ -29,7 +29,7 @@ builder.Services.AddScoped<CommonDataLoadRepository>();
 builder.Services.AddScoped<GamePortalClientRepository>();
 builder.Services.AddScoped<PromotionRepository>();
 builder.Services.AddScoped<EBL_MigrationRepo>();
-
+builder.Services.AddScoped<MailGenerator>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

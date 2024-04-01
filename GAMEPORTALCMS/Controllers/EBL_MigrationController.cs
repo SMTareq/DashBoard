@@ -1,5 +1,7 @@
 ﻿using GAMEPORTALCMS.Data;
+using GAMEPORTALCMS.Models.Response;
 using GAMEPORTALCMS.Repository.Implementation;
+using iRely.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +11,17 @@ namespace GAMEPORTALCMS.Controllers
     [ApiController]
     public class EBL_MigrationController : ControllerBase
     {
-   
+
         private readonly EBL_MigrationRepo eBL_Migration;
 
-        public EBL_MigrationController(EBL_MigrationRepo bL_MigrationRepo, AppDBContext dbContext)
+        private readonly MailGenerator _mail;
+
+
+
+        public EBL_MigrationController(EBL_MigrationRepo bL_MigrationRepo, AppDBContext dbContext, MailGenerator mail)
         {
-            eBL_Migration = bL_MigrationRepo; 
+            eBL_Migration = bL_MigrationRepo;
+            _mail = mail;
         }
 
         [HttpGet("MigrationList")]
@@ -74,23 +81,8 @@ namespace GAMEPORTALCMS.Controllers
             }
         }
 
-
-        //[HttpGet("PIEChart")]
-        //public async Task<ActionResult<Dictionary<string, int>>> _Get_Ebl_Migration_Pie_Data(string type)
-        //{
-        //    try
-        //    {
-        //        var data = await eBL_Migration.GetPieList(type);
-        //        return Ok(data);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest(e.Message);
-        //    }
-        //}
-
         [HttpGet("PIEChart")]
-        public ActionResult<Dictionary<string, int>> _Get_Ebl_Migration_Pie_Data(string Department,string type)
+        public ActionResult<Dictionary<string, int>> _Get_Ebl_Migration_Pie_Data(string Department, string type)
         {
             try
             {
@@ -104,15 +96,13 @@ namespace GAMEPORTALCMS.Controllers
                     var data = eBL_Migration.GetPieListSync(type);
                     return Ok(data);
                 }
-                
+
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
-
 
         [HttpGet("BarChartForDashBoard")]
         public async Task<IActionResult> GetBarChartData(string Department, string type)
@@ -130,11 +120,27 @@ namespace GAMEPORTALCMS.Controllers
                     return Ok(data);
                 }
             }
-            catch ( Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-        
+
+        }
+
+        //Mail_Generator
+
+        [HttpGet("MailGenerator")]
+        public async Task<IActionResult> MailGenerator(string mailAddress)
+        {
+            bool data = await _mail.SendMail(mailAddress);
+            if (data)
+            {
+                return new JsonResult(new ResponseModel { Success = true, Message = "Mail sent successfully" });
+            }
+            else
+            {
+                return new JsonResult(new ResponseModel { Success = false, Message = "error" });
+            }
         }
     }
 }

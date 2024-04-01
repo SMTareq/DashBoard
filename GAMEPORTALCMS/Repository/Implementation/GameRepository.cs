@@ -78,15 +78,11 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
         }
 
-
-
-
         public async Task<List<PieChartDTO>> GetPieList(int type)
         {
             List<PieChartDTO> gameInfos = new List<PieChartDTO>();
             if (type == 1)
             {
-
                 // Retrieve all DownloadableGames and GameCategories
                 var downloadableGames = await _context.DownloadableGames.ToListAsync();
                 var gameCategories = await _context.GameCategorys.ToListAsync();

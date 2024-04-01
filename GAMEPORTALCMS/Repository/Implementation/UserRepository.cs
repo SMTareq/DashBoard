@@ -205,5 +205,17 @@ namespace GAMEPORTALCMS.Repository.Implementation
         }
         #endregion
 
+        public async Task<List<DWUser>> Get_EBL_UserMail_All()
+        {
+            var data = await _loginDBContext.DWUsers.Select(x => new DWUser
+            {
+                name = x.name,
+                email = x.email,
+            
+            }).OrderBy(x => x.name).ToListAsync();
+
+            return data;
+        }
+
     }
 }

@@ -8,5 +8,6 @@ namespace GAMEPORTALCMS.Models.Entity
         public int? uid { get; set; }
         public string? name { get; set; }
         public string? password { get; set; }
+        public string? email { get; set; }
     }
 }

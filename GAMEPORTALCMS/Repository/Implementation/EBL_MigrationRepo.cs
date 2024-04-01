@@ -516,48 +516,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
         #endregion
 
-        #region Mail
-
-        private void SendMail(string toEmail)
-        {
-            // Sender's email address and password
-            string fromEmail = "tareq@digiqoresystems.com";
-            string password = "Digiqore@2024@";
-
-            // Recipient's email address
-           // string toEmail = "dereklee@digiqoresystems.com";
-
-            // SMTP server address and port
-            string smtpAddress = "smtp-mail.outlook.com";
-            int portNumber = 587; // or 25
-
-            // Create the email message
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(fromEmail);
-            mail.To.Add(toEmail);
-            mail.Subject = "Test Email From EBl Dashboard";
-            mail.Body = "This is a test email body.";
-
-            // Set up SMTP client
-            SmtpClient smtp = new SmtpClient(smtpAddress, portNumber);
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential(fromEmail, password);
-            smtp.EnableSsl = true; // Set to true if your SMTP server requires SSL
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-            try
-            {
-                // Send the email
-                smtp.Send(mail);
-                Console.WriteLine("Email sent successfully.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to send email. Error: " + ex.Message);
-            }
-        }
-
-        #endregion
 
 
     }

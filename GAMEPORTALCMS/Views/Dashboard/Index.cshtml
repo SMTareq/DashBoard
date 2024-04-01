@@ -419,6 +419,7 @@
                         <div class="col-md-4">
                             <button v-on:click="exportToExcelPOC" class="btn btn-outline-info btn-sm">Excel</button>
                             <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+                            <button id="EamilSende" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
                         </div>
 
                     </div>
@@ -501,13 +502,11 @@
                                                             <div class="input-group-prepend">
                                                                 <span style="font-size: 14px" class="input-group-text">Mail</span>
                                                             </div>
-                                                 
-
-
-
-                                                            <select class="custom-select" id="Departmen" v-model="selectedPIEDepartment">
-                                                                <option value="1">admin</option>
-                                                                <option value="2">Cash</option>
+                                                                                                    
+                                                            <select v-model="selectedEblEmployee" class="custom-select">
+                                                                <option v-for="item in EmployeeInfo" :key="item.email" :value="item.email">
+                                                                    {{ item.name }}
+                                                                </option>
                                                             </select>
 
                                                         </div>
@@ -524,7 +523,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-info" v-on:click="UpdateGame"><i class="fa fa-envelope"></i> Send</button>
+                        <button type="button" class="btn btn-info" v-on:click="SubmitMail"><i class="fa fa-envelope"></i> Send</button>
                     </div>
                 </div>
             </div>
@@ -554,8 +553,10 @@
             el: '#vc_app',
             data() {
                 return {
+                    selectedEblEmployee: 'admin@petersengineering.com',
                     selectedPIEDepartment:'',
                     portalList: [],
+                    EmployeeInfo: [],
                     selectedCategory:'',
                     selectedGameType: '0',
                     selectedDepartment:'1',
@@ -637,7 +638,17 @@
                     }                  
                 },
 
+                GetEmployeeMailInfo() {
 
+                    helper.get('api/EBLLogin/EBLEmployeeInfo',
+                        { },
+                        (response) => {
+                            this.EmployeeInfo = [];
+                            this.EmployeeInfo = response;
+                            console.log(this.EmployeeInfo);
+                        });
+                
+                },
 
                 getDta() {
 
@@ -741,25 +752,8 @@
                         });
                     
                 },
-                      
-             
-
-                UpdateGame() {
-
-                    if (!this.itemG.clientName) {
-                        this.errors.push('Client name required');
-                    } else {
-                        helper.post('/PortalClient/SavePortalClint', this.itemG, (response) => {
-                            if (response) {
-                                this.getData();
-                                $('#mdl_game').modal('hide');
-                            }
-                            else {
-                                $.notify(response.message, 'error');
-                            }
-                        });
-                    }
-                },
+                                
+               
                
                 getData() {
 
@@ -789,17 +783,52 @@
                                 console.log(this.filteredGames);
                             });
                     }
-                }
+                },
+
+
+                SubmitMail() {
+
+                    // if (this.EmployeeInfo == null) {
+                    //     $.notify("There is no data in the below list", 'error');
+                    //     return;
+                    // }
+
+                    const mailAddress = this.selectedEblEmployee;
+
+                    // helper.post('api/EBL_Migration/MailGenerator', mailAddress, (response) => {
+                    //     if (response) {
+                    //         $('#mdl_game').modal('hide');
+                    //         $.notify(response.message, 'success');
+                     
+                    //     }
+                    //     else {
+                    //         $.notify(response.message, 'error');
+                    //     }
+                    // });
+
+                    helper.get('api/EBL_Migration/MailGenerator',
+                        { mailAddress: mailAddress},
+                        (response) => {
+
+                            if (response) {
+                                $('#mdl_game').modal('hide');
+                                $.notify(response.message, 'success');
+
+                            }
+                            else {
+                                $.notify(response.message, 'error');
+                            }
+                        });
+                }          
+
             },
             mounted() {
                 //  this.getData();
-
 
                 helper.blockUI();
                 helper.unBlockUI();
 
                 // this.getData();
-
 
                 const script = document.createElement('script');
                 script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';
@@ -808,8 +837,8 @@
                 };
                 document.head.appendChild(script);
 
-
                 this.Onchange();
+                this.GetEmployeeMailInfo();
             },
 
         });

@@ -29,7 +29,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             _dbContext = dbContext;
         }
 
-        public async Task<List<EBL_MigrationDTO>> GetEBLMigrationData(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
+        public  List<EBL_MigrationDTO> GetEBLMigrationData(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
         {
             List<EBL_MigrationDTO> gameInfos = new List<EBL_MigrationDTO>();
                  
@@ -104,7 +104,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 query = query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
             }
 
-            gameInfos = await query.ToListAsync();
+            gameInfos =  query.ToList();
                         
             return gameInfos;
         }
@@ -152,7 +152,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
         }
 
-        public async Task<List<EBLPOCDTO>> GetEblPocData( string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
+        public  List<EBLPOCDTO> GetEblPocData( string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
         {
             List<EBLPOCDTO> gameInfos = new List<EBLPOCDTO>();
 
@@ -215,7 +215,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             {
                 query = query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
             }
-            gameInfos = await query.ToListAsync();
+            gameInfos =  query.ToList();
 
             return gameInfos;
         }

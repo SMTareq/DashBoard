@@ -4,6 +4,7 @@ using GAMEPORTALCMS.Repository.Implementation;
 using iRely.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace GAMEPORTALCMS.Controllers
 {
@@ -138,5 +139,20 @@ namespace GAMEPORTALCMS.Controllers
                 return new JsonResult(new ResponseModel { Success = false, Message = "error" });
             }
         }
+
+
+        [HttpPost("send-table-data")]
+        public IActionResult ReceiveTableData([FromBody] JObject data)
+        {
+            // Extract table data from request
+            JArray tableDataArray = (JArray)data["tableData"];
+            // Convert JSON array to array of objects
+            var tableData = tableDataArray.ToObject<object[]>();
+
+            // Process the table data (e.g., save to database)
+            // Here, for demonstration, just return a success message
+            return Ok(new { message = "Table data received successfully" });
+        }
+
     }
 }

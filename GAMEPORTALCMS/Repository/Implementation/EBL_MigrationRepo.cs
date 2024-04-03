@@ -38,7 +38,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
                             {
                                 DWDOCID = x.DWDOCID,
                                 DWSTOREDATETIME = x.DWSTOREDATETIME,
-                                ACCOUNT_NO = x.ACCOUNT_NO,
+                                M_DOCUMENT_NAME = x.M_DOCUMENT_NAME,
+                                M_ACCOUNT_NO = x.M_ACCOUNT_NO,
                                 DATA_CLASS = x.DATA_CLASS,
                                 PRODUCT_TYPE = x.PRODUCT_TYPE,
                                 STATUS = x.STATUS,
@@ -73,7 +74,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             }
             if (DocClass != "Select From List")
             {
-                query = query.Where(x => x.PRODUCT_TYPE == DocClass);
+                query = query.Where(x => x.M_PRODUCT_TYPE == DocClass);
             }
             if (status != null)
             {

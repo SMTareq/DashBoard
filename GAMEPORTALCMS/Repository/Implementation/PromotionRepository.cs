@@ -59,7 +59,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                     }
 
-
                 }
                 else
                 {

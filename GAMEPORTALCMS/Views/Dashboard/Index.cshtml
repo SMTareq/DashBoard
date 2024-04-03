@@ -384,6 +384,7 @@
                                     <th>Document Store Date</th>
                                     <th>Account NO</th>
                                     <th>Product Type</th>
+                                    <th>Document Name</th>
                                     <th>Document Type</th>
                                     <th>Status </th>
                                     <th>Migration Create Date</th>
@@ -393,8 +394,11 @@
                             <tbody>
                                 <tr v-for="game in filteredGames" :key="game.DWDOCID">
                                     <td>{{ game.dwstoredatetime }}</td>
-                                    <td>{{ game.accounT_NO }}</td>
+
+                                    <td>{{ game.m_ACCOUNT_NO }}</td>
                                     <td>{{ game.producT_TYPE }}</td>
+                                    <td>{{ game.m_DOCUMENT_NAME }}</td>
+                              
                                     <td>{{ game.documenT_TYPE }}</td>
                                     <td>{{ game.status }}</td>
                                     <td>{{ game.m_CREATED_DATE }}</td>
@@ -403,9 +407,7 @@
                             </tbody>
                         </table>
 
-
                     </div>
-
 
                 </div>
 
@@ -560,7 +562,7 @@
                     selectedCategory:'',
                     selectedGameType: '0',
                     selectedDepartment:'1',
-                    SelectDocClassType: '',
+                    SelectDocClassType: 'Select From List',
                     typeSelected: '',
                     games: [],
                     gateCategoryList: [],
@@ -787,25 +789,9 @@
 
 
                 SubmitMail() {
-
-                    // if (this.EmployeeInfo == null) {
-                    //     $.notify("There is no data in the below list", 'error');
-                    //     return;
-                    // }
-
+                 
                     const mailAddress = this.selectedEblEmployee;
-
-                    // helper.post('api/EBL_Migration/MailGenerator', mailAddress, (response) => {
-                    //     if (response) {
-                    //         $('#mdl_game').modal('hide');
-                    //         $.notify(response.message, 'success');
-                     
-                    //     }
-                    //     else {
-                    //         $.notify(response.message, 'error');
-                    //     }
-                    // });
-
+                
                     helper.get('api/EBL_Migration/MailGenerator',
                         { mailAddress: mailAddress},
                         (response) => {
@@ -819,8 +805,29 @@
                                 $.notify(response.message, 'error');
                             }
                         });
-                }          
-
+                },
+                sendTableDataToBackend() {
+                    // Send table data to C# backend
+                    fetch('/api/send-table-data', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ tableData: this.tableData })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Response from backend:', data);
+                        })
+                        .catch(error => {
+                            console.error('Error sending table data to backend:', error);
+                        });
+                }
             },
             mounted() {
                 //  this.getData();

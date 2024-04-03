@@ -27,16 +27,25 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 using (MailMessage msg = new MailMessage())
                 {
                     msg.From = new MailAddress(SystemMail);
-                   // msg.To.Add("jawad@digiqoresystems.com");
-                    msg.To.Add("tareq.creatrixbd@gmail.com");
+                    // msg.To.Add("jawad@digiqoresystems.com");
+
+
+                    if (User == "admin")
+                    {
+                        msg.To.Add("tareq.creatrixbd@gmail.com");
+                    }
+                    else
+                    {
+                        msg.To.Add(User);
+                    }
                     msg.Subject = "Test Mail";
                     msg.Body = "Hi to you ... :)";
 
-                    using (SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587))
+                    using (SmtpClient client = new SmtpClient("smtp.gmail.com", 587))
                     {
                         client.EnableSsl = true;
-                       // client.Credentials = new NetworkCredential("tareq.creatrixbd@gmail.com", "fjzcfiymtkjrbaej");
-                        client.Credentials = new NetworkCredential(SystemMail, SystemMailPassword);
+                        client.Credentials = new NetworkCredential("tareq.creatrixbd@gmail.com", "fjzcfiymtkjrbaej");
+                      //  client.Credentials = new NetworkCredential(SystemMail, SystemMailPassword);
                         client.Timeout = 20000;
 
                         client.Send(msg);

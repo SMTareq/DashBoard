@@ -11,12 +11,9 @@ namespace GAMEPORTALCMS.Controllers
     [ApiController]
     public class EBL_MigrationController : ControllerBase
     {
-
         private readonly EBL_MigrationRepo eBL_Migration;
 
         private readonly MailGenerator _mail;
-
-
 
         public EBL_MigrationController(EBL_MigrationRepo bL_MigrationRepo, AppDBContext dbContext, MailGenerator mail)
         {
@@ -65,7 +62,6 @@ namespace GAMEPORTALCMS.Controllers
         //        return BadRequest(e.Message);
         //    }
         //}
-
 
         [HttpGet("EblDataClassPopulate")]
         public IActionResult GetEBL_DataClassPopulateList(string? DepartmentId)

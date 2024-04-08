@@ -301,7 +301,6 @@
                             </select>
 
 
-
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">Document Class</label>
                                 </div>
@@ -348,7 +347,6 @@
                             
                             </div>
 
-
                             </div>
                     
                 </div>
@@ -381,34 +379,24 @@
 
                             <thead>
                                 <tr>
-                                    <th>Document Store Date</th>
-                                    <th>Account NO</th>
-                                    <th>Product Type</th>
                                     <th>Document Name</th>
-                                    <th>Document Type</th>
+                                    <th>Account No</th>
+                                    <th>M Account No</th>                             
                                     <th>Status </th>
-                                    <th>Migration Create Date</th>
-
+                                    <th>Store Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="game in filteredGames" :key="game.DWDOCID">
-                                    <td>{{ game.dwstoredatetime }}</td>
-
-                                    <td>{{ game.m_ACCOUNT_NO }}</td>
-                                    <td>{{ game.producT_TYPE }}</td>
-                                    <td>{{ game.m_DOCUMENT_NAME }}</td>
-                              
-                                    <td>{{ game.documenT_TYPE }}</td>
+                                    <td>{{ game.documenT_NAME }}</td>
+                                    <td>{{ game.accounT_NO }}</td>
+                                    <td>{{ game.m_ACCOUNT_NO }}</td>                                           
                                     <td>{{ game.status }}</td>
-                                    <td>{{ game.m_CREATED_DATE }}</td>
-
+                                    <td>{{ game.dwstoredatetimE_con }}</td>
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
-
                 </div>
 
                 <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==2">
@@ -425,7 +413,6 @@
                         </div>
 
                     </div>
-
 
                     <div style="overflow-x: auto;">
                                       
@@ -626,8 +613,7 @@
                             (response) => {
                                 this.portalList = [];
                                 this.portalList = response;
-                                
-                                
+                                this.SelectDocClassType = 'Select From List'                                                             
                             });
                     }
                     if (DepartmentId == "2") {
@@ -635,7 +621,8 @@
                             { DepartmentId: DepartmentId },
                             (response) => {
                                 this.portalList = [];
-                                this.portalList = response;          
+                                this.portalList = response;
+                                this.SelectDocClassType = 'Select From List'
                             });
                     }                  
                 },
@@ -755,8 +742,7 @@
                     
                 },
                                 
-               
-               
+                            
                 getData() {
 
                     const DepartmetId = this.selectedDepartment;
@@ -786,7 +772,6 @@
                             });
                     }
                 },
-
 
                 SubmitMail() {
                  

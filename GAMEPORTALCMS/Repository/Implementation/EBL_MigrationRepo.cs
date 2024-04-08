@@ -29,23 +29,22 @@ namespace GAMEPORTALCMS.Repository.Implementation
             _dbContext = dbContext;
         }
 
-        public  List<EBL_MigrationDTO> GetEBLMigrationData(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
+        public   List<EBL_MigrationDTO> GetEBLMigrationData(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
         {
             List<EBL_MigrationDTO> gameInfos = new List<EBL_MigrationDTO>();
-                 
-                var query = from x in _dbContext.EBL_Migrations.DefaultIfEmpty()
-                            select new EBL_MigrationDTO
-                            {
-                                DWDOCID = x.DWDOCID,
-                                DWSTOREDATETIME = x.DWSTOREDATETIME,
-                                M_DOCUMENT_NAME = x.M_DOCUMENT_NAME,
-                                M_ACCOUNT_NO = x.M_ACCOUNT_NO,
-                                DATA_CLASS = x.DATA_CLASS,
-                                PRODUCT_TYPE = x.PRODUCT_TYPE,
-                                STATUS = x.STATUS,
-                                M_CREATED_DATE = x.M_CREATED_DATE,
-                                DOCUMENT_TYPE = x.DOCUMENT_TYPE,
-                            };
+
+            var query =  from x in _dbContext.EBL_Migrations.DefaultIfEmpty()
+                         orderby x.DWDOCID descending
+                         select new EBL_MigrationDTO
+                              {
+                                  DWDOCID = x.DWDOCID,
+                                  DOCUMENT_NAME = x.DOCUMENT_NAME,
+                                  ACCOUNT_NO = x.ACCOUNT_NO,
+                                  M_ACCOUNT_NO = x.M_ACCOUNT_NO,
+                                  DWSTOREDATETIME_con = x.DWSTOREDATETIME.ToString("U"),
+                                  STATUS = x.STATUS,
+                                  DATA_CLASS=x.DATA_CLASS
+                              };
 
             //Func<EBL_MigrationDTO,bool> filter = x => x.DWDOCID != null;
 
@@ -74,38 +73,37 @@ namespace GAMEPORTALCMS.Repository.Implementation
             }
             if (DocClass != "Select From List")
             {
-                query = query.Where(x => x.M_PRODUCT_TYPE == DocClass);
+                query = query.Where(x => x.DATA_CLASS == DocClass);
             }
             if (status != null)
             {
                 query = query.Where(x => x.STATUS == status);
-            }          
-            if (FromDate != null && Todate != null)
-            {
-                query = query.Where(x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
             }
-            if (DocClass != null && status != null)
-            {
-                query = query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status);
-            }
-            if (DocClass != null && FromDate != null && Todate != null)
-            {
-                query = query.Where(x => x.DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
-            }
-            if (DocClass != null && FromDate != null && Todate != null)
-            {
-                query = query.Where(x => x.DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
-            }
-            if (status != null && FromDate != null && Todate != null)
-            {
-                query = query.Where(x => x.STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
-            }
+            //if (FromDate != null && Todate != null)
+            //{
+            //    query = (List<EBL_MigrationDTO>)query.Where(x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            //}
+            //if (DocClass != null && status != null)
+            //{
+            //    query = (List<EBL_MigrationDTO>)query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status);
+            //}
+            //if (DocClass != null && FromDate != null && Todate != null)
+            //{
+            //    query = query.Where(x => x.DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            //}
+            //if (DocClass != null && FromDate != null && Todate != null)
+            //{
+            //    query = query.Where(x => x.DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            //}
+            //if (status != null && FromDate != null && Todate != null)
+            //{
+            //    query = query.Where(x => x.STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            //}
             if (DocClass != null && status != null && FromDate != null && Todate != null)
             {
                 query = query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
             }
-
-            gameInfos =  query.ToList();
+            gameInfos = query.ToList();
                         
             return gameInfos;
         }
@@ -153,11 +151,58 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
         }
 
+
+
+
+        //Status Populate 
+        public List<EBL_MigrationDTO> GetEblMigrationStatusLoadSync(string? DepartmentId)
+        {
+            List<EBL_MigrationDTO> statusInfos = new List<EBL_MigrationDTO>();
+
+            EBL_MigrationDTO dtoo = new EBL_MigrationDTO();
+            dtoo.STATUS = "Select From List";
+            statusInfos.Add(dtoo);
+
+            switch (DepartmentId)
+            {
+                case "2":
+                    var distinctDataClasses = _dbContext.EBL_Migrations.Select(p => p.STATUS).Distinct().ToList();
+
+                    foreach (var dataClass in distinctDataClasses)
+                    {
+                        EBL_MigrationDTO dto = new EBL_MigrationDTO();
+                        if (!string.IsNullOrEmpty(dataClass))
+                        {
+                            dto.DATA_CLASS = dataClass;
+                            statusInfos.Add(dto);
+                        }
+                    }
+                    break;
+
+                case "1":
+                    var distinctDataClassesMigration = _dbContext._EBL_POCs.Select(p => p.STATUS).Distinct().ToList();
+
+                    foreach (var dataClass in distinctDataClassesMigration)
+                    {
+                        EBL_MigrationDTO dto = new EBL_MigrationDTO();
+                        if (!string.IsNullOrEmpty(dataClass))
+                        {
+                            dto.DATA_CLASS = dataClass;
+                            statusInfos.Add(dto);
+                        }
+                    }
+                    break;
+            }
+
+            return statusInfos;
+        }
+
         public  List<EBLPOCDTO> GetEblPocData( string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
         {
             List<EBLPOCDTO> gameInfos = new List<EBLPOCDTO>();
 
             var query = from x in _dbContext._EBL_POCs.DefaultIfEmpty()
+                        orderby x.DWDOCID descending
                         select new EBLPOCDTO
                         {
                             DWDOCID = x.DWDOCID,

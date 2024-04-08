@@ -23,11 +23,11 @@ namespace GAMEPORTALCMS.Controllers
         }
 
         [HttpGet("MigrationList")]
-        public  IActionResult GetEBL_MigrationList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
+        public IActionResult GetEBL_MigrationList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
         {
             try
             {
-                var data =  eBL_Migration.GetEBLMigrationData(DocClass, status, FromDate, Todate);
+                var data = eBL_Migration.GetEBLMigrationData(DocClass, status, FromDate, Todate);
                 return Ok(data);
             }
             catch (Exception e)
@@ -35,6 +35,21 @@ namespace GAMEPORTALCMS.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        //[HttpGet("MigrationList")]
+        //public async Task<IActionResult> GetEBL_MigrationList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
+        //{
+        //    try
+        //    {
+        //        var data = eBL_Migration.GetEBLMigrationData(DocClass, status, FromDate, Todate);
+        //        return Ok(data);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(e.Message);
+        //    }
+        //}
+
 
         [HttpGet("EBLPOCList")]
         public  IActionResult GetEBL_POCList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)

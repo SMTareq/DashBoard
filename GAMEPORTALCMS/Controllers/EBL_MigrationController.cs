@@ -93,19 +93,33 @@ namespace GAMEPORTALCMS.Controllers
             }
         }
 
+        [HttpGet("EblStatusPopulate")]
+        public IActionResult GetEBL_StatusPopulateList(string? DepartmentId)
+        {
+            try
+            {
+                var data = eBL_Migration.GetEblStatusLoadSync(DepartmentId); // Call synchronous method
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet("PIEChart")]
-        public ActionResult<Dictionary<string, int>> _Get_Ebl_Migration_Pie_Data(string Department, string type)
+        public ActionResult<Dictionary<string, int>> _Get_Ebl_Migration_Pie_Data(string Department, string type,  DateTime? Fromdate, DateTime? Todate)
         {
             try
             {
                 if (Department == "1")
                 {
-                    var data = eBL_Migration.GetPieListSync(type);
+                    var data = eBL_Migration.GetPieListSync(type, Fromdate, Todate);
                     return Ok(data);
                 }
                 else
                 {
-                    var data = eBL_Migration.GetPieListSync(type);
+                    var data = eBL_Migration.GetPieChart_EBl_POCList_Sync(type, Fromdate, Todate);
                     return Ok(data);
                 }
 
@@ -117,18 +131,18 @@ namespace GAMEPORTALCMS.Controllers
         }
 
         [HttpGet("BarChartForDashBoard")]
-        public async Task<IActionResult> GetBarChartData(string Department, string type)
+        public async Task<IActionResult> GetBarChartData(string Department, string type, DateTime? Fromdate, DateTime? Todate)
         {
             try
             {
                 if (Department == "1")
                 {
-                    var data = eBL_Migration.GetEblMigration_BarChart_List(type);
+                    var data = eBL_Migration.GetEblMigration_BarChart_List(type, Fromdate, Todate);
                     return Ok(data);
                 }
                 else
                 {
-                    var data = eBL_Migration.GetPieListSync(type);
+                    var data = eBL_Migration.GetEblPOC_BarChart_List(type, Fromdate, Todate);
                     return Ok(data);
                 }
             }

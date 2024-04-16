@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Xml.Linq;
 using iRely.Common;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GAMEPORTALCMS.Repository.Implementation
 {
@@ -38,11 +39,11 @@ namespace GAMEPORTALCMS.Repository.Implementation
                          select new EBL_MigrationDTO
                               {
                                   DWDOCID = x.DWDOCID,
-                                  DOCUMENT_NAME = x.DOCUMENT_NAME,
-                                  ACCOUNT_NO = x.ACCOUNT_NO,
+                                  M_DATA_CLASS = x.M_DATA_CLASS,                
                                   M_ACCOUNT_NO = x.M_ACCOUNT_NO,
-                                  DWSTOREDATETIME_con = x.DWSTOREDATETIME.ToString("U"),
-                                  STATUS = x.STATUS,
+                                  DWSTOREDATETIME =x.DWSTOREDATETIME,
+                                  //DWSTOREDATETIME_con = x.DWSTOREDATETIME.ToString("U"),
+                                  M_STATUS = x.M_STATUS,
                                   DATA_CLASS=x.DATA_CLASS
                               };
 
@@ -63,7 +64,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             //    filter = x => filter(x) && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate;
             //}
 
-            if (DocClass == "0")
+            if (DocClass == "Select From List")
             {
                 DocClass = null;
             }
@@ -71,41 +72,54 @@ namespace GAMEPORTALCMS.Repository.Implementation
             {
                 status = null;
             }
-            if (DocClass != "Select From List")
+            if (DocClass != null)
             {
-                query = query.Where(x => x.DATA_CLASS == DocClass);
+                query = query.Where(x => x.M_DATA_CLASS == DocClass);
             }
             if (status != null)
             {
-                query = query.Where(x => x.STATUS == status);
+                query = query.Where(x => x.M_STATUS == status);
             }
-            //if (FromDate != null && Todate != null)
-            //{
-            //    query = (List<EBL_MigrationDTO>)query.Where(x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
-            //}
-            //if (DocClass != null && status != null)
-            //{
-            //    query = (List<EBL_MigrationDTO>)query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status);
-            //}
-            //if (DocClass != null && FromDate != null && Todate != null)
-            //{
-            //    query = query.Where(x => x.DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
-            //}
-            //if (DocClass != null && FromDate != null && Todate != null)
-            //{
-            //    query = query.Where(x => x.DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
-            //}
-            //if (status != null && FromDate != null && Todate != null)
-            //{
-            //    query = query.Where(x => x.STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
-            //}
+            if (FromDate != null && Todate != null)
+            {
+                query = query.Where(x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            }
+            if (DocClass != null && status != null)
+            {
+                query = query.Where(x => x.M_DATA_CLASS == DocClass && x.M_STATUS == status);
+            }
+            if (DocClass != null && FromDate != null && Todate != null)
+            {
+                query = query.Where(x => x.M_DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            }
+            if (DocClass != null && FromDate != null && Todate != null)
+            {
+                query = query.Where(x => x.M_DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            }
+            if (status != null && FromDate != null && Todate != null)
+            {
+                query = query.Where(x => x.M_STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            }
             if (DocClass != null && status != null && FromDate != null && Todate != null)
             {
-                query = query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+                query = query.Where(x => x.M_DATA_CLASS == DocClass && x.M_STATUS == status && x.DWSTOREDATETIME >=  FromDate && x.DWSTOREDATETIME <= Todate);
             }
             gameInfos = query.ToList();
                         
             return gameInfos;
+
+
+            //var query = from data in dbContext.EBL_Migration
+            //            where data.DWSTOREDATETIME >= new DateTime(2024, 2, 5) && data.DWSTOREDATETIME < new DateTime(2024, 2, 6)
+            //            select new
+            //            {
+            //                data.M_DATA_CLASS,
+            //                data.M_STATUS,
+            //                data.M_ACCOUNT_NO,
+            //                data.DWSTOREDATETIME
+            //            };
+
+
         }
 
         public List<EBLPOCDTO> GetEblDataClassLoadSync(string? DepartmentId)
@@ -126,7 +140,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                         EBLPOCDTO dto = new EBLPOCDTO();
                         if (!string.IsNullOrEmpty(dataClass))
                         {
-                            dto.DATA_CLASS = dataClass;
+                            dto.DATA_CLASS = dataClass;                         
                             gameInfos.Add(dto);
                         }                       
                     }
@@ -134,8 +148,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                 case "1":
                     var distinctDataClassesMigration = _dbContext.EBL_Migrations.Select(p => p.DATA_CLASS).Distinct().ToList();
-
-                   
+                  
                     foreach (var dataClass in distinctDataClassesMigration)
                     {
                         EBLPOCDTO dto = new EBLPOCDTO();
@@ -152,34 +165,28 @@ namespace GAMEPORTALCMS.Repository.Implementation
         }
 
 
-
-
         //Status Populate 
-        public List<EBL_MigrationDTO> GetEblMigrationStatusLoadSync(string? DepartmentId)
+        public List<EBL_MigrationDTO> GetEblStatusLoadSync(string? DepartmentId)
         {
             List<EBL_MigrationDTO> statusInfos = new List<EBL_MigrationDTO>();
-
-            EBL_MigrationDTO dtoo = new EBL_MigrationDTO();
-            dtoo.STATUS = "Select From List";
-            statusInfos.Add(dtoo);
-
+    
             switch (DepartmentId)
             {
-                case "2":
-                    var distinctDataClasses = _dbContext.EBL_Migrations.Select(p => p.STATUS).Distinct().ToList();
+                case "1":
+                    var distinctDataClasses = _dbContext.EBL_Migrations.Select(p => p.M_STATUS).Distinct().ToList();
 
                     foreach (var dataClass in distinctDataClasses)
                     {
                         EBL_MigrationDTO dto = new EBL_MigrationDTO();
                         if (!string.IsNullOrEmpty(dataClass))
                         {
-                            dto.DATA_CLASS = dataClass;
+                            dto.STATUS = dataClass;
                             statusInfos.Add(dto);
                         }
                     }
                     break;
 
-                case "1":
+                case "2":
                     var distinctDataClassesMigration = _dbContext._EBL_POCs.Select(p => p.STATUS).Distinct().ToList();
 
                     foreach (var dataClass in distinctDataClassesMigration)
@@ -187,7 +194,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                         EBL_MigrationDTO dto = new EBL_MigrationDTO();
                         if (!string.IsNullOrEmpty(dataClass))
                         {
-                            dto.DATA_CLASS = dataClass;
+                            dto.STATUS = dataClass;
                             statusInfos.Add(dto);
                         }
                     }
@@ -206,6 +213,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                         select new EBLPOCDTO
                         {
                             DWDOCID = x.DWDOCID,
+                            DWSTOREDATETIME = x.DWSTOREDATETIME,
                             DWSTOREDATETIME_ = x.DWSTOREDATETIME.ToString("f"),
                             ACCOUNT_NO = x.ACCOUNT_NO,
                             PRODUCT_TYPE = x.PRODUCT_TYPE,
@@ -221,7 +229,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                             WF_MANAGER_COMMENTS = x.WF_MANAGER
                          };
 
-            if (DocClass == "0")
+            if (DocClass == "Select From List")
             {
                 DocClass = null;
             }
@@ -229,7 +237,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             {
                 status = null;
             }
-            if (DocClass != "Select From List")
+            if (DocClass != null)
             {
                 query = query.Where(x => x.DATA_CLASS == DocClass);
             }
@@ -403,7 +411,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
         }
 
-        public List<PieChartDTO> GetPieListSync(string type)
+        public List<PieChartDTO> GetPieListSync(string type, DateTime? fromdate, DateTime? todate)
         {
             List<PieChartDTO> gameInfos = new List<PieChartDTO>();
             if (type == "Status")
@@ -413,8 +421,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                 // Perform left join in-memory
                 var result = from e in EbLMigration
-                             where e.STATUS != null
-                             group e by e.STATUS into g
+                             where e.M_STATUS != null
+                             group e by e.M_STATUS into g
                              select new PieChartDTO
                              {
                                  name = g.Key,
@@ -422,16 +430,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
                              };
 
                 gameInfos = result.ToList();
-
-                // This dictionary seems to be unnecessary, as the result is already populated in gameInfos
-                // Dictionary<string?, int> pivotTable = result
-                //    .GroupBy(x => x.CategoryName)
-                //    .ToDictionary(
-                //     group => group.Key,
-                //     group => group.Sum(item => item.Total)
-                //     );
+             
             }
-
 
             if (type == "DOCClass")
             {
@@ -440,8 +440,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                 // Perform left join in-memory
                 var result = from e in EbLMigration
-                             where e.DATA_CLASS != null
-                             group e by e.DATA_CLASS into g
+                             where e.M_DATA_CLASS != null
+                             group e by e.M_DATA_CLASS into g
                              select new PieChartDTO
                              {
                                  name = g.Key,
@@ -470,44 +470,193 @@ namespace GAMEPORTALCMS.Repository.Implementation
        
             }
 
+            if (type == "Status" && fromdate != null && todate != null)
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext.EBL_Migrations.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.M_STATUS != null && e.DWSTOREDATETIME >= fromdate && e.DWSTOREDATETIME <= todate
+                             group e by e.M_STATUS into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+
+                gameInfos = result.ToList();
+
+            }
+
+            if (type == "DOCClass" && fromdate != null && todate != null)
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext.EBL_Migrations.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.M_DATA_CLASS != null && e.DWSTOREDATETIME >= fromdate && e.DWSTOREDATETIME <= todate
+                             group e by e.M_DATA_CLASS into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+                gameInfos = result.ToList();
+
+            }
+
+            if (type == "MCIF" && fromdate != null && todate != null)
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext.EBL_Migrations.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.M_CIF != null && e.DWSTOREDATETIME >= fromdate && e.DWSTOREDATETIME <= todate
+                             group e by e.M_CIF into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+                gameInfos = result.ToList();
+
+            }
+
 
             return gameInfos;
         }
+
+
+        //EBL_POC Pie Chart
+        public List<PieChartDTO> GetPieChart_EBl_POCList_Sync(string type, DateTime? fromdate, DateTime? todate)
+        {
+            List<PieChartDTO> gameInfos = new List<PieChartDTO>();
+            if (type == "Status")
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.STATUS != null
+                             group e by e.STATUS into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+
+                gameInfos = result.ToList();
+
+            }
+
+            if (type == "DOCClass")
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.DATA_CLASS != null
+                             group e by e.DATA_CLASS into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+                gameInfos = result.ToList();
+
+            }
+
+
+            if (type == "MCIF")
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.CIF != null
+                             group e by e.CIF into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+                gameInfos = result.ToList();
+
+            }
+
+
+            if (type == "Status" && fromdate != null && todate != null)
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.STATUS != null && e.DWSTOREDATETIME >= fromdate && e.DWSTOREDATETIME <= todate
+                             group e by e.STATUS into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+
+                gameInfos = result.ToList();
+
+            }
+
+
+            if (type == "DOCClass" && fromdate != null && todate != null)
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.DATA_CLASS != null && e.DWSTOREDATETIME >= fromdate && e.DWSTOREDATETIME <= todate
+                             group e by e.DATA_CLASS into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+                gameInfos = result.ToList();
+
+            }
+
+            if (type == "MCIF" && fromdate != null && todate != null)
+            {
+                // Retrieve all DownloadableGames and GameCategories synchronously
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.CIF != null && e.DWSTOREDATETIME >= fromdate && e.DWSTOREDATETIME <= todate
+                             group e by e.CIF into g
+                             select new PieChartDTO
+                             {
+                                 name = g.Key,
+                                 y = g.Count()
+                             };
+                gameInfos = result.ToList();
+
+            }
+
+
+            return gameInfos;
+        }
+
 
         #endregion
 
         #region BARCHART
 
-
-        //public async Task<List<BarChart>> GetBARList(string type)
-        //{
-        //    List<BarChart> gameInfos = new List<BarChart>();
-        //    if (type == "Status")
-        //    {
-        //        var EbLMigration = _dbContext.EBL_Migrations.ToList();
-
-        //        // Perform left join in-memory
-        //        var result = from e in EbLMigration
-        //                     where e.DATA_CLASS != null
-        //                     group e by e.DATA_CLASS into g
-        //                     select new BarChart
-        //                     {
-        //                         Name = g.Key,
-        //                         data = new int[] { g.Count() }
-
-        //                     };
-        //        gameInfos = result.ToList();
-
-        ////        var chartData = await _dbContext.EBL_Migrations
-        ////.Select(cd => new BarChart { Name = cd.Name, data = new[] { cd.Data } })
-        ////.ToListAsync();
-
-        //    }
-
-        //    return gameInfos;
-        //}
-
-        public  List<BarChart> GetEblMigration_BarChart_List(string type)
+        public  List<BarChart> GetEblMigration_BarChart_List(string type, DateTime? FromDate, DateTime? Todate)
         {
             List<BarChart> gameInfos = new List<BarChart>();
 
@@ -516,8 +665,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 var EbLMigration = _dbContext.EBL_Migrations.ToList();
                 // Perform left join in-memory
                 var result = from e in EbLMigration
-                             where e.STATUS != null
-                             group e by e.STATUS into g
+                             where e.M_STATUS != null
+                             group e by e.M_STATUS into g
                              select new BarChart
                              {
                                  Name = g.Key,
@@ -531,8 +680,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 var EbLMigration = _dbContext.EBL_Migrations.ToList();
                 // Perform left join in-memory
                 var result = from e in EbLMigration
-                             where e.DATA_CLASS != null
-                             group e by e.DATA_CLASS into g
+                             where e.M_DATA_CLASS != null
+                             group e by e.M_DATA_CLASS into g
                              select new BarChart
                              {
                                  Name = g.Key,
@@ -549,6 +698,150 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 var result = from e in EbLMigration
                              where e.M_CIF != null
                              group e by e.M_CIF into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+            if (type == "Status" && FromDate !=null  && Todate !=null)
+            {
+                var EbLMigration = _dbContext.EBL_Migrations.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.M_STATUS != null && e.DWSTOREDATETIME >= FromDate && e.DWSTOREDATETIME <= Todate
+                             group e by e.M_STATUS into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+            if (type == "DOCClass" && FromDate != null && Todate != null)
+            {
+                var EbLMigration = _dbContext.EBL_Migrations.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.M_DATA_CLASS != null && e.DWSTOREDATETIME >= FromDate && e.DWSTOREDATETIME <= Todate
+                             group e by e.M_DATA_CLASS into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+
+            if (type == "MCIF" && FromDate != null && Todate != null)
+            {
+                var EbLMigration = _dbContext.EBL_Migrations.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.M_CIF != null && e.DWSTOREDATETIME >= FromDate && e.DWSTOREDATETIME <= Todate
+                             group e by e.M_CIF into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+            return gameInfos;
+        }
+
+        //Graph for Ebl_Poc
+        public List<BarChart> GetEblPOC_BarChart_List(string type, DateTime? FromDate, DateTime? Todate)
+        {
+            List<BarChart> gameInfos = new List<BarChart>();
+
+            if (type == "Status")
+            {
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.STATUS != null 
+                             group e by e.STATUS into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+            if (type == "DOCClass")
+            {
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.DATA_CLASS != null
+                             group e by e.DATA_CLASS into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+            if (type == "MCIF")
+            {
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.CIF != null
+                             group e by e.CIF into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+            if (type == "Status" && FromDate != null && Todate != null)
+            {
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.STATUS != null && e.DWSTOREDATETIME >= FromDate && e.DWSTOREDATETIME <= Todate
+                             group e by e.STATUS into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+            if (type == "DOCClass" && FromDate != null && Todate != null)
+            {
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.DATA_CLASS != null && e.DWSTOREDATETIME >= FromDate && e.DWSTOREDATETIME <= Todate
+                             group e by e.DATA_CLASS into g
+                             select new BarChart
+                             {
+                                 Name = g.Key,
+                                 data = new int[] { g.Count() }
+                             };
+                gameInfos = result.ToList();
+            }
+
+            if (type == "MCIF" && FromDate != null && Todate != null)
+            {
+                var EbLMigration = _dbContext._EBL_POCs.ToList();
+                // Perform left join in-memory
+                var result = from e in EbLMigration
+                             where e.CIF != null && e.DWSTOREDATETIME >= FromDate && e.DWSTOREDATETIME <= Todate
+                             group e by e.CIF into g
                              select new BarChart
                              {
                                  Name = g.Key,

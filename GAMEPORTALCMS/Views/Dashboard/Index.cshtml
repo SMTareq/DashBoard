@@ -45,8 +45,6 @@
         background: #f1f7ff;
     }
 
-
-
     .highcharts-figure,
     .highcharts-data-table table {
         min-width: 310px;
@@ -93,8 +91,6 @@
     .highcharts-data-table tr:hover {
         background: #f1f7ff;
     }
-
-
 
     .highcharts-figure,
     .highcharts-data-table table {
@@ -222,16 +218,18 @@
                                 <label class="input-group-text" for="">Department</label>
                             </div>
 
-                            <select class="custom-select" id="DepartmentId" v-model="selectedPIEDepartment" @@change="Onchange()">
+                            <select class="custom-select" id="DepartmentId" v-model="selectedPIEDepartment" >
                                 <option value="1">EBL Migration</option>
                                 <option value="2">EBL POC</option>
                             </select>
+
+                           @*  @@change="Onchange()" *@
 
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="">Category</label>
                             </div>
                             <select class="custom-select" id="CategoryId" v-model="selectedCategory">
-                                <option value="0">Select From List</option>
+                        @*         <option value="0">Select From List</option> *@
                                 <option value="DOCClass">Document Class</option>
                                 <option value="Status">Status</option>
                                 <option value="MCIF">CIF</option>
@@ -240,12 +238,12 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="">From Date</label>
                             </div>
-                            <input type="date" class="form-control" placeholder="From Date" required>
+                            <input type="date" class="form-control" placeholder="From Date" required v-model="graphFromDate">
 
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="">To Date</label>
                             </div>
-                            <input type="date" class="form-control" placeholder="To Date" required>
+                            <input type="date" class="form-control" placeholder="To Date" required v-model="graphToDate">
 
                             <div class="input-group-prepend">
 
@@ -304,41 +302,35 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">Document Class</label>
                                 </div>
-                            @*     <select class="custom-select" id="DocClassId" v-model="SelectDocClassType">
-                                    <option value="0">Select Doc Class</option>
-                                    <option value="NEWDOC">NEWDOC</option>
-                                    <option value="NEWREQUEST">NEWREQUEST</option>
-                                    <option value="COMPLETED">COMPLETED</option>
-                                </select> *@
+                         
 
                             <select v-model="SelectDocClassType" class="custom-select">
                                 <option v-for="item in portalList" :key="item.datA_CLASS" :value="item.datA_CLASS">
-                                    {{ item.datA_CLASS }}
+                                    {{ item.datA_CLASS }}                                  
                                 </option>
                             </select>
 
-
+                           
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">Status</label>
                                 </div>
-                                <select class="custom-select" id="gameTypeId" v-model="selectedGameType">
-                                    <option value="0">Select Status</option>
-                                    <option value="NEWDOC">NEWDOC</option>
-                                    <option value="NEWREQUEST">NEWREQUEST</option>
-                                    <option value="COMPLETED">COMPLETED</option>
-
-                                </select>
-
+               
+                            <select v-model="selectedGameType" class="custom-select">
+                                <option value="0">Select Status</option>
+                                <option v-for="item in statusPopulate" :key="item.status" :value="item.status">
+                                    {{ item.status }}
+                                </option>
+                            </select>
 
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">From Date</label>
                                 </div>
-                                <input type="date" class="form-control" placeholder="From Date" required >
+                            <input type="date" class="form-control" placeholder="From Date" required v-model="ListFromDate">
 
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="balanceSheetDropdown">To Date</label>
                                 </div>
-                                <input type="date" class="form-control" placeholder="To Date" required >
+                            <input type="date" class="form-control" placeholder="To Date" required v-model="ListToDate">
 
                                 <div class="input-group-prepend">
 
@@ -370,7 +362,6 @@
                             <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
                             <button id="EamilSend" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
                         </div>
-
                     </div>
 
                     <div style="overflow-x: auto;">
@@ -379,20 +370,17 @@
 
                             <thead>
                                 <tr>
-                                    <th>Document Name</th>
-                                    <th>Account No</th>
-                                    <th>M Account No</th>                             
+                                    @* <th>Document Name</th> *@
+                                    <th>Data Class </th>
+                                    <th>Account No</th>                                              
                                     <th>Status </th>
-                                    <th>Store Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="game in filteredGames" :key="game.DWDOCID">
-                                    <td>{{ game.documenT_NAME }}</td>
-                                    <td>{{ game.accounT_NO }}</td>
+                                    <td>{{ game.m_DATA_CLASS }}</td>
                                     <td>{{ game.m_ACCOUNT_NO }}</td>                                           
-                                    <td>{{ game.status }}</td>
-                                    <td>{{ game.dwstoredatetimE_con }}</td>
+                                    <td>{{ game.m_STATUS }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -402,7 +390,6 @@
                 <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==2">
 
                     <div class="row">
-
                         <div class="col-md-5">
                             <h4>EBL POC List</h4>
                         </div>
@@ -411,7 +398,6 @@
                             <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
                             <button id="EamilSende" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
                         </div>
-
                     </div>
 
                     <div style="overflow-x: auto;">
@@ -420,10 +406,10 @@
 
                             <thead>
                                 <tr>
-                                    <th>Document Store Date</th>
-                                    <th>Account NO</th>
-                                    <th>Product Type</th>
-                                    <th>Document Class</th>
+                                    <th>Data Class </th>                                 
+                                    <th>Account No </th>
+                                    <th>Status </th>
+                                   @*  <th>Document Class</th>
                                     <th>Status </th>
                                     <th>WF_CREATOR</th>
                                     <th>WF_CREATOR_COMMENTS</th>
@@ -432,31 +418,19 @@
                                     <th>WF_CHECKER</th>
                                     <th>WF_CHECKER_COMMENTS</th>
                                     <th>WF_MANAGER</th>
-                                    <th>WF_MANAGER_COMMENTS</th>
+                                    <th>WF_MANAGER_COMMENTS</th> *@
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="game in filteredGames" :key="game.DWDOCID">
-                                    <td>{{ game.dwstoredatetimE_ }}</td>
-                                    <td>{{ game.accounT_NO }}</td>
-                                    <td>{{ game.producT_TYPE }}</td>
                                     <td>{{ game.datA_CLASS }}</td>
-                                    <td>{{ game.status }}</td>             
-                                    <td>{{ game.wF_CREATOR }}</td>
-                                    <td>{{ game.wF_CREATOR_COMMENTS }}</td>
-                                    <td>{{ game.wF_MAKER }}</td>
-                                    <td>{{ game.wF_MAKER_COMMENTS }}</td>
-                                    <td>{{ game.wF_CHECKER }}</td>
-                                    <td>{{ game.wF_CHECKER_COMMENTS }}</td>
-                                    <td>{{ game.wF_MANAGER }}</td>
-                                    <td>{{ game.wF_MANAGER_COMMENTS }}</td>
+                                    <td>{{ game.accounT_NO }}</td>                                
+                                    <td>{{ game.status }}</td>                                         
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -543,8 +517,9 @@
             data() {
                 return {
                     selectedEblEmployee: 'admin@petersengineering.com',
-                    selectedPIEDepartment:'',
+                    selectedPIEDepartment:'1',
                     portalList: [],
+                    statusPopulate: [],
                     EmployeeInfo: [],
                     selectedCategory:'',
                     selectedGameType: '0',
@@ -567,14 +542,15 @@
                     filteredGames: [],
                     PiE: [],
                     BarChartZ: [],
-
                     LineChart: [],
                     dataa: [],
                     selectedFile: null,
                     xlsxLoaded: false,
-                    jsPDFLoaded: false
-                    
-
+                    jsPDFLoaded: false,
+                    ListFromDate: null,
+                    ListToDate:null,
+                    graphFromDate: null,
+                    graphToDate: null
                 };
             },
 
@@ -603,30 +579,58 @@
                     XLSX.utils.book_append_sheet(wb, ws, 'People');
                     XLSX.writeFile(wb, 'Eastern_Bank_PLC_POC.xlsx');
                 },
-
-                
+              
                 Onchange() {
-                    DepartmentId = this.selectedDepartment;
-                    if (DepartmentId=="1"){
+                  
+                    if (this.selectedDepartment == "1") {
+
+                        // Data Class Populate
                         helper.get('api/EBL_Migration/EblDataClassPopulate',
-                            { DepartmentId: DepartmentId },
+                            { DepartmentId: this.selectedDepartment },
                             (response) => {
+                                this.filteredGames = [];
                                 this.portalList = [];
                                 this.portalList = response;
                                 this.SelectDocClassType = 'Select From List'                                                             
                             });
-                    }
-                    if (DepartmentId == "2") {
-                        helper.get('api/EBL_Migration/EblDataClassPopulate',
-                            { DepartmentId: DepartmentId },
+
+                        // Status Populate
+                        helper.get('api/EBL_Migration/EblStatusPopulate',
+                            { DepartmentId: this.selectedDepartment },
                             (response) => {
+                                this.filteredGames = [];
+                                this.statusPopulate = [];
+                                this.statusPopulate = response;
+                                this.selectedGameType='0'
+                                // console.log(response);
+                            });                            
+                    }
+                    if (this.selectedDepartment == "2") {
+
+                        // Data Class Populate
+                        helper.get('api/EBL_Migration/EblDataClassPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
                                 this.portalList = [];
                                 this.portalList = response;
                                 this.SelectDocClassType = 'Select From List'
                             });
+
+                        // Status Populate
+                        helper.get('api/EBL_Migration/EblStatusPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.statusPopulate = [];
+                                this.statusPopulate = response;
+                                this.selectedGameType = '0'
+                                
+                  
+                            });
                     }                  
                 },
-
+     
                 GetEmployeeMailInfo() {
 
                     helper.get('api/EBLLogin/EBLEmployeeInfo',
@@ -634,141 +638,151 @@
                         (response) => {
                             this.EmployeeInfo = [];
                             this.EmployeeInfo = response;
-                            console.log(this.EmployeeInfo);
+                           
                         });
                 
                 },
-
+                
                 getDta() {
 
 
                     PieDepartment = this.selectedPIEDepartment;
                     CategoryType = this.selectedCategory;
+                    const gFromDate = this.graphFromDate;
+                    const gTodate = this.graphToDate;
 
-                    helper.get('api/EBL_Migration/PIEChart',
-                        { Department: PieDepartment, type: CategoryType },
-                        (response) => {
-                            this.PiE = [];
-                            this.PiE = response;
-                            console.log(this.PiE);
+                    if (CategoryType == null || CategoryType == "undefined" || CategoryType == "") {
 
-                            Highcharts.chart('container', {
-                                chart: {
-                                    type: 'pie'
-                                },
-                                title: {
-                                    text: '',
-                                    align: 'left'
-                                },
-                                tooltip: {
-                                    valueSuffix: '%'
-                                },
+                        $.notify("Please Select Category", 'error');
+                       // alert("Please Select Category");
 
-                                plotOptions: {
-                                    series: {
-                                        allowPointSelect: true,
-                                        cursor: 'pointer',
-                                        dataLabels: [{
-                                            enabled: true,
-                                            distance: 20
-                                        }, {
-                                            enabled: true,
-                                            distance: -40,
-                                            format: '{point.percentage:.1f}%',
-                                            style: {
-                                                fontSize: '1.2em',
-                                                textOutline: 'none',
-                                                opacity: 0.7
-                                            },
-                                            filter: {
-                                                operator: '>',
-                                                property: 'percentage',
-                                                value: 10
-                                            }
-                                        }]
-                                    }
-                                },
-                                series: [
-                                    {
-                                        name: 'Percentage',
-                                        colorByPoint: true,
-                                        data: this.PiE
-                                    }
-                                ]
-                            });
+                    }else{
                       
-                        });
+                        helper.get('api/EBL_Migration/PIEChart',
+                            { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
+                            (response) => {
+                                this.PiE = [];
+                                this.PiE = response;
 
-                    helper.get('api/EBL_Migration/BarChartForDashBoard',
-                        { Department: PieDepartment, type: CategoryType },
-                        (response) => {
-                            this.BarChartZ = [];
-                            this.BarChartZ = response;
-                        
-                            Highcharts.chart('container_', {
-                                chart: {
-                                    type: 'column'
-                                },
-                                title: {
-                                    text: '',
-                                    align: 'left'
-                                },
-                                xAxis: {
-                                    categories: [],
-                                    crosshair: true,
-                                    accessibility: {
-                                        description: 'Countries'
-                                    }
-                                },
-                                yAxis: {
-                                    min: 0,
+                                Highcharts.chart('container', {
+                                    chart: {
+                                        type: 'pie'
+                                    },
                                     title: {
-                                        text: ''
-                                    }
-                                },
-                                tooltip: {
-                                    valueSuffix: ' '
-                                },
-                                plotOptions: {
-                                    column: {
-                                        pointPadding: 0.2,
-                                        borderWidth: 0
-                                    }
-                                },
-                                series: this.BarChartZ
+                                        text: '',
+                                        align: 'left'
+                                    },
+                                    tooltip: {
+                                        valueSuffix: '%'
+                                    },
+
+                                    plotOptions: {
+                                        series: {
+                                            allowPointSelect: true,
+                                            cursor: 'pointer',
+                                            dataLabels: [{
+                                                enabled: true,
+                                                distance: 20
+                                            }, {
+                                                enabled: true,
+                                                distance: -40,
+                                                format: '{point.percentage:.1f}%',
+                                                style: {
+                                                    fontSize: '1.2em',
+                                                    textOutline: 'none',
+                                                    opacity: 0.7
+                                                },
+                                                filter: {
+                                                    operator: '>',
+                                                    property: 'percentage',
+                                                    value: 10
+                                                }
+                                            }]
+                                        }
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Percentage',
+                                            colorByPoint: true,
+                                            data: this.PiE
+                                        }
+                                    ]
+                                });
+
                             });
 
-                        });
-                    
+                        helper.get('api/EBL_Migration/BarChartForDashBoard',
+                            { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
+                            (response) => {
+                                this.BarChartZ = [];
+                                this.BarChartZ = response;
+
+                                Highcharts.chart('container_', {
+                                    chart: {
+                                        type: 'column'
+                                    },
+                                    title: {
+                                        text: '',
+                                        align: 'left'
+                                    },
+                                    xAxis: {
+                                        categories: [],
+                                        crosshair: true,
+                                        accessibility: {
+                                            description: 'Countries'
+                                        }
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: ''
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: ' '
+                                    },
+                                    plotOptions: {
+                                        column: {
+                                            pointPadding: 0.2,
+                                            borderWidth: 0
+                                        }
+                                    },
+                                    series: this.BarChartZ
+                                });
+
+                            });
+                    }
+                   
                 },
-                                
-                            
+                                                            
                 getData() {
 
                     const DepartmetId = this.selectedDepartment;
                     const gameTypeId = this.selectedGameType;
                     const DepartmentId = this.selectedDepartment;
                     const DocClass = this.SelectDocClassType;
-
+                    const fromdate = this.ListFromDate;
+                    const todate = this.ListToDate;   
                     if (DepartmetId == 1) {
 
                         helper.get('api/EBL_Migration/MigrationList',
-                            { DocClass: DocClass, status: gameTypeId, FromDate: null, Todate: null },
+                            { DocClass: DocClass, status: gameTypeId, FromDate: fromdate, Todate: todate },
                             (response) => {
 
+                                this.filteredGames = [];
                                 this.filteredGames = response;
-                                console.log(this.filteredGames);
+             
                             });
                     }
 
                     if (DepartmetId == 2) {
 
                         helper.get('api/EBL_Migration/EBLPOCList',
-                            { DocClass: DocClass, status: gameTypeId, FromDate: null, Todate: null },
+                            { DocClass: DocClass, status: gameTypeId, FromDate: fromdate, Todate: todate },
                             (response) => {
-
+                                this.filteredGames = [];
                                 this.filteredGames = response;
-                                console.log(this.filteredGames);
+                            
                             });
                     }
                 },

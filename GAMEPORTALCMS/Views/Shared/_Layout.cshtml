@@ -119,7 +119,7 @@
                 EBL Migration 
             </a> *@
 
-            <a class="menuzord-brand pull-left flip mb-5" href="#">
+            <a class="menuzord-brand pull-left flip " href="#">
                 @* <img src="https://www.ebl.com.bd/images/eastern-bank-plc.png" alt="Eastern Bank PLC. logo"> *@
                 <img src="~/img/eastern-bank-plc.png" alt="Eastern Bank PLC. logo">
             </a>
@@ -141,6 +141,13 @@
                             <a href="/Dashboard/Index" class="nav-link @(Context.Request.Path=="/Dashboard/Index" ? "active": "")">
                                 <i class="fa fa-home" aria-hidden="true"></i>
                                 <p>Dashboard</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/login/Index" class="nav-link @(Context.Request.Path=="/login/Index" ? "active": "")">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                <p>Log Out</p>
                             </a>
                         </li>
 

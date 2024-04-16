@@ -44,7 +44,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                                   DWSTOREDATETIME =x.DWSTOREDATETIME,
                                   //DWSTOREDATETIME_con = x.DWSTOREDATETIME.ToString("U"),
                                   M_STATUS = x.M_STATUS,
-                                  DATA_CLASS=x.DATA_CLASS
+                                 // DATA_CLASS=x.DATA_CLASS
                               };
 
             //Func<EBL_MigrationDTO,bool> filter = x => x.DWDOCID != null;
@@ -147,7 +147,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                     break;
 
                 case "1":
-                    var distinctDataClassesMigration = _dbContext.EBL_Migrations.Select(p => p.DATA_CLASS).Distinct().ToList();
+                    var distinctDataClassesMigration = _dbContext.EBL_Migrations.Select(p => p.M_DATA_CLASS).Distinct().ToList();
                   
                     foreach (var dataClass in distinctDataClassesMigration)
                     {
@@ -214,19 +214,19 @@ namespace GAMEPORTALCMS.Repository.Implementation
                         {
                             DWDOCID = x.DWDOCID,
                             DWSTOREDATETIME = x.DWSTOREDATETIME,
-                            DWSTOREDATETIME_ = x.DWSTOREDATETIME.ToString("f"),
+                           // DWSTOREDATETIME_ = x.DWSTOREDATETIME.ToString("f"),
                             ACCOUNT_NO = x.ACCOUNT_NO,
-                            PRODUCT_TYPE = x.PRODUCT_TYPE,
+                           // PRODUCT_TYPE = x.PRODUCT_TYPE,
                             DATA_CLASS =x.DATA_CLASS,
                             STATUS = x.STATUS,
-                            WF_CREATOR = x.WF_CREATOR,
-                            WF_CREATOR_COMMENTS = x.WF_CREATOR_COMMENTS ,
-                            WF_MAKER = x.WF_MAKER,
-                            WF_MAKER_COMMENTS = x.WF_MAKER_COMMENTS,
-                            WF_CHECKER  = x.WF_CHECKER,
-                            WF_CHECKER_COMMENTS = x.WF_CHECKER_COMMENTS,
-                            WF_MANAGER =x.WF_MANAGER,
-                            WF_MANAGER_COMMENTS = x.WF_MANAGER
+                            //WF_CREATOR = x.WF_CREATOR,
+                            //WF_CREATOR_COMMENTS = x.WF_CREATOR_COMMENTS ,
+                            //WF_MAKER = x.WF_MAKER,
+                            //WF_MAKER_COMMENTS = x.WF_MAKER_COMMENTS,
+                            //WF_CHECKER  = x.WF_CHECKER,
+                            //WF_CHECKER_COMMENTS = x.WF_CHECKER_COMMENTS,
+                            //WF_MANAGER =x.WF_MANAGER,
+                            //WF_MANAGER_COMMENTS = x.WF_MANAGER
                          };
 
             if (DocClass == "Select From List")

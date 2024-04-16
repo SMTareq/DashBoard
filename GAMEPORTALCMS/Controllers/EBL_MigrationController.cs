@@ -22,6 +22,7 @@ namespace GAMEPORTALCMS.Controllers
             _mail = mail;
         }
 
+        #region ListView
         [HttpGet("MigrationList")]
         public IActionResult GetEBL_MigrationList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
         {
@@ -50,13 +51,12 @@ namespace GAMEPORTALCMS.Controllers
         //    }
         //}
 
-
         [HttpGet("EBLPOCList")]
-        public  IActionResult GetEBL_POCList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
+        public IActionResult GetEBL_POCList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
         {
             try
             {
-                var data =  eBL_Migration.GetEblPocData(DocClass, status, FromDate, Todate);
+                var data = eBL_Migration.GetEblPocData(DocClass, status, FromDate, Todate);
                 return Ok(data);
             }
             catch (Exception e)
@@ -65,6 +65,9 @@ namespace GAMEPORTALCMS.Controllers
             }
         }
 
+        #endregion
+
+        #region Polulate
         //[HttpGet("EblDataClassPopulate")]
         //public async Task<IActionResult> GetEBL_DataClassPopulateList(string? DepartmentId)
         //{
@@ -107,8 +110,11 @@ namespace GAMEPORTALCMS.Controllers
             }
         }
 
+        #endregion
+
+        #region Graph
         [HttpGet("PIEChart")]
-        public ActionResult<Dictionary<string, int>> _Get_Ebl_Migration_Pie_Data(string Department, string type,  DateTime? Fromdate, DateTime? Todate)
+        public ActionResult<Dictionary<string, int>> _Get_Ebl_Migration_Pie_Data(string Department, string type, DateTime? Fromdate, DateTime? Todate)
         {
             try
             {
@@ -152,8 +158,9 @@ namespace GAMEPORTALCMS.Controllers
             }
 
         }
+        #endregion
 
-        //Mail_Generator
+        #region Mail_Generator
 
         [HttpGet("MailGenerator")]
         public async Task<IActionResult> MailGenerator(string mailAddress)
@@ -182,6 +189,9 @@ namespace GAMEPORTALCMS.Controllers
             // Here, for demonstration, just return a success message
             return Ok(new { message = "Table data received successfully" });
         }
+
+
+        #endregion
 
     }
 }

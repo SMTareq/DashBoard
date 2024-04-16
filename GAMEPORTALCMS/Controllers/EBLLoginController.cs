@@ -14,7 +14,6 @@ namespace GAMEPORTALCMS.Controllers
         MailGenerator _mail;
 
 
-
         public EBLLoginController(UserRepository repo, MailGenerator mail)
         {
             _userrepository = repo;

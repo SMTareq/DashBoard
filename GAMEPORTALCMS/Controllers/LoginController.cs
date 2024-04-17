@@ -63,7 +63,7 @@ namespace GAMEPORTALCMS.Controllers
             bool data = await _mail.SendMail(jsonData);
             if (data)
             {
-                return new JsonResult(new ResponseModel { Success = true, Message = "Mail sent successfully" });
+                return new JsonResult(new ResponseModel { Success = true, Message = "Mail sent successfully" });             
             }
             else
             {

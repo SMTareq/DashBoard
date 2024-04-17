@@ -33,8 +33,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                     if (User.MyProperty == "admin@petersengineering.com")
                     {
-                       // msg.To.Add("dereklee@digiqoresystems.com");
-                       msg.To.Add("tareq.creatrixbd@gmail.com");                    
+                        msg.To.Add("dereklee@digiqoresystems.com");
+                      // msg.To.Add("tareq.creatrixbd@gmail.com");                    
                     }
                     else
                     {
@@ -44,7 +44,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                     // Generate Excel file
                     string filePath = GenerateExcelFile(User);
 
-                    msg.Subject = "Test Mail";
+                    msg.Subject = "EBL Test Mail";
                 
                     //StringBuilder htmlBuilder = new StringBuilder();
 
@@ -122,8 +122,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 worksheet.Cells[1, 2].Value = "Account No";
                 worksheet.Cells[1, 3].Value = "Status";
 
-
-                
+                worksheet.Cells[1, 4].Value = "DW STORE DATETIME";
 
                 // Populate data
                 int row = 2;
@@ -132,6 +131,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                     worksheet.Cells[row, 1].Value = person.M_DATA_CLASS;
                     worksheet.Cells[row, 2].Value = person.M_ACCOUNT_NO;
                     worksheet.Cells[row, 3].Value = person.STATUS;
+                    worksheet.Cells[row, 4].Value = person.DWSTOREDATETIME;
                     row++;
                 }
                 // Save the Excel package to a file

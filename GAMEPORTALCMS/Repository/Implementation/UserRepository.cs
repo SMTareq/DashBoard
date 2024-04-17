@@ -4,6 +4,9 @@ using GAMEPORTALCMS.Models.DTO;
 using GAMEPORTALCMS.Models.Entity;
 using iRely.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+using System.Net;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -216,6 +219,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
             return data;
         }
+
+
 
     }
 }

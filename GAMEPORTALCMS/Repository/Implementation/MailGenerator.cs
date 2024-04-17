@@ -6,6 +6,8 @@ using GAMEPORTALCMS.Models.Entity;
 using AutoMapper;
 using iRely.Common;
 using System.Text;
+using GAMEPORTALCMS.Models.DTO;
+using OfficeOpenXml;
 
 namespace GAMEPORTALCMS.Repository.Implementation
 {
@@ -20,9 +22,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
             
         }
         #region Mail
-        public Task<bool> SendMail(string User)
-        {
-                            
+        public Task<bool> SendMail(MailSendDTO User)
+        {                           
             try
             {
                 using (MailMessage msg = new MailMessage())
@@ -30,17 +31,58 @@ namespace GAMEPORTALCMS.Repository.Implementation
                     msg.From = new MailAddress(SystemMail);
                     // msg.To.Add("jawad@digiqoresystems.com");
 
-                    if (User == "admin@petersengineering.com")
+                    if (User.MyProperty == "admin@petersengineering.com")
                     {
-                        msg.To.Add("dereklee@digiqoresystems.com");
-                       // msg.To.Add("tareq.creatrixbd@gmail.com");                    
+                       // msg.To.Add("dereklee@digiqoresystems.com");
+                       msg.To.Add("tareq.creatrixbd@gmail.com");                    
                     }
                     else
                     {
-                        msg.To.Add(User);
+                        msg.To.Add(User.MyProperty);
                     }
+
+                    // Generate Excel file
+                    string filePath = GenerateExcelFile(User);
+
                     msg.Subject = "Test Mail";
-                    msg.Body = "Hi to you ... :)";
+                
+                    //StringBuilder htmlBuilder = new StringBuilder();
+
+                    //htmlBuilder.Append("<body>");
+
+                    //// Start the HTML table
+                    //htmlBuilder.Append("<table>");
+
+                    //// Add table headers
+                    //htmlBuilder.Append("<tr>");
+                    //htmlBuilder.Append("<th>Data Class</th>");
+                    //htmlBuilder.Append("<th>Account No</th>");
+                    //htmlBuilder.Append("<th>Status</th>");
+                    //htmlBuilder.Append("</tr>");
+
+                    //// Iterate over each item in the list and add table rows
+                    //foreach (MailBody person in User.mailBodies)
+                    //{
+                    //    htmlBuilder.Append("<tr>");
+                    //    htmlBuilder.Append($"<td>{person.M_DATA_CLASS}</td>");
+                    //    htmlBuilder.Append($"<td>{person.M_ACCOUNT_NO}</td>");
+                    //    htmlBuilder.Append($"<td>{person.STATUS}</td>");
+                    //    htmlBuilder.Append("</tr>");
+                    //}
+                    //// End the HTML table
+                    //htmlBuilder.Append("</table>");
+
+                    //htmlBuilder.Append("</body>");
+
+
+                    // Convert StringBuilder to string
+                    //string htmlTable = htmlBuilder.ToString();
+
+                    msg.Body = "Please find the attached Excel file.";
+
+                    // Add attachment
+                    Attachment attachment = new Attachment(filePath);
+                    msg.Attachments.Add(attachment);
 
                     using (SmtpClient client = new SmtpClient("smtp.gmail.com", 587))
                     {
@@ -58,6 +100,45 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 // Log the exception or handle it appropriately
                 Console.WriteLine("Error: " + ex.Message);
                 return Task.FromResult(false);
+            }
+        }
+
+
+        static string GenerateExcelFile(MailSendDTO personList)
+        {
+            string fileName = "EBL_PLC.xlsx";
+
+            // Your code to generate the Excel file, using EPPlus or other libraries
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            // Create a new Excel package
+            using (var package = new OfficeOpenXml.ExcelPackage())
+            {
+                // Add a worksheet
+                var worksheet = package.Workbook.Worksheets.Add("EBL_PLC");
+
+                // Set headers
+                worksheet.Cells[1, 1].Value = "Data Class";
+                worksheet.Cells[1, 2].Value = "Account No";
+                worksheet.Cells[1, 3].Value = "Status";
+
+
+                
+
+                // Populate data
+                int row = 2;
+                foreach (var person in personList.mailBodies)
+                {
+                    worksheet.Cells[row, 1].Value = person.M_DATA_CLASS;
+                    worksheet.Cells[row, 2].Value = person.M_ACCOUNT_NO;
+                    worksheet.Cells[row, 3].Value = person.STATUS;
+                    row++;
+                }
+                // Save the Excel package to a file
+                var fileInfo = new FileInfo(fileName);
+                package.SaveAs(fileInfo);
+
+                return fileName;
             }
         }
 

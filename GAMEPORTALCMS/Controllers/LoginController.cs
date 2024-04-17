@@ -1,4 +1,5 @@
-﻿using GAMEPORTALCMS.Models.Entity;
+﻿using GAMEPORTALCMS.Models.DTO;
+using GAMEPORTALCMS.Models.Entity;
 using GAMEPORTALCMS.Models.Response;
 using GAMEPORTALCMS.Repository.Implementation;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +9,14 @@ namespace GAMEPORTALCMS.Controllers
     public class LoginController : Controller
     {
         UserRepository _userrepository;
-        public LoginController(UserRepository repo)
+
+        private readonly MailGenerator _mail;
+
+
+        public LoginController(UserRepository repo, MailGenerator mail)
         {
             _userrepository = repo;
+            _mail = mail;
         }
         public IActionResult Index()
         {
@@ -50,7 +56,22 @@ namespace GAMEPORTALCMS.Controllers
             //    }
             //}
         }
-    
+
+        public async Task<IActionResult> Mailsend(MailSendDTO jsonData)
+        {
+            
+            bool data = await _mail.SendMail(jsonData);
+            if (data)
+            {
+                return new JsonResult(new ResponseModel { Success = true, Message = "Mail sent successfully" });
+            }
+            else
+            {
+                return new JsonResult(new ResponseModel { Success = false, Message = "error" });
+            }
+        }
+
+
         [HttpPost("UserLogin")]
         public async Task<IActionResult> UserLogin(string userName, string password)
         {

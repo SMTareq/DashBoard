@@ -1,4 +1,5 @@
 ﻿using GAMEPORTALCMS.Data;
+using GAMEPORTALCMS.Models.DTO;
 using GAMEPORTALCMS.Models.Response;
 using GAMEPORTALCMS.Repository.Implementation;
 using iRely.Common;
@@ -163,9 +164,9 @@ namespace GAMEPORTALCMS.Controllers
         #region Mail_Generator
 
         [HttpGet("MailGenerator")]
-        public async Task<IActionResult> MailGenerator(string mailAddress)
+        public async Task<IActionResult> MailGenerator(MailSendDTO jsonData)
         {
-            bool data = await _mail.SendMail(mailAddress);
+            bool data = await _mail.SendMail(jsonData);
             if (data)
             {
                 return new JsonResult(new ResponseModel { Success = true, Message = "Mail sent successfully" });
@@ -173,23 +174,40 @@ namespace GAMEPORTALCMS.Controllers
             else
             {
                 return new JsonResult(new ResponseModel { Success = false, Message = "error" });
+            }         
+        }
+
+
+        //[HttpPost("send-table-data")]
+        //public IActionResult ReceiveTableData(string mailAddress, [FromBody] JObject data)
+        //{
+        //    // Extract table data from request
+        //    JArray tableDataArray = (JArray)data["tableData"];
+        //    // Convert JSON array to array of objects
+        //    var tableData = tableDataArray.ToObject<object[]>();
+
+        //    // Process the table data (e.g., save to database)
+        //    // Here, for demonstration, just return a success message
+        //    return Ok(new { message = "Table data received successfully" });
+        //}
+
+
+        [HttpPost("MMailGenerator")]
+        public IActionResult MMailGenerator(MailSendDTO jsonData)
+        {
+            try
+            {
+                // Parse the JSON data received from the client
+                //dynamic data = requestData;
+                //string inputValue = data.inputValue;
+
+                return Ok("Data received successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-
-        [HttpPost("send-table-data")]
-        public IActionResult ReceiveTableData([FromBody] JObject data)
-        {
-            // Extract table data from request
-            JArray tableDataArray = (JArray)data["tableData"];
-            // Convert JSON array to array of objects
-            var tableData = tableDataArray.ToObject<object[]>();
-
-            // Process the table data (e.g., save to database)
-            // Here, for demonstration, just return a success message
-            return Ok(new { message = "Table data received successfully" });
-        }
-
 
         #endregion
 

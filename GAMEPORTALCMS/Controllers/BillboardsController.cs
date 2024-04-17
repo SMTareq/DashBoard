@@ -26,7 +26,6 @@ namespace GAMEPORTALCMS.Controllers
             _gameRepo = gameRepo;
         }
   
-
         [HttpGet("custom")]
 
         public async Task<IActionResult> GetGameCategory()

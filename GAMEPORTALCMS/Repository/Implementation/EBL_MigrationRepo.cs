@@ -39,11 +39,11 @@ namespace GAMEPORTALCMS.Repository.Implementation
                          select new EBL_MigrationDTO
                               {
                                   DWDOCID = x.DWDOCID,
-                                  M_DATA_CLASS = x.M_DATA_CLASS,                
-                                  M_ACCOUNT_NO = x.M_ACCOUNT_NO,
+                                  DATA_CLASS = x.M_DATA_CLASS,                
+                                  ACCOUNT_NO = x.M_ACCOUNT_NO,
                                   DWSTOREDATETIME =x.DWSTOREDATETIME,
                                   //DWSTOREDATETIME_con = x.DWSTOREDATETIME.ToString("U"),
-                                  M_STATUS = x.M_STATUS,
+                                  STATUS = x.M_STATUS,
                                  // DATA_CLASS=x.DATA_CLASS
                               };
 
@@ -74,11 +74,11 @@ namespace GAMEPORTALCMS.Repository.Implementation
             }
             if (DocClass != null)
             {
-                query = query.Where(x => x.M_DATA_CLASS == DocClass);
+                query = query.Where(x => x.DATA_CLASS == DocClass);
             }
             if (status != null)
             {
-                query = query.Where(x => x.M_STATUS == status);
+                query = query.Where(x => x.STATUS == status);
             }
             if (FromDate != null && Todate != null)
             {
@@ -86,40 +86,28 @@ namespace GAMEPORTALCMS.Repository.Implementation
             }
             if (DocClass != null && status != null)
             {
-                query = query.Where(x => x.M_DATA_CLASS == DocClass && x.M_STATUS == status);
+                query = query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status);
             }
             if (DocClass != null && FromDate != null && Todate != null)
             {
-                query = query.Where(x => x.M_DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+                query = query.Where(x => x.DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
             }
             if (DocClass != null && FromDate != null && Todate != null)
             {
-                query = query.Where(x => x.M_DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+                query = query.Where(x => x.DATA_CLASS == DocClass && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
             }
             if (status != null && FromDate != null && Todate != null)
             {
-                query = query.Where(x => x.M_STATUS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+                query = query.Where(x => x.DATA_CLASS == status && x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
             }
             if (DocClass != null && status != null && FromDate != null && Todate != null)
             {
-                query = query.Where(x => x.M_DATA_CLASS == DocClass && x.M_STATUS == status && x.DWSTOREDATETIME >=  FromDate && x.DWSTOREDATETIME <= Todate);
+                query = query.Where(x => x.DATA_CLASS == DocClass && x.STATUS == status && x.DWSTOREDATETIME >=  FromDate && x.DWSTOREDATETIME <= Todate);
             }
             gameInfos = query.ToList();
                         
             return gameInfos;
-
-
-            //var query = from data in dbContext.EBL_Migration
-            //            where data.DWSTOREDATETIME >= new DateTime(2024, 2, 5) && data.DWSTOREDATETIME < new DateTime(2024, 2, 6)
-            //            select new
-            //            {
-            //                data.M_DATA_CLASS,
-            //                data.M_STATUS,
-            //                data.M_ACCOUNT_NO,
-            //                data.DWSTOREDATETIME
-            //            };
-
-
+         
         }
 
         public List<EBLPOCDTO> GetEblDataClassLoadSync(string? DepartmentId)
@@ -215,18 +203,10 @@ namespace GAMEPORTALCMS.Repository.Implementation
                             DWDOCID = x.DWDOCID,
                             DWSTOREDATETIME = x.DWSTOREDATETIME,
                            // DWSTOREDATETIME_ = x.DWSTOREDATETIME.ToString("f"),
-                            ACCOUNT_NO = x.ACCOUNT_NO,
-                           // PRODUCT_TYPE = x.PRODUCT_TYPE,
+                            ACCOUNT_NO = x.ACCOUNT_NO,                       
                             DATA_CLASS =x.DATA_CLASS,
                             STATUS = x.STATUS,
-                            //WF_CREATOR = x.WF_CREATOR,
-                            //WF_CREATOR_COMMENTS = x.WF_CREATOR_COMMENTS ,
-                            //WF_MAKER = x.WF_MAKER,
-                            //WF_MAKER_COMMENTS = x.WF_MAKER_COMMENTS,
-                            //WF_CHECKER  = x.WF_CHECKER,
-                            //WF_CHECKER_COMMENTS = x.WF_CHECKER_COMMENTS,
-                            //WF_MANAGER =x.WF_MANAGER,
-                            //WF_MANAGER_COMMENTS = x.WF_MANAGER
+                          
                          };
 
             if (DocClass == "Select From List")

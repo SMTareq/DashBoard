@@ -3,8 +3,8 @@
 namespace GAMEPORTALCMS.Models.Entity
 {
 
-   //[Table("EBL_POC", Schema = "dbo")]
-    [Table("_EBL_POC", Schema = "dbo")]
+    [Table("EBL_POC", Schema = "dbo")]
+   // [Table("_EBL_POC", Schema = "dbo")]
     public class _EBL_POC
     {   
             public int DWDOCID { get; set; }
@@ -27,7 +27,5 @@ namespace GAMEPORTALCMS.Models.Entity
         public string? WF_MANAGER { get; set; }
         public string? WF_MANAGER_COMMENTS { get; set; }
      
-
-
     }
 }

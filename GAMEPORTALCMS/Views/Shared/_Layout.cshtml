@@ -138,9 +138,17 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="/Dashboard/Index" class="nav-link @(Context.Request.Path=="/Dashboard/Index" ? "active": "")">
+                            <a href="/Dashboard" class="nav-link @(Context.Request.Path=="/Dashboard" ? "active": "")">
                                 <i class="fa fa-home" aria-hidden="true"></i>
                                 <p>Dashboard</p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="/Report" class="nav-link @(Context.Request.Path=="/Report/Index" ? "active": "")">
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                <p>Report</p>
                             </a>
                         </li>
 

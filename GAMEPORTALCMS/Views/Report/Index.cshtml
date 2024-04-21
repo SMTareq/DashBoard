@@ -140,158 +140,23 @@
 
 </style>
 
-
 <div id="vc_app">
     <div class="container-fluid p-3">
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-
-                <div class="small-box" style="background-color : aliceblue">
-                    <div class="inner">
-                        <h3>400</h3>
-                        <p class="fw-bold">Total TCL </p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-xs-6">
-
-                <div class="small-box">
-                    <div class="inner">
-                        <h3>350</h3>
-                        <p>Total AOF </p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-xs-6">
-
-                <div class="small-box" style="background-color : aliceblue">
-                    <div class="inner">
-                        <h3>5</h3>
-                        <p>Total Document</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-xs-6">
-
-                <div class="small-box" style="background-color : cornsilk">
-                    <div class="inner">
-                        <h3>7</h3>
-                        <p>Total Limit</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="#" class="small-box-footer" style="color:black">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-
-        </div>
-
-
-
-        <div class="card mt-2" v-cloak>
-
-            <div class="card-body">
-
-                <div class="col-md-12">
-                    <div class="button-container">
-                        <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
-
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="">Department</label>
-                            </div>
-
-                            <select class="custom-select" id="DepartmentId" v-model="selectedPIEDepartment" @@change="OnchangeGraph()">
-                                <option value="1">EBL Migration</option>
-                                <option value="2">EBL POC</option>
-                            </select>
-                  
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="">Category</label>
-                            </div>
-                            <select v-if="EblMigra_Category" class="custom-select" v-model="selectedCategory">
-                        @*         <option value="0">Select From List</option> *@
-                                <option value="DOCClass">M Data Class</option>
-                                <option value="Status">M Status</option>
-                                <option value="MCIF">M CIF</option>
-                            </select>
-
-                            <select v-if="EblPoc_Category" class="custom-select" v-model="selectedCategory">
-                                @*         <option value="0">Select From List</option> *@
-                                <option value="DOCClass">Data Class</option>
-                                <option value="Status">Status</option>
-                                <option value="MCIF">CIF</option>
-                            </select>
-                      
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="">From Date</label>
-                            </div>
-                            <input type="date" class="form-control" placeholder="From Date" required v-model="graphFromDate">
-
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="">To Date</label>
-                            </div>
-                            <input type="date" class="form-control" placeholder="To Date" required v-model="graphToDate">
-
-                            <div class="input-group-prepend">
-
-                                <button type="button" class="btn btn-outline-info btn-sm" @@Click="getDta()">Search</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-         <div class="card mt-2" v-cloak>
-             <div class="card-body">
-
-                <div class="col-md-6">
-                    <figure class="highcharts-figure">
-                        <div id="container"></div>
-                    </figure>
-                </div>
-
-                <div class="col-md-6">
-                    <figure class="highcharts-figure">
-                        <div id="container_"></div>
-                    </figure>
-                </div>
-
-             </div>
-         </div>
 
         <div class="card mt-2" v-cloak>
 
             <div class="card-body">
 
                 <div class="col-12">
-                 
-                        <div class="button-container">
 
-                            <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
+                    <div class="button-container">
 
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="">Department</label>
-                                </div>
+                        <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">Department</label>
+                            </div>
+
 
                             <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
                                 <option value="1">EBL Migration</option>
@@ -299,46 +164,48 @@
                             </select>
 
 
-                             <div class="input-group-prepend">
-                                    <label class="input-group-text" id="lblDataClass" for="balanceSheetDropdown">M Data Class</label>
-                                </div>
-                         
-                             <select v-model="SelectDocClassType" class="custom-select">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblDataClass" for="balanceSheetDropdown">M Data Class</label>
+                            </div>
+
+
+                            <select v-model="SelectDocClassType" class="custom-select">
                                 <option v-for="item in portalList" :key="item.datA_CLASS" :value="item.datA_CLASS">
-                                    {{ item.datA_CLASS }}                                  
+                                    {{ item.datA_CLASS }}
                                 </option>
                             </select>
-                          
-                             <div class="input-group-prepend">
-                                    <label class="input-group-text" id="lblStatus" for="balanceSheetDropdown">M Status</label>
-                                </div>
-               
-                             <select v-model="selectedGameType" class="custom-select">
+
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblStatus" for="balanceSheetDropdown">M Status</label>
+                            </div>
+
+                            <select v-model="selectedGameType" class="custom-select">
                                 <option value="0">Select Status</option>
                                 <option v-for="item in statusPopulate" :key="item.status" :value="item.status">
                                     {{ item.status }}
                                 </option>
                             </select>
 
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="balanceSheetDropdown">From Date</label>
-                                </div>
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="balanceSheetDropdown">From Date</label>
+                            </div>
                             <input type="date" class="form-control" placeholder="From Date" required v-model="ListFromDate">
 
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="balanceSheetDropdown">To Date</label>
-                                </div>
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="balanceSheetDropdown">To Date</label>
+                            </div>
                             <input type="date" class="form-control" placeholder="To Date" required v-model="ListToDate">
 
-                                <div class="input-group-prepend">
+                            <div class="input-group-prepend">
 
                                 <button type="button" class="btn btn-outline-info btn-sm" @@Click="getData()">Search</button>
-                                </div>
-                            
                             </div>
 
-                            </div>
-                    
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -349,7 +216,7 @@
             <div class="card-body">
 
                 <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==1">
-                  
+
                     <div class="row">
 
                         <div class="col-md-5">
@@ -367,19 +234,20 @@
                         <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
 
                             <thead>
-                                <tr>                        
+                                <tr>
                                     <th>Data Class </th>
-                                    <th>Account No</th>                                              
+                                    <th>Account No</th>
                                     <th>Status </th>
                                     <th>Document</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="game in filteredGames" :key="game.DWDOCID">                         
+                                <tr v-for="game in filteredGames" :key="game.DWDOCID">
                                     <td>{{ game.datA_CLASS }}</td>
                                     <td>{{ game.accounT_NO }}</td>
                                     <td>{{ game.status }}</td>
                                     <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=589317ba-3a03-43fb-b882-eac5682d5fa1&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
+
                                 </tr>
                             </tbody>
                         </table>
@@ -400,23 +268,24 @@
                     </div>
 
                     <div style="overflow-x: auto;">
-                                      
+
                         <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
 
                             <thead>
                                 <tr>
-                                    <th>Data Class </th>                                 
+                                    <th>Data Class </th>
                                     <th>Account No </th>
                                     <th>Status </th>
-                                    <th>Document</th>                      
+                                    <th>Document</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="game in filteredGames" :key="game.DWDOCID">
                                     <td>{{ game.datA_CLASS }}</td>
-                                    <td>{{ game.accounT_NO }}</td>                                
+                                    <td>{{ game.accounT_NO }}</td>
                                     <td>{{ game.status }}</td>
                                     <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -424,10 +293,7 @@
                 </div>
             </div>
         </div>
-
-
-        @* Modal Start Hare *@
-
+   
         <div class="modal" id="mdl_game" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -442,7 +308,7 @@
                             <div class="col-12">
                                 <form action="javascript:;" data-vv-scope="frmgame">
 
-                          
+
                                     <div class="form-row">
 
                                         <div class="row col-12">
@@ -455,7 +321,7 @@
                                                             <div class="input-group-prepend">
                                                                 <span style="font-size: 14px" class="input-group-text">Mail</span>
                                                             </div>
-                                                                                                    
+
                                                             <select v-model="selectedEblEmployee" class="custom-select">
                                                                 <option v-for="item in EmployeeInfo" :key="item.email" :value="item.email">
                                                                     {{ item.name }}
@@ -493,7 +359,7 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-  @*   <script src="~/js/dashboard.js"></script> 
+    @*   <script src="~/js/dashboard.js"></script>
  *@
 
     <script>
@@ -503,8 +369,6 @@
             el: '#vc_app',
             data() {
                 return {
-                    EblMigra_Category: true,
-                    EblPoc_Category: false,
                     selectedEblEmployee: 'admin@petersengineering.com',
                     selectedPIEDepartment: '1',
                     portalList: [],
@@ -567,18 +431,6 @@
                     const ws = XLSX.utils.json_to_sheet(this.filteredGames);
                     XLSX.utils.book_append_sheet(wb, ws, 'People');
                     XLSX.writeFile(wb, 'Eastern_Bank_PLC_POC.xlsx');
-                },
-
-                OnchangeGraph() {
-                    if (this.selectedPIEDepartment == "1"){
-                        
-                        this.EblMigra_Category = true;
-                        this.EblPoc_Category = false;
-                      
-                    }else{
-                        this.EblMigra_Category = false;
-                        this.EblPoc_Category = true;              
-                    }
                 },
 
                 Onchange() {
@@ -644,116 +496,7 @@
                         });
                 },
 
-                getDta() {
-
-                    PieDepartment = this.selectedPIEDepartment;
-                    CategoryType = this.selectedCategory;
-                    const gFromDate = this.graphFromDate;
-                    const gTodate = this.graphToDate;
-
-                    if (CategoryType == null || CategoryType == "undefined" || CategoryType == "") {
-
-                        $.notify("Please Select Category", 'error');
-                        // alert("Please Select Category");
-
-                    } else {
-
-                        helper.get('api/EBL_Migration/PIEChart',
-                            { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
-                            (response) => {
-                                this.PiE = [];
-                                this.PiE = response;
-
-                                Highcharts.chart('container', {
-                                    chart: {
-                                        type: 'pie'
-                                    },
-                                    title: {
-                                        text: '',
-                                        align: 'left'
-                                    },
-                                    tooltip: {
-                                        valueSuffix: '%'
-                                    },
-
-                                    plotOptions: {
-                                        series: {
-                                            allowPointSelect: true,
-                                            cursor: 'pointer',
-                                            dataLabels: [{
-                                                enabled: true,
-                                                distance: 20
-                                            }, {
-                                                enabled: true,
-                                                distance: -40,
-                                                format: '{point.percentage:.1f}%',
-                                                style: {
-                                                    fontSize: '1.2em',
-                                                    textOutline: 'none',
-                                                    opacity: 0.7
-                                                },
-                                                filter: {
-                                                    operator: '>',
-                                                    property: 'percentage',
-                                                    value: 10
-                                                }
-                                            }]
-                                        }
-                                    },
-                                    series: [
-                                        {
-                                            name: 'Percentage',
-                                            colorByPoint: true,
-                                            data: this.PiE
-                                        }
-                                    ]
-                                });
-
-                            });
-
-                        helper.get('api/EBL_Migration/BarChartForDashBoard',
-                            { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
-                            (response) => {
-                                this.BarChartZ = [];
-                                this.BarChartZ = response;
-
-                                Highcharts.chart('container_', {
-                                    chart: {
-                                        type: 'column'
-                                    },
-                                    title: {
-                                        text: '',
-                                        align: 'left'
-                                    },
-                                    xAxis: {
-                                        categories: [],
-                                        crosshair: true,
-                                        accessibility: {
-                                            description: 'Countries'
-                                        }
-                                    },
-                                    yAxis: {
-                                        min: 0,
-                                        title: {
-                                            text: ''
-                                        }
-                                    },
-                                    tooltip: {
-                                        valueSuffix: ' '
-                                    },
-                                    plotOptions: {
-                                        column: {
-                                            pointPadding: 0.2,
-                                            borderWidth: 0
-                                        }
-                                    },
-                                    series: this.BarChartZ
-                                });
-
-                            });
-                    }
-
-                },
+             
 
                 getData() {
 
@@ -771,7 +514,7 @@
 
                                 this.filteredGames = [];
                                 this.filteredGames = response;
-
+                                
 
                             });
                     }
@@ -850,6 +593,7 @@
                         });
                     }
                 },
+
 
                 openUrl(url) {
                     window.open(url, '_blank');

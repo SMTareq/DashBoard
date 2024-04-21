@@ -10,8 +10,7 @@ namespace GAMEPORTALCMS.Controllers
             ViewBag.UserName = UserName;
             return View();
         }
-
-      
+     
         public IActionResult ClearSession()
         {
             HttpContext.Session.Clear();

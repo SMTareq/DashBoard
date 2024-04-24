@@ -21,6 +21,10 @@ namespace GAMEPORTALCMS.Models.Entity
         public string? M_DOCUMENT_NAME { get; set; }
         public string? M_DATA_CLASS { get; set; }
         public string? PRODUCT_TYPE { get; set; }
+        public string? M_USER { get; set; }
+        public string? M_OWNER { get; set; }
+        public string? M_TYPE { get; set; }
+        public string? M_PRODUCT_BRANCH { get; set; }
 
     }
 }

@@ -7,5 +7,9 @@
         public string? ACCOUNT_NO { get; set; }
         public string? STATUS { get; set; }  
         public DateTime? DWSTOREDATETIME { get; set; }
+        public string? DocumentName { get; set; }
+        public string? ProductType { get; set; }
+        public string? BranchCode { get; set; }
+        public string? CIF { get; set; }
     }
 }

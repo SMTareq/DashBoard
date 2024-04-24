@@ -138,11 +138,34 @@
         min-width: 50px;
     }
 
+    .select2-container .select2-selection--single {
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        height: 31px !important;
+        user-select: none;
+        text-align: center !important;
+   
+        -webkit-user-select: none
+
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding-left: 0;
+        height: auto;
+        margin-top: -8px !important;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: floralwhite !important;
+    }
+
 </style>
 
 <div id="vc_app">
     <div class="container-fluid p-3">
-
+        <h6 class="dashboard-mytitle"><i class="fa fa-arrows-alt" aria-hidden="true"></i> Report</h6>
+        <hr />
         <div class="card mt-2" v-cloak>
 
             <div class="card-body">
@@ -151,36 +174,76 @@
 
                     <div class="button-container">
 
-                        <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
+                        <div class="input-group input-group-sm" style="width: 1585px; margin-left: 1px;">
 
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="">Department</label>
+                                <label class="input-group-text" for="" style="font-weight: bold;">Department</label>
                             </div>
 
-
-                            <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
+                            <select class="custom-select select2" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
                                 <option value="1">EBL Migration</option>
                                 <option value="2">EBL POC</option>
                             </select>
 
-
                             <div class="input-group-prepend">
-                                <label class="input-group-text" id="lblDataClass" for="balanceSheetDropdown">M Data Class</label>
+                                <label class="input-group-text" id="lblAccountNo" for="" style="font-weight: bold;">M Account No </label>
                             </div>
 
+                            <select v-model="SelectAccountNo"  class="custom-select select2" id="Acc">
+                                <option v-for="item in AccountNoPopulate" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+                         
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblProductType" for="" style="font-weight: bold;">M Product Type </label>
+                            </div>
 
-                            <select v-model="SelectDocClassType" class="custom-select">
+                            <select v-model="SelectProductType"  class="custom-select select2" id="ProductType">
+                                <option v-for="item in ProductTypePopulate" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblProductBranch" for="" style="font-weight: bold;">M Product Branch</label>
+                            </div>
+
+                            <select v-model="SelectProductBranch" class="custom-select select2" id="ProductBranch">
                                 <option v-for="item in portalList" :key="item.datA_CLASS" :value="item.datA_CLASS">
                                     {{ item.datA_CLASS }}
                                 </option>
                             </select>
 
+                    
 
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12">
+
+                    <div class="button-container">
+
+                        <div class="input-group input-group-sm" style="width: 1585px; margin-left: 1px;">
+                                       
                             <div class="input-group-prepend">
-                                <label class="input-group-text" id="lblStatus" for="balanceSheetDropdown">M Status</label>
+                                <label class="input-group-text" id="lblCIF" for="" style="font-weight: bold;">M CIF </label>
                             </div>
 
-                            <select v-model="selectedGameType" class="custom-select">
+                            <select v-model="SelectCIF" class="custom-select select2" id="CIF">
+                                <option v-for="item in CIFList" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text " id="lblStatus" for="" style="font-weight: bold;">M Status</label>
+                            </div>
+
+                            <select v-model="selectedGameType" class="custom-select select2" id="Status">
                                 <option value="0">Select Status</option>
                                 <option v-for="item in statusPopulate" :key="item.status" :value="item.status">
                                     {{ item.status }}
@@ -188,17 +251,17 @@
                             </select>
 
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="balanceSheetDropdown">From Date</label>
+                                <label class="input-group-text" for="" style="font-weight: bold;">From Date</label>
                             </div>
                             <input type="date" class="form-control" placeholder="From Date" required v-model="ListFromDate">
 
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="balanceSheetDropdown">To Date</label>
+                                <label class="input-group-text" for="" style="font-weight: bold;">To Date</label>
                             </div>
                             <input type="date" class="form-control" placeholder="To Date" required v-model="ListToDate">
 
-                            <div class="input-group-prepend">
 
+                            <div class="row">
                                 <button type="button" class="btn btn-outline-info btn-sm" @@Click="getData()">Search</button>
                             </div>
 
@@ -207,7 +270,7 @@
                     </div>
 
                 </div>
-
+         
             </div>
 
         </div>
@@ -224,42 +287,50 @@
                         </div>
                         <div class="col-md-4">
                             <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
-                            <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+                            <button id="downloadPdf5" class="btn btn-outline-info btn-sm" onclick="convertHTMLtoPDF()">PDF</button>
                             <button id="EamilSend" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
                         </div>
                     </div>
 
-                    <div style="overflow-x: auto;">
+                    <div style="overflow-x: auto;" id="appp">
 
                         <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
 
                             <thead>
                                 <tr>
-                                    <th>Data Class </th>
-                                    <th>Account No</th>
-                                    <th>Status </th>
-                                    <th>Document</th>
+                                    <th width="4%">SN</th>
+                                    <th width="20%">M Document Name</th>
+                                    <th>M Data Class </th>
+                                    <th>M Account No</th>
+                                    <th>M Product Type </th>
+                                    <th>M Product Branch </th>
+                                    <th>M CIF </th>
+                                    <th>M Status </th>
+                                    <th width="5.5%">Document</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="game in filteredGames" :key="game.DWDOCID">
-                                    <td>{{ game.datA_CLASS }}</td>
-                                    <td>{{ game.accounT_NO }}</td>
-                                    <td>{{ game.status }}</td>
-
-
-
+                                <tr v-for="(game,index) in filteredGames" :key="game.DWDOCID">                                 
+                                    <td style="font-size:14.5px">{{ getSerialNumber(index) }}</td>
+                                    <td style="font-size:14.5px">{{ game.documentName }}</td>
+                                    <td style="font-size:14.5px">{{ game.datA_CLASS }}</td>
+                                    <td style="font-size:14.5px">{{ game.accounT_NO }}</td>
+                                    <td style="font-size:14.5px">{{ game.productType }}</td>
+                                    <td style="font-size:14.5px">{{ game.branchCode }}</td>
+                                    <td style="font-size:14.5px">{{ game.cif }}</td>
+                                    <td style="font-size:14.5px">{{ game.status }}</td>
                                     <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=589317ba-3a03-43fb-b882-eac5682d5fa1&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
-
 @* 
                                     <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/Client/Document?did=' + game.dwdocid + '&fc=589317ba-3a03-43fb-b882-eac5682d5fa1&queryInInvariantCulture=False&intgParams=JmVwPThGTkRKZlhsRXA2eUdrX1FLdzVpdF9qbWFHMnJ0ZERSemh4M0E1MVQwNmVkZk9hSUsxY3BpVUNDR0hqVFNaS0tqYjIxMUZYZWd3a3hBRWZmMTJ5amJZQ1E0NFo4c0d4LVp5MFBWbi1BS0QzbG9fM1BsQ1E2N3lyVXZKSnBfMjhiMA2&_auth=r5l4a3aLzPCZEX3-d6wjClfgXc0IODDqidEJGjNXRtgN3flATRG026YOUnYI-BZardVrX-SEBxi9quCaVk3FCoTRZQkFovpL1n2cAqyIaIYzjlLf9YzyWFybdh1xneHxtuP-DymuZBzuK-D0bbkEvDITilFsvL5uYYZlVTM1the4jtjkI_6_vLJjS0aohax-qbtpwsz-X-wly0McYzwD6ymq32O37JSW-M82rArl5gFAMGqowsFAHVRkT4KFBrnFPcC763-b7pygdKanahVBrDA73bGnCBKA_7OrkN_S5zMVscZiOSopSEvfOi3MVwGwQlrmq_kmPRGvd-uHr-zzAEzH5oVjE8cIiBP8PD1ljXTZ6pEi0GH33NFgdGRnlt1GEgun41sf9IoHmHdjichIaAnPzIcOm3hSgQ6OJvnvft8HuCHTsYtommw44ES-1mwJs_MWSq-vi17JhvCg6kaq5z5nsxSPoyPdDIyVRCwQS2yBEYZDM5BoLT4_iBEtFF4TojX_lUQ_5QImiuL1h3kY_KvAE76ySYDrqKaTa7U9Hr5VpTP2ZGBYvFDo8TC9m_DYMhumMakheTbUY1flxtW-UsrJzOD-1v1shSCI7m-k_cI1')">View <i class="fa fa-angle-double-right"></i></button></td> *@
-
-
-
 
                                 </tr>
                             </tbody>
                         </table>
+
+
+                    
+
+
                     </div>
                 </div>
 
@@ -271,43 +342,56 @@
                         </div>
                         <div class="col-md-4">
                             <button v-on:click="exportToExcelPOC" class="btn btn-outline-info btn-sm">Excel</button>
-                            <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+                            <button id="downloadPdf" class="btn btn-outline-info btn-sm" onclick="convertHTMLtoPDFf()">PDF</button>
                             <button id="EamilSende" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
                         </div>
                     </div>
 
                     <div style="overflow-x: auto;">
 
-                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+                        <table class="table table-bordered table-striped" id="gameTablee" style="table-layout: fixed;">
 
                             <thead>
                                 <tr>
+                                    <th>SN</th>
+                                    <th>Document Name</th>
                                     <th>Data Class </th>
                                     <th>Account No </th>
+                                    <th>Product Type </th>
+                                    <th>Product Branch </th>
+                                    <th>CIF </th>
                                     <th>Status </th>
                                     <th>Document</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="game in filteredGames" :key="game.DWDOCID">
-                                    <td>{{ game.datA_CLASS }}</td>
-                                    <td>{{ game.accounT_NO }}</td>
-                                    <td>{{ game.status }}</td>
-                                    @* <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td> *@
+                                <tr v-for="(game,index) in filteredGames" :key="game.DWDOCID">
+                                    <td style="font-size:14.5px">{{ getSerialNumber(index) }}</td>
+                                    <td style="font-size:14.5px">{{ game.documenT_NAME }}</td>
+                                    <td style="font-size:14.5px">{{ game.datA_CLASS }}</td>
+                                    <td style="font-size:14.5px">{{ game.accounT_NO }}</td>
+                                    <td style="font-size:14.5px">{{ game.producT_TYPE }}</td>
+                                    <td style="font-size:14.5px">{{ game.branchCode }}</td>
+                                    <td style="font-size:14.5px">{{ game.cif }}</td>
+                                    <td style="font-size:14.5px">{{ game.status }}</td>
+                                    
 
-
+                                    @*For_Developer*@
 @*                                     <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=87581c95-04a4-424f-9b6b-825de0bad060&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td> *@
 
 
+                                    @*For_User*@
+                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
 
-
-                                   <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
-
-                                   
-                                    
                                 </tr>
                             </tbody>
                         </table>
+
+
+                      
+
+
+
                     </div>
                 </div>
             </div>
@@ -373,275 +457,74 @@
 
 @section scripts {
 
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    @*   <script src="~/js/dashboard.js"></script>
- *@
-
-    <script>
-
-        var app = new Vue({
-
-            el: '#vc_app',
-            data() {
-                return {
-                    selectedEblEmployee: 'admin@petersengineering.com',
-                    selectedPIEDepartment: '1',
-                    portalList: [],
-                    statusPopulate: [],
-                    EmployeeInfo: [],
-                    selectedCategory: '',
-                    selectedGameType: '0',
-                    selectedDepartment: '1',
-                    SelectDocClassType: 'Select From List',
-                    typeSelected: '',
-                    games: [],
-                    gateCategoryList: [],
-                    searchTerm: '',
-                    itemG: {},
-                    isActiveChecked: false,
-                    datatableOptions: {
-                        searching: true,
-                        paging: true,
-                        lengthChange: false,
-                        ordering: true,
-                        info: false,
-                        responsive: true,
-                    },
-                    filteredGames: [],
-                    PiE: [],
-                    BarChartZ: [],
-                    LineChart: [],
-                    dataa: [],
-                    selectedFile: null,
-                    xlsxLoaded: false,
-                    jsPDFLoaded: false,
-                    ListFromDate: null,
-                    ListToDate: null,
-                    graphFromDate: null,
-                    graphToDate: null
-                };
-            },
-
-            computed: {
-
-            },
-            methods: {
-
-                SendMain() {
-                    this.itemG = {};
-                    $('#mdl_game').modal('show');
-                },
-
-                exportToExcel() {
-                    if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
-                    const wb = XLSX.utils.book_new();
-                    const ws = XLSX.utils.json_to_sheet(this.filteredGames);
-                    XLSX.utils.book_append_sheet(wb, ws, 'People');
-                    XLSX.writeFile(wb, 'Eastern_Bank_PLC_Migration.xlsx');
-                },
-
-                exportToExcelPOC() {
-                    if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
-                    const wb = XLSX.utils.book_new();
-                    const ws = XLSX.utils.json_to_sheet(this.filteredGames);
-                    XLSX.utils.book_append_sheet(wb, ws, 'People');
-                    XLSX.writeFile(wb, 'Eastern_Bank_PLC_POC.xlsx');
-                },
-
-                Onchange() {
-
-                    if (this.selectedDepartment == "1") {
-
-                        $('#lblDataClass').text('M Data Class');
-                        $('#lblStatus').text('M Status');
-                        // Data Class Populate
-                        helper.get('api/EBL_Migration/EblDataClassPopulate',
-                            { DepartmentId: this.selectedDepartment },
-                            (response) => {
-                                this.filteredGames = [];
-                                this.portalList = [];
-                                this.portalList = response;
-                                this.SelectDocClassType = 'Select From List'
-                            });
-
-                        // Status Populate
-                        helper.get('api/EBL_Migration/EblStatusPopulate',
-                            { DepartmentId: this.selectedDepartment },
-                            (response) => {
-                                this.filteredGames = [];
-                                this.statusPopulate = [];
-                                this.statusPopulate = response;
-                                this.selectedGameType = '0'
-                                // console.log(response);
-                            });
-                    }
-                    if (this.selectedDepartment == "2") {
-
-                        $('#lblDataClass').text('Data Class');
-                        $('#lblStatus').text('Status');
-                        // Data Class Populate
-                        helper.get('api/EBL_Migration/EblDataClassPopulate',
-                            { DepartmentId: this.selectedDepartment },
-                            (response) => {
-                                this.filteredGames = [];
-                                this.portalList = [];
-                                this.portalList = response;
-                                this.SelectDocClassType = 'Select From List'
-                            });
-
-                        // Status Populate
-                        helper.get('api/EBL_Migration/EblStatusPopulate',
-                            { DepartmentId: this.selectedDepartment },
-                            (response) => {
-                                this.filteredGames = [];
-                                this.statusPopulate = [];
-                                this.statusPopulate = response;
-                                this.selectedGameType = '0'
-                            });
-                    }
-                },
-
-                GetEmployeeMailInfo() {
-                    helper.get('api/EBLLogin/EBLEmployeeInfo',
-                        {},
-                        (response) => {
-                            this.EmployeeInfo = [];
-                            this.EmployeeInfo = response;
-
-                        });
-                },
-
-             
-
-                getData() {
-
-                    const DepartmetId = this.selectedDepartment;
-                    const gameTypeId = this.selectedGameType;
-                    const DepartmentId = this.selectedDepartment;
-                    const DocClass = this.SelectDocClassType;
-                    const fromdate = this.ListFromDate;
-                    const todate = this.ListToDate;
-                    if (DepartmetId == 1) {
-
-                        helper.get('api/EBL_Migration/MigrationList',
-                            { DocClass: DocClass, status: gameTypeId, FromDate: fromdate, Todate: todate },
-                            (response) => {
-
-                                this.filteredGames = [];
-                                this.filteredGames = response;
-                                
-
-                            });
-                    }
-
-                    if (DepartmetId == 2) {
-
-                        helper.get('api/EBL_Migration/EBLPOCList',
-                            { DocClass: DocClass, status: gameTypeId, FromDate: fromdate, Todate: todate },
-                            (response) => {
-                                this.filteredGames = [];
-                                this.filteredGames = response;
 
 
-                            });
-                    }
-                },
-
-                sendTableDataToBackend() {
-
-                    if (this.filteredGames == null || this.filteredGames == "undefined" || this.filteredGames == "") {
-
-                        $.notify("There is no data in the list below", 'error');
-                        $('#mdl_game').modal('hide');
-
-                    } else {
-
-                        var jsonData = {};
-
-                        jsonData["MyProperty"] = this.selectedEblEmployee
-
-                        var jsonObjs = [];
-
-                        $.each(this.filteredGames, function (index, filteredGames) {
-
-                            var theObj = {};
-                            // Access properties of each JSON object
-                            var dataClass = filteredGames.datA_CLASS;
-                            var Account = filteredGames.accounT_NO;
-                            var status = filteredGames.status;
-                            var Date = filteredGames.dwstoredatetime;
-
-                            theObj["M_DATA_CLASS"] = dataClass;
-                            theObj["M_ACCOUNT_NO"] = Account;
-                            theObj["STATUS"] = status;
-                            theObj["DWSTOREDATETIME"] = Date;
-
-                            jsonObjs.push(theObj);
-                            jsonData["mailBodies"] = jsonObjs;
-
-                        });
-
-                        $.ajax({
-                            url: '/login/Mailsend',
-                            type: 'POST',
-                            data: {
-                                jsonData: jsonData
-                            },
-                            beforeSend: function () {
-                                $('#btn_mail').prop('disabled', true);
-                            },
-                            success: function (response) {
-
-                                if (response.success) {
-                                    $('#btn_mail').prop('disabled', false);
-                                    $('#mdl_game').modal('hide');
-                                    $.notify(response.message, 'success');
-                                } else {
-                                    $('#btn_mail').prop('disabled', false);
-                                    $.notify(response.message, 'error');
-                                }
-                            },
-                            Complete: function () {
-
-                                $('#btn_mail').prop('disabled', false);
-                            }
-                        });
-                    }
-                },
-
-
-                openUrl(url) {
-                    window.open(url, '_blank');
-                }
-
-            },
-            mounted() {
-                //  this.getData();
-
-                helper.blockUI();
-                helper.unBlockUI();
-
-                // this.getData();
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';
-                script.onload = () => {
-                    this.xlsxLoaded = true; // Set flag to true when script is loaded
-                };
-                document.head.appendChild(script);
-
-                this.Onchange();
-                this.GetEmployeeMailInfo();
-            },
-
-        });
-
-
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
+    <script type="text/javascript">
+        function convertHTMLtoPDF() {
+            const { jsPDF } = window.jspdf;
+
+            let doc = new jsPDF('l', 'mm', [1450, 1350]);
+            let pdfjs = document.querySelector('#gameTable');
+
+            let rows = pdfjs.querySelectorAll('tr');
+
+            // rows.forEach(row => {
+            //     row.deleteCell(8); // Index 1 is the second column
+            // });
+    
+            doc.html(pdfjs, {
+                callback: function (doc) {
+                    doc.save("EblMigration.pdf");
+                },
+                x: 7,
+                y: 7
+            });
+                 
+        }
+
+        function convertHTMLtoPDFf() {
+
+            const { jsPDF } = window.jspdf;
+
+            let doc = new jsPDF('l', 'mm', [1450, 1350]);
+            let pdfjs = document.querySelector('#gameTablee');
+
+            let rows = pdfjs.querySelectorAll('tr');
+       
+            doc.html(pdfjs, {
+                callback: function (doc) {
+                    doc.save("EblPOC.pdf");
+                },
+                x: 7,
+                y: 7
+            });
+           
+        }
+
+     
+    </script>
+
+    <script src="~/js/report.js"></script>
 
 }

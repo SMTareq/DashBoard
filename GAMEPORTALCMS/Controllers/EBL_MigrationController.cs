@@ -1,11 +1,13 @@
 ﻿using GAMEPORTALCMS.Data;
 using GAMEPORTALCMS.Models.DTO;
+using GAMEPORTALCMS.Models.Entity;
 using GAMEPORTALCMS.Models.Response;
 using GAMEPORTALCMS.Repository.Implementation;
 using iRely.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Twilio;
 
 namespace GAMEPORTALCMS.Controllers
 {
@@ -25,11 +27,12 @@ namespace GAMEPORTALCMS.Controllers
 
         #region ListView
         [HttpGet("MigrationList")]
-        public IActionResult GetEBL_MigrationList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
+        public IActionResult GetEBL_MigrationList(string? AccountNo, string? status, DateTime? FromDate, DateTime? Todate, string ProductBranch, string? ProductType, string? CIF)
         {
+
             try
             {
-                var data = eBL_Migration.GetEBLMigrationData(DocClass, status, FromDate, Todate);
+                var data = eBL_Migration.GetEBLMigrationData(AccountNo, status, FromDate, Todate, ProductBranch, ProductType, CIF);
                 return Ok(data);
             }
             catch (Exception e)
@@ -53,11 +56,11 @@ namespace GAMEPORTALCMS.Controllers
         //}
 
         [HttpGet("EBLPOCList")]
-        public IActionResult GetEBL_POCList(string? DocClass, string? status, DateTime? FromDate, DateTime? Todate)
+        public IActionResult GetEBL_POCList(string? AccountNo, string? status, DateTime? FromDate, DateTime? Todate, string ProductBranch, string? ProductType, string? CIF)
         {
             try
             {
-                var data = eBL_Migration.GetEblPocData(DocClass, status, FromDate, Todate);
+                var data = eBL_Migration.GetEblPocData(AccountNo, status, FromDate, Todate, ProductBranch, ProductType, CIF);
                 return Ok(data);
             }
             catch (Exception e)
@@ -69,6 +72,7 @@ namespace GAMEPORTALCMS.Controllers
         #endregion
 
         #region Polulate
+
         //[HttpGet("EblDataClassPopulate")]
         //public async Task<IActionResult> GetEBL_DataClassPopulateList(string? DepartmentId)
         //{
@@ -83,12 +87,12 @@ namespace GAMEPORTALCMS.Controllers
         //    }
         //}
 
-        [HttpGet("EblDataClassPopulate")]
-        public IActionResult GetEBL_DataClassPopulateList(string? DepartmentId)
+        [HttpGet("EblProductTypePopulate")]
+        public IActionResult GetEBL_ProductTypePopulateList(string? DepartmentId)
         {
             try
             {
-                var data = eBL_Migration.GetEblDataClassLoadSync(DepartmentId); // Call synchronous method
+                var data = eBL_Migration.GetEblProductTypeLoadSync(DepartmentId); // Call synchronous method
                 return Ok(data);
             }
             catch (Exception e)
@@ -96,6 +100,65 @@ namespace GAMEPORTALCMS.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("EblAccountNoPopulate")]
+        public IActionResult GetEBL_AccountNoPopulateList(string? DepartmentId)
+        {
+            try
+            {
+                var data = eBL_Migration.GetEblAccountNoLoadSync(DepartmentId); // Call synchronous method
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet("EblBranchCodePopulate")]
+        public IActionResult GetEBL_BranchCodePopulateList(string? DepartmentId)
+        {
+            try
+            {
+                var data = eBL_Migration.GetEblBrachCodeLoadSync(DepartmentId); // Call synchronous method
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet("EblCIFPopulate")]
+        public IActionResult GetEBL_CIFPopulateList(string? DepartmentId)
+        {
+            try
+            {
+                var data = eBL_Migration.GetEblCIFLoadSync(DepartmentId); // Call synchronous method
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        //[HttpGet("EblDataClassPopulate")]
+        //public IActionResult GetEBL_DataClassPopulateList(string? DepartmentId)
+        //{
+        //    try
+        //    {
+        //        var data = eBL_Migration.GetEblDataClassLoadSync(DepartmentId); // Call synchronous method
+        //        return Ok(data);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(e.Message);
+        //    }
+        //}
 
         [HttpGet("EblStatusPopulate")]
         public IActionResult GetEBL_StatusPopulateList(string? DepartmentId)

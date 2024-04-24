@@ -4,7 +4,7 @@ namespace GAMEPORTALCMS.Models.Entity
 {
 
     [Table("EBL_POC", Schema = "dbo")]
-   // [Table("_EBL_POC", Schema = "dbo")]
+    //[Table("_EBL_POC", Schema = "dbo")]
     public class _EBL_POC
     {   
             public int DWDOCID { get; set; }
@@ -17,7 +17,7 @@ namespace GAMEPORTALCMS.Models.Entity
             public string? M_CREATED_DATE { get; set; }
             public string? DATA_CLASS { get; set; }
             public string? CIF { get; set; }
-
+        public string? USER { get; set; }
         public string? WF_CREATOR { get; set; }
         public string? WF_CREATOR_COMMENTS { get; set; }
         public string? WF_MAKER { get; set; }
@@ -26,6 +26,7 @@ namespace GAMEPORTALCMS.Models.Entity
         public string? WF_CHECKER_COMMENTS { get; set; }
         public string? WF_MANAGER { get; set; }
         public string? WF_MANAGER_COMMENTS { get; set; }
-     
+        public string? BRANCH_CODE { get; set; }
+
     }
 }

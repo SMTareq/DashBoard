@@ -3,19 +3,29 @@
     el: '#vc_app',
     data() {
         return {
-            EblMigra_Category: true,
-            EblPoc_Category: false,
             selectedEblEmployee: 'admin@petersengineering.com',
             selectedPIEDepartment: '1',
             portalList: [],
             statusPopulate: [],
             EmployeeInfo: [],
+
             selectedCategory: '',
             selectedGameType: '0',
+
             selectedDepartment: '1',
             SelectDocClassType: 'Select From List',
+
+            SelectAccountNo: '',
+            SelectProductBranch: '',
+            SelectCIF: '',
+            SelectProductType: '',
+
+            ProductTypePopulate: [],
+            CIFList: [],
+            AccountNoPopulate: [],
+
             typeSelected: '',
-            games: [],
+
             gateCategoryList: [],
             searchTerm: '',
             itemG: {},
@@ -42,11 +52,33 @@
             graphToDate: null
         };
     },
-
     computed: {
 
     },
     methods: {
+
+        exportToPDF() {
+            // Options for the PDF export
+            const options = {
+                filename: 'people.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {},
+                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+            };
+
+            // Perform the PDF export
+            this.$htmlToPdf.convert('#appp', options);
+
+
+            // const doc = new jsPDF({
+            //     orientation: "landscape",
+            //     unit: "in",
+            //     format: [4, 2]
+            // });
+
+            // doc.text("Hello world!", 1, 1);
+            // doc.save("two-by-four.pdf");
+        },
 
         SendMain() {
             this.itemG = {};
@@ -69,32 +101,55 @@
             XLSX.writeFile(wb, 'Eastern_Bank_PLC_POC.xlsx');
         },
 
-        OnchangeGraph() {
-            if (this.selectedPIEDepartment == "1") {
-
-                this.EblMigra_Category = true;
-                this.EblPoc_Category = false;
-
-            } else {
-                this.EblMigra_Category = false;
-                this.EblPoc_Category = true;
-            }
-        },
-
         Onchange() {
 
             if (this.selectedDepartment == "1") {
 
-                $('#lblDataClass').text('M Data Class');
+                $('#lblAccountNo').text('M Account No');
+                $('#lblProductType').text('M Product Type');
+                $('#lblProductBranch').text('M Product Branch');
+                $('#lblCIF').text('M CIF');
                 $('#lblStatus').text('M Status');
+
+                // Document Name Populate
+                helper.get('api/EBL_Migration/EblAccountNoPopulate',
+                    { DepartmentId: this.selectedDepartment },
+                    (response) => {
+                        this.filteredGames = [];
+                        this.AccountNoPopulate = [];
+                        this.AccountNoPopulate = response;
+                        this.SelectAccountNo = 'Select From List'
+                    });
+
+                // Product Type Populate
+                helper.get('api/EBL_Migration/EblProductTypePopulate',
+                    { DepartmentId: this.selectedDepartment },
+                    (response) => {
+                        this.filteredGames = [];
+                        this.ProductTypePopulate = [];
+                        this.ProductTypePopulate = response;
+                        this.SelectProductType = 'Select From List'
+                    });
+
                 // Data Class Populate
-                helper.get('api/EBL_Migration/EblDataClassPopulate',
+                helper.get('api/EBL_Migration/EblBranchCodePopulate',
                     { DepartmentId: this.selectedDepartment },
                     (response) => {
                         this.filteredGames = [];
                         this.portalList = [];
                         this.portalList = response;
-                        this.SelectDocClassType = 'Select From List'
+                        this.SelectProductBranch = 'Select From List'
+                    });
+
+                // Status Populate
+                helper.get('api/EBL_Migration/EblCIFPopulate',
+                    { DepartmentId: this.selectedDepartment },
+                    (response) => {
+                        this.filteredGames = [];
+                        this.CIFList = [];
+                        this.CIFList = response;
+                        this.SelectCIF = 'Select From List'
+                        // console.log(response);
                     });
 
                 // Status Populate
@@ -110,16 +165,51 @@
             }
             if (this.selectedDepartment == "2") {
 
-                $('#lblDataClass').text('Data Class');
+                $('#lblAccountNo').text('Account No');
+                $('#lblProductType').text('Product Type');
+                $('#lblProductBranch').text('Product Branch');
+                $('#lblCIF').text('CIF');
                 $('#lblStatus').text('Status');
+
+                // Document Name Populate
+                helper.get('api/EBL_Migration/EblAccountNoPopulate',
+                    { DepartmentId: this.selectedDepartment },
+                    (response) => {
+                        this.filteredGames = [];
+                        this.AccountNoPopulate = [];
+                        this.AccountNoPopulate = response;
+                        this.SelectAccountNo = 'Select From List'
+                    });
+
                 // Data Class Populate
-                helper.get('api/EBL_Migration/EblDataClassPopulate',
+                helper.get('api/EBL_Migration/EblBranchCodePopulate',
                     { DepartmentId: this.selectedDepartment },
                     (response) => {
                         this.filteredGames = [];
                         this.portalList = [];
                         this.portalList = response;
-                        this.SelectDocClassType = 'Select From List'
+                        this.SelectProductBranch = 'Select From List'
+                    });
+
+                // Product Type Populate
+                helper.get('api/EBL_Migration/EblProductTypePopulate',
+                    { DepartmentId: this.selectedDepartment },
+                    (response) => {
+                        this.filteredGames = [];
+                        this.ProductTypePopulate = [];
+                        this.ProductTypePopulate = response;
+                        this.SelectProductType = 'Select From List'
+                    });
+
+                // Status Populate
+                helper.get('api/EBL_Migration/EblCIFPopulate',
+                    { DepartmentId: this.selectedDepartment },
+                    (response) => {
+                        this.filteredGames = [];
+                        this.CIFList = [];
+                        this.CIFList = response;
+                        this.SelectCIF = 'Select From List'
+                        // console.log(response);
                     });
 
                 // Status Populate
@@ -144,146 +234,57 @@
                 });
         },
 
-        getDta() {
-
-            PieDepartment = this.selectedPIEDepartment;
-            CategoryType = this.selectedCategory;
-            const gFromDate = this.graphFromDate;
-            const gTodate = this.graphToDate;
-
-            if (CategoryType == null || CategoryType == "undefined" || CategoryType == "") {
-
-                $.notify("Please Select Category", 'error');
-                // alert("Please Select Category");
-
-            } else {
-
-                helper.get('api/EBL_Migration/PIEChart',
-                    { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
-                    (response) => {
-                        this.PiE = [];
-                        this.PiE = response;
-
-                        Highcharts.chart('container', {
-                            chart: {
-                                type: 'pie'
-                            },
-                            title: {
-                                text: '',
-                                align: 'left'
-                            },
-                            tooltip: {
-                                valueSuffix: '%'
-                            },
-
-                            plotOptions: {
-                                series: {
-                                    allowPointSelect: true,
-                                    cursor: 'pointer',
-                                    dataLabels: [{
-                                        enabled: true,
-                                        distance: 20
-                                    }, {
-                                        enabled: true,
-                                        distance: -40,
-                                        format: '{point.percentage:.1f}%',
-                                        style: {
-                                            fontSize: '1.2em',
-                                            textOutline: 'none',
-                                            opacity: 0.7
-                                        },
-                                        filter: {
-                                            operator: '>',
-                                            property: 'percentage',
-                                            value: 10
-                                        }
-                                    }]
-                                }
-                            },
-                            series: [
-                                {
-                                    name: 'Percentage',
-                                    colorByPoint: true,
-                                    data: this.PiE
-                                }
-                            ]
-                        });
-
-                    });
-
-                helper.get('api/EBL_Migration/BarChartForDashBoard',
-                    { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
-                    (response) => {
-                        this.BarChartZ = [];
-                        this.BarChartZ = response;
-
-                        Highcharts.chart('container_', {
-                            chart: {
-                                type: 'column'
-                            },
-                            title: {
-                                text: '',
-                                align: 'left'
-                            },
-                            xAxis: {
-                                categories: [],
-                                crosshair: true,
-                                accessibility: {
-                                    description: 'Countries'
-                                }
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: ''
-                                }
-                            },
-                            tooltip: {
-                                valueSuffix: ' '
-                            },
-                            plotOptions: {
-                                column: {
-                                    pointPadding: 0.2,
-                                    borderWidth: 0
-                                }
-                            },
-                            series: this.BarChartZ
-                        });
-
-                    });
-            }
-
-        },
-
         getData() {
 
-            const DepartmetId = this.selectedDepartment;
-            const gameTypeId = this.selectedGameType;
-            const DepartmentId = this.selectedDepartment;
-            const DocClass = this.SelectDocClassType;
+            const DepartmentId = $("#DepartmentId").val();
+            // const gameTypeId = this.selectedGameType;
+            const gameTypeId = $("#Status").val();
+
+            const AccountNo = $("#Acc").val();
             const fromdate = this.ListFromDate;
             const todate = this.ListToDate;
-            if (DepartmetId == 1) {
+
+            // const ProductBranch = this.SelectProductBranch;
+            // const ProductType = this.SelectProductType;
+            const ProductBranch = $("#ProductBranch").val();
+            const ProductType = $("#ProductType").val();
+
+            // const CIF = this.SelectCIF;
+            const CIF = $("#CIF").val();
+
+            if (DepartmentId == 1) {
 
                 helper.get('api/EBL_Migration/MigrationList',
-                    { DocClass: DocClass, status: gameTypeId, FromDate: fromdate, Todate: todate },
+                    { AccountNo: AccountNo, status: gameTypeId, FromDate: fromdate, Todate: todate, ProductBranch: ProductBranch, ProductType: ProductType, CIF: CIF },
                     (response) => {
 
                         this.filteredGames = [];
                         this.filteredGames = response;
 
+                        this.selectedDepartment = DepartmentId;
+                        this.SelectAccountNo = AccountNo;
+                        this.SelectProductType = ProductType;
+                        this.SelectProductBranch = ProductBranch;
+                        this.SelectCIF = CIF;
+                        this.selectedGameType = gameTypeId
 
                     });
             }
 
-            if (DepartmetId == 2) {
+            if (DepartmentId == 2) {
 
                 helper.get('api/EBL_Migration/EBLPOCList',
-                    { DocClass: DocClass, status: gameTypeId, FromDate: fromdate, Todate: todate },
+                    { AccountNo: AccountNo, status: gameTypeId, FromDate: fromdate, Todate: todate, ProductBranch: ProductBranch, ProductType: ProductType, CIF: CIF },
                     (response) => {
                         this.filteredGames = [];
                         this.filteredGames = response;
 
+                        this.selectedDepartment = DepartmentId;
+                        this.SelectAccountNo = AccountNo;
+                        this.SelectProductType = ProductType;
+                        this.SelectProductBranch = ProductBranch;
+                        this.SelectCIF = CIF;
+                        this.selectedGameType = gameTypeId
 
                     });
             }
@@ -353,15 +354,28 @@
 
         openUrl(url) {
             window.open(url, '_blank');
-        }
+        },
+
+        getSerialNumber(index) {
+            // Add 1 to the index since indexing usually starts from 0
+            return index + 1;
+        },
+
     },
     mounted() {
-        //  this.getData();
 
         helper.blockUI();
-        helper.unBlockUI();
 
-        // this.getData();
+        // this.$nextTick(() => {
+
+        //     console.log("USb");
+        //     $('#gameTable').DataTable();
+        // });
+
+        this.$nextTick(() => {
+            $('.select2').select2();
+        });
+        //excel loading
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';
         script.onload = () => {
@@ -369,8 +383,10 @@
         };
         document.head.appendChild(script);
 
-        //  this.Onchange();
+        this.Onchange();
         this.GetEmployeeMailInfo();
+        helper.unBlockUI();
+
     },
 
 });

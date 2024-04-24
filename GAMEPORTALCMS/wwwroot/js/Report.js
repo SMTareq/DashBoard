@@ -103,6 +103,8 @@
 
         Onchange() {
 
+           // const DeptId = $("#DepartmentId").val();
+
             if (this.selectedDepartment == "1") {
 
                 $('#lblAccountNo').text('M Account No');

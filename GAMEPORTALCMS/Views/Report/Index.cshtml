@@ -174,13 +174,13 @@
 
                     <div class="button-container">
 
-                        <div class="input-group input-group-sm" style="width: 1585px; margin-left: 1px;">
+                        <div class="input-group input-group-sm" style="width:1585px; margin-left: 1px;">
 
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="" style="font-weight: bold;">Department</label>
                             </div>
 
-                            <select class="custom-select select2" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
+                            <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
                                 <option value="1">EBL Migration</option>
                                 <option value="2">EBL POC</option>
                             </select>
@@ -457,20 +457,16 @@
 
 @section scripts {
 
-
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
     </script>
-
-
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.js"></script>

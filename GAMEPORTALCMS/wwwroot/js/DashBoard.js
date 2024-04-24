@@ -202,7 +202,7 @@
                             },
                             series: [
                                 {
-                                    name: 'Percentage',
+                                    name: 'percentage',
                                     colorByPoint: true,
                                     data: this.PiE
                                 }
@@ -271,8 +271,6 @@
 
                         this.filteredGames = [];
                         this.filteredGames = response;
-
-
                     });
             }
 
@@ -283,8 +281,6 @@
                     (response) => {
                         this.filteredGames = [];
                         this.filteredGames = response;
-
-
                     });
             }
         },
@@ -303,7 +299,6 @@
                 jsonData["MyProperty"] = this.selectedEblEmployee
 
                 var jsonObjs = [];
-
                 $.each(this.filteredGames, function (index, filteredGames) {
 
                     var theObj = {};

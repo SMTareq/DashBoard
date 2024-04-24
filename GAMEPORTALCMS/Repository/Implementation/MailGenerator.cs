@@ -121,7 +121,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 worksheet.Cells[1, 1].Value = "Data Class";
                 worksheet.Cells[1, 2].Value = "Account No";
                 worksheet.Cells[1, 3].Value = "Status";
-
                 worksheet.Cells[1, 4].Value = "DW STORE DATETIME";
 
                 // Populate data

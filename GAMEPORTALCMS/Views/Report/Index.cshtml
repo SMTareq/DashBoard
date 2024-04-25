@@ -153,7 +153,7 @@
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         padding-left: 0;
         height: auto;
-        margin-top: -8px !important;
+        margin-top: -9px !important;
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
@@ -174,13 +174,13 @@
 
                     <div class="button-container">
 
-                        <div class="input-group input-group-sm" style="width:1585px; margin-left: 1px;">
+                        <div class="input-group input-group-sm" style="width:1550px; margin-left: 1px;">
 
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="" style="font-weight: bold;">Department</label>
                             </div>
 
-                            <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
+                            <select class="custom-select" id="DepartmentId" v-model="selectedDepartment"  @@change="Onchange()">
                                 <option value="1">EBL Migration</option>
                                 <option value="2">EBL POC</option>
                             </select>
@@ -189,7 +189,7 @@
                                 <label class="input-group-text" id="lblAccountNo" for="" style="font-weight: bold;">M Account No </label>
                             </div>
 
-                            <select v-model="SelectAccountNo"  class="custom-select select2" id="Acc">
+                            <select v-model="SelectAccountNo"  class="custom-select select2" id="Acc" style="width:18%">
                                 <option v-for="item in AccountNoPopulate" :key="item.datA_CLASS" :value="item.datA_CLASS">
                                     {{ item.datA_CLASS }}
                                 </option>
@@ -199,7 +199,7 @@
                                 <label class="input-group-text" id="lblProductType" for="" style="font-weight: bold;">M Product Type </label>
                             </div>
 
-                            <select v-model="SelectProductType"  class="custom-select select2" id="ProductType">
+                            <select v-model="SelectProductType" class="custom-select select2" id="ProductType" style="width:18%">
                                 <option v-for="item in ProductTypePopulate" :key="item.datA_CLASS" :value="item.datA_CLASS">
                                     {{ item.datA_CLASS }}
                                 </option>
@@ -209,13 +209,16 @@
                                 <label class="input-group-text" id="lblProductBranch" for="" style="font-weight: bold;">M Product Branch</label>
                             </div>
 
-                            <select v-model="SelectProductBranch" class="custom-select select2" id="ProductBranch">
+                            <select v-model="SelectProductBranch" class="custom-select select2" id="ProductBranch" style="width:18%">
                                 <option v-for="item in portalList" :key="item.datA_CLASS" :value="item.datA_CLASS">
                                     {{ item.datA_CLASS }}
                                 </option>
                             </select>
 
-                    
+                            <div class="row">
+                                <button type="button" class="btn btn-outline-info btn-sm" style="width:60px" @@Click="Onchange()">Reset</button>
+                            </div>
+
 
                         </div>
 
@@ -227,23 +230,23 @@
 
                     <div class="button-container">
 
-                        <div class="input-group input-group-sm" style="width: 1585px; margin-left: 1px;">
+                        <div class="input-group input-group-sm" style="width: 1550px; margin-left: 1px;">
                                        
                             <div class="input-group-prepend">
                                 <label class="input-group-text" id="lblCIF" for="" style="font-weight: bold;">M CIF </label>
                             </div>
 
-                            <select v-model="SelectCIF" class="custom-select select2" id="CIF">
+                            <select v-model="SelectCIF" class="custom-select select2" id="CIF" style="width:20%">
                                 <option v-for="item in CIFList" :key="item.datA_CLASS" :value="item.datA_CLASS">
                                     {{ item.datA_CLASS }}
                                 </option>
                             </select>
 
                             <div class="input-group-prepend">
-                                <label class="input-group-text " id="lblStatus" for="" style="font-weight: bold;">M Status</label>
+                                <label class="input-group-text" id="lblStatus" for="" style="font-weight: bold;">M Status</label>
                             </div>
 
-                            <select v-model="selectedGameType" class="custom-select select2" id="Status">
+                            <select v-model="selectedGameType" class="custom-select select2" id="Status" style="width:20%">
                                 <option value="0">Select Status</option>
                                 <option v-for="item in statusPopulate" :key="item.status" :value="item.status">
                                     {{ item.status }}
@@ -253,16 +256,16 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="" style="font-weight: bold;">From Date</label>
                             </div>
-                            <input type="date" class="form-control" placeholder="From Date" required v-model="ListFromDate">
+                            <input type="date" class="form-control" placeholder="From Date" required v-model="ListFromDate" style="width:18%">
 
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="" style="font-weight: bold;">To Date</label>
                             </div>
-                            <input type="date" class="form-control" placeholder="To Date" required v-model="ListToDate">
+                            <input type="date" class="form-control" placeholder="To Date" required v-model="ListToDate" style="width:18%">
 
 
                             <div class="row">
-                                <button type="button" class="btn btn-outline-info btn-sm" @@Click="getData()">Search</button>
+                                <button type="button" class="btn btn-outline-info btn-sm" style="width:60px" @@Click="getData()">Search</button>
                             </div>
 
                         </div>
@@ -326,11 +329,7 @@
                                 </tr>
                             </tbody>
                         </table>
-
-
-                    
-
-
+                  
                     </div>
                 </div>
 
@@ -375,10 +374,8 @@
                                     <td style="font-size:14.5px">{{ game.cif }}</td>
                                     <td style="font-size:14.5px">{{ game.status }}</td>
                                     
-
                                     @*For_Developer*@
 @*                                     <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=87581c95-04a4-424f-9b6b-825de0bad060&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td> *@
-
 
                                     @*For_User*@
                                     <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
@@ -386,12 +383,7 @@
                                 </tr>
                             </tbody>
                         </table>
-
-
-                      
-
-
-
+                     
                     </div>
                 </div>
             </div>
@@ -522,5 +514,8 @@
     </script>
 
     <script src="~/js/report.js"></script>
+
+
+   
 
 }

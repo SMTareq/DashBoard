@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
 
 namespace GAMEPORTALCMS.Models.Entity
 {
-
     //[Table("EBL_POC", Schema = "dbo")]
     [Table("_EBL_POC", Schema = "dbo")]
     public class _EBL_POC
-    {   
+    {
             public int DWDOCID { get; set; }
             public string? DWNAME { get; set; }
             public string? STATUS { get; set; }

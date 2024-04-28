@@ -94,7 +94,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                     }
                 }
                 return Task.FromResult(true);
-            }
+            } 
             catch (Exception ex)
             {
                 // Log the exception or handle it appropriately

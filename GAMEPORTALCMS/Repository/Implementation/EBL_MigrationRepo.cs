@@ -41,6 +41,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             List<EBL_MigrationDTO> gameInfos = new List<EBL_MigrationDTO>();
          
             IEnumerable<EBL_MigrationDTO> enumerableData =  from x in _dbContext.EBL_Migrations.DefaultIfEmpty()
+                                                           
                          orderby x.DWDOCID descending
                          select new EBL_MigrationDTO
                               {
@@ -110,7 +111,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             {        
                 predicate = CombinePredicates(predicate, x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
             }
-
+       
             enumerableData = enumerableData.Where(predicate);
 
             gameInfos = enumerableData.ToList();
@@ -118,7 +119,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
          
         }
-
 
         public List<EBLPOCDTO> GetEblProductTypeLoadSync(string? DepartmentId)
         {
@@ -330,9 +330,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
         }
 
-
-
-
         //Status Populate 
         public List<EBL_MigrationDTO> GetEblStatusLoadSync(string? DepartmentId)
         {
@@ -505,7 +502,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
         //    return gameInfos;
         //}
-
 
         public async Task<List<EBLPOCDTO>> GetEblDataClassLoada(string? DepartmentId)
         {
@@ -812,7 +808,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 gameInfos = result.ToList();
 
             }
-
 
             //New
             if (type == "MDOCUMENTNAME" && fromdate != null && todate != null)
@@ -1695,7 +1690,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
     }
 
-    internal class T
-    {
-    }
+    //internal class T
+    //{
+    //}
 }

@@ -291,7 +291,7 @@
                     });
             }
         },
-
+         
         sendTableDataToBackend() {
 
             if (this.filteredGames == null || this.filteredGames == "undefined" || this.filteredGames == "") {

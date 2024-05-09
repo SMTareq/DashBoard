@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Drag and Drop Table Columns with Excel Export</title>
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- xlsx library for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div id="app">
+
+        <div class="col-md-4"></div>
+
+        <div class="col-md-8">
+
+            <br />
+            @*  <button @@click="addColumn">Add Column</button> *@
+            <button @@click="exportToExcel">Export to Excel</button>
+            <br />
+           
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th v-for="(column, index) in columns" :key="index" draggable @@dragstart="dragStart(index)" @@dragover.prevent @@drop="drop(index)">
+                            {{ column }}
+                            <br />
+                            <span v-if="columns.length > 0" class="remove-button" @@click="removeColumn(index)">&#215;</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row, rowIndex) in data" :key="rowIndex">
+                        <td v-for="(column, colIndex) in columns" :key="colIndex" v-if="visibleColumns.includes(column)">
+                            {{ row[column] }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <span v-if="columns.length === 0">
+                <button @@click="reloadColumns">Reload</button>
+            </span>
+
+        </div>
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    columns: ['Name', 'Age', 'City', 'Country', 'Status'], // Initial columns
+                    data: [ // Sample data
+                        { Name: 'John', Age: 30, City: 'New York',Country:'USA',Status:'FO' },
+                        { Name: 'Alice', Age: 25, City: 'Los Angeles', Country: 'USA', Status: 'FO' },
+                        { Name: 'Bob', Age: 35, City: 'Chicago', Country: 'USA', Status: 'FO' }
+                    ],
+                    draggedIndex: null
+                };
+            },
+            computed: {
+                visibleColumns() {
+                    // Filter out columns that are not visible
+                    return this.columns.filter(column => this.isColumnVisible(column));
+                }
+            },
+            methods: {
+                dragStart(index) {
+                    this.draggedIndex = index;
+                },
+                drop(index) {
+                    const draggedColumn = this.columns[this.draggedIndex];
+                    this.columns.splice(this.draggedIndex, 1); // Remove from old position
+                    this.columns.splice(index, 0, draggedColumn); // Insert at new position
+                },
+                addColumn() {
+                    const newColumn = prompt('Enter column name:');
+                    if (newColumn) {
+                        this.columns.push(newColumn);
+                    }
+                },
+                removeColumn(index) {
+                    this.columns.splice(index, 1);
+                },
+                reloadColumns() {
+                    // Reset columns to initial state
+                    this.columns = ['Name', 'Age', 'City', 'Country', 'Status'];
+                },
+                isColumnVisible(column) {
+                    // Implement logic to determine if a column is visible or not
+                    // For now, assume all columns are visible
+                    return true;
+                },
+                exportToExcel() {
+                    // Filter data based on visible columns
+                    const filteredData = this.data.map(row => { 
+                        const filteredRow = {};
+                        this.visibleColumns.forEach(column => {
+                            filteredRow[column] = row[column];
+                        });
+                        return filteredRow;
+                    });
+
+                    // Create worksheet
+                    const ws = XLSX.utils.json_to_sheet(filteredData);
+
+                    // Create workbook
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+                    // Save workbook to file
+                    XLSX.writeFile(wb, 'exported_data.xlsx');
+                }
+            }
+        });
+    </script>
+
+    <style>
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .remove-button {
+            margin-left: 5px;
+            cursor: pointer;
+            color: red;
+        }
+    </style>
+</body>
+</html>

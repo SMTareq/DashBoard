@@ -350,8 +350,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
                                                              
                                                              ACCOUNT_NO = x.ACCOUNT_NO,
                                                              DATA_CLASS = x.DATA_CLASS,
-                                                             PRODUCT_TYPE = x.PRODUCT_TYPE,
-                                                             DOCUMENT_NAME = x.DOCUMENT_NAME,
+                                                             ProductType = x.PRODUCT_TYPE,
+                                                             DocumentName = x.DOCUMENT_NAME,
                                                              CIF = x.CIF,
                                                              BranchCode = x.BRANCH_CODE,
                                                              STATUS = x.STATUS,

@@ -293,11 +293,12 @@
                         </div>
                         <div class="col-md-4">
                             <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
-                            <button id="downloadPdf5" class="btn btn-outline-info btn-sm" onclick="convertHTMLtoPDF()">PDF</button>
+                            @* <button id="downloadPdf5" class="btn btn-outline-info btn-sm" onclick="convertHTMLtoPDF()">PDF</button> *@
+                            <button id="downloadPdf5" class="btn btn-outline-info btn-sm" @@click="exportToPDF()">PDF</button>
+                            
                             <button id="EamilSend" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
                         </div>
                     </div>
-
                     <div style="overflow-x: auto;" id="appp">
                  
                         <table class="table table-bordered table-striped" border="1">
@@ -344,7 +345,7 @@
                             <h4>EBL POC List</h4>
                         </div>
                         <div class="col-md-4">
-                            <button v-on:click="exportToExcelPOC" class="btn btn-outline-info btn-sm">Excel</button>
+                            <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
                             <button id="downloadPdf" class="btn btn-outline-info btn-sm" onclick="convertHTMLtoPDFf()">PDF</button>
                             <button id="EamilSende" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
                         </div>
@@ -625,25 +626,37 @@
             methods: {
 
                 exportToPDF() {
-                    // Options for the PDF export
-                    const options = {
-                        filename: 'people.pdf',
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: {},
-                        jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
-                    };
 
-                    // Perform the PDF export
-                    this.$htmlToPdf.convert('#appp', options);
+                    const { jsPDF } = window.jspdf;
 
-                    // const doc = new jsPDF({
-                    //     orientation: "landscape",
-                    //     unit: "in",
-                    //     format: [4, 2]
-                    // });
+                   // let doc = new jsPDF('l', 'mm', [1450, 1350]);
 
-                    // doc.text("Hello world!", 1, 1);
-                    // doc.save("two-by-four.pdf");
+                    const doc = new jsPDF();
+                    const table = document.querySelector('table');
+                    const columns = this.visibleColumns;
+                    const rows = [];
+
+                    // Add table headers
+                    const headers = columns.map(column => ({ title: column, dataKey: column }));
+                    rows.push(headers.reduce((acc, cur) => ({ ...acc, [cur.dataKey]: cur.title }), {}));
+
+                    // Add table rows
+                    this.filteredGames.forEach(row => {
+                        const rowData = {};
+                        columns.forEach(column => {
+                            rowData[column] = row[column];
+                        });
+                        rows.push(rowData);
+                    });
+
+                    // AutoTable plugin to generate table in PDF
+                    doc.autoTable({
+                        head: [headers],
+                        body: rows,
+                    });
+
+                    // Save PDF file
+                    doc.save('exported_data.pdf');
                 },
 
                 SendMain() {
@@ -852,6 +865,8 @@
                                 this.SelectCIF = CIF;
                                 this.selectedGameType = gameTypeId
 
+                                console.log(this.filteredGames);
+
                             });
                     }
                 },
@@ -975,6 +990,8 @@
                     // Save workbook to file
                     XLSX.writeFile(wb, 'exported_data.xlsx');
                 }
+
+              
             },
             mounted() {
 

@@ -35,90 +35,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             _dbContext = dbContext;
         }
 
-        public   List<EBL_MigrationDTO> GetEBLMigrationData(string? AccountNo, string? status, DateTime? FromDate, DateTime? Todate, string? ProductBranch, string? ProductType, string? CIF)
-        {
-            List<EBL_MigrationDTO> gameInfos = new List<EBL_MigrationDTO>();
-         
-            IEnumerable<EBL_MigrationDTO> enumerableData =  from x in _dbContext.EBL_Migrations.DefaultIfEmpty()
-                                                           
-                         orderby x.DWDOCID descending
-                         select new EBL_MigrationDTO
-                              {
-                                  DWDOCID = x.DWDOCID,
-                                  DATA_CLASS = x.M_DATA_CLASS,                
-                                  ACCOUNT_NO = x.M_ACCOUNT_NO,
-                                  DWSTOREDATETIME =x.DWSTOREDATETIME,
-                                  DocumentName = x.M_DOCUMENT_NAME,
-                                  ProductType = x.M_PRODUCT_TYPE,
-                                  CIF = x.M_CIF,
-                                  BranchCode = x.M_PRODUCT_BRANCH,
-
-                                  //DWSTOREDATETIME_con = x.DWSTOREDATETIME.ToString("U"),
-                                  STATUS = x.M_STATUS,
-                                 // DATA_CLASS=x.DATA_CLASS
-                              };
-
-            // Convert to IQueryable
-            IQueryable<EBL_MigrationDTO> queryableData = enumerableData.AsQueryable();
-
-            // Initial perameter
-            Func<EBL_MigrationDTO, bool> predicate = x => x.DWDOCID != null;
-
-            if (AccountNo == "Select From List")
-            {
-                AccountNo = null;
-            }
-            if(status == "0")
-            {
-                status = null;
-            }
-            if (ProductBranch == "Select From List")
-            {
-                ProductBranch = null;
-            }
-            if (ProductType == "Select From List")
-            {
-                ProductType = null;
-            }
-            
-            if (AccountNo != null)
-            {
-                predicate = CombinePredicates(predicate, x => x.ACCOUNT_NO == AccountNo);              
-            }
-
-            if (ProductBranch != null)
-            {
-                predicate = CombinePredicates(predicate, x => x.BranchCode == ProductBranch);
-            }
-
-            if (ProductType != null)
-            {
-                predicate = CombinePredicates(predicate, x => x.ProductType == ProductType);
-            }
-
-            if (CIF != "Select From List")
-            {
-                predicate = CombinePredicates(predicate, x => x.CIF == CIF);
-            }
-
-            if (status != null)
-            {              
-                predicate = CombinePredicates(predicate, x => x.STATUS == status);
-            }
-
-            if (FromDate != null && Todate != null)
-            {        
-                predicate = CombinePredicates(predicate, x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
-            }
        
-            enumerableData = enumerableData.Where(predicate);
-
-            gameInfos = enumerableData.ToList();
-                        
-            return gameInfos;
-         
-        }
-
         public List<EBLPOCDTO> GetEblProductTypeLoadSync(string? DepartmentId)
         {
             List<EBLPOCDTO> gameInfos = new List<EBLPOCDTO>();
@@ -243,7 +160,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
         }
 
-
         public List<EBLPOCDTO> GetEblDataClassLoadSync(string? DepartmentId)
         {
             List<EBLPOCDTO> gameInfos = new List<EBLPOCDTO>();
@@ -285,7 +201,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
             return gameInfos;
         }
-
 
         public List<EBLPOCDTO> GetEblCIFLoadSync(string? DepartmentId)
         {
@@ -374,25 +289,8 @@ namespace GAMEPORTALCMS.Repository.Implementation
         {
             List<EBLPOCDTO> gameInfos = new List<EBLPOCDTO>();
        
-            IEnumerable<EBLPOCDTO> enumerableData = from x in _dbContext._EBL_POCs.DefaultIfEmpty()
-                                                    orderby x.DWDOCID descending
-                                                    select new EBLPOCDTO
-                                                    {
-                                                        DWDOCID = x.DWDOCID,
-                                                        DWSTOREDATETIME = x.DWSTOREDATETIME,
-                                                        //DWSTOREDATETIME_ = x.DWSTOREDATETIME.ToString("f"),
-                                                        ACCOUNT_NO = x.ACCOUNT_NO,
-                                                        DATA_CLASS = x.DATA_CLASS,
-                                                        PRODUCT_TYPE = x.PRODUCT_TYPE,
-                                                        DOCUMENT_NAME = x.DOCUMENT_NAME,
-                                                        CIF = x.CIF,
-                                                        BranchCode = x.BRANCH_CODE,
-                                                        STATUS = x.STATUS,
-                                                    };
-            // Convert to IQueryable
-            IQueryable<EBLPOCDTO> queryableData = enumerableData.AsQueryable();
-
-            Func<EBLPOCDTO, bool> predicate = x => x.DWDOCID != null;
+  
+            Func<_EBL_POC, bool> predicate = x => x.DWDOCID != null;
 
             if (AccountNo == "Select From List")
             {
@@ -419,7 +317,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
             if (ProductBranch != null)
             {
-                predicate = CombinePredicates(predicate, x => x.BranchCode == ProductBranch);
+                predicate = CombinePredicates(predicate, x => x.BRANCH_CODE == ProductBranch);
             }
 
             if (ProductType != null)
@@ -440,12 +338,33 @@ namespace GAMEPORTALCMS.Repository.Implementation
             {
                 predicate = CombinePredicates(predicate, x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);   
             }
+            //
 
-            enumerableData = enumerableData.Where(predicate);
+            var enumerableData = _dbContext._EBL_POCs
+                                                         .AsEnumerable() // Evaluate the query locally
+                                                         .Where(predicate)
+                                                         .Select(x => new EBLPOCDTO
+                                                         {
+                                                             DWDOCID = x.DWDOCID,
+                                                             DWSTOREDATETIME = x.DWSTOREDATETIME,
+                                                             
+                                                             ACCOUNT_NO = x.ACCOUNT_NO,
+                                                             DATA_CLASS = x.DATA_CLASS,
+                                                             PRODUCT_TYPE = x.PRODUCT_TYPE,
+                                                             DOCUMENT_NAME = x.DOCUMENT_NAME,
+                                                             CIF = x.CIF,
+                                                             BranchCode = x.BRANCH_CODE,
+                                                             STATUS = x.STATUS,
+                                                             
+                                                         })
+                                                         .OrderByDescending(x => x.DWDOCID);
 
             gameInfos = enumerableData.ToList();
 
             return gameInfos;
+
+            //
+         
         }
 
         public static Func<T, bool> CombinePredicates<T>(Func<T, bool> predicate1, Func<T, bool> predicate2)
@@ -921,7 +840,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
             return gameInfos;
         }
 
-
         //EBL_POC Pie Chart
         public List<PieChartDTO> GetPieChart_EBl_POCList_Sync(string type, DateTime? fromdate, DateTime? todate)
         {
@@ -1174,7 +1092,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
             }
             return gameInfos;
         }
-
 
         #endregion
 
@@ -1687,6 +1604,85 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
         #endregion
 
+        public List<EBL_MigrationDTO> GetEBLMigrationData(string? AccountNo, string? status, DateTime? FromDate, DateTime? Todate, string? ProductBranch, string? ProductType, string? CIF)
+        {
+            List<EBL_MigrationDTO> gameInfos = new List<EBL_MigrationDTO>();
+  
+            Func<EBL_Migration, bool> predicate = x => x.DWDOCID != null;
+
+            if (AccountNo == "Select From List")
+            {
+                AccountNo = null;
+            }
+            if (status == "0")
+            {
+                status = null;
+            }
+            if (ProductBranch == "Select From List")
+            {
+                ProductBranch = null;
+            }
+            if (ProductType == "Select From List")
+            {
+                ProductType = null;
+            }
+
+            if (AccountNo != null)
+            {
+                predicate = CombinePredicates(predicate, x => x.M_ACCOUNT_NO == AccountNo);
+            }
+
+            if (ProductBranch != null)
+            {
+                predicate = CombinePredicates(predicate, x => x.M_PRODUCT_BRANCH == ProductBranch);
+            }
+
+            if (ProductType != null)
+            {
+                predicate = CombinePredicates(predicate, x => x.M_PRODUCT_TYPE == ProductType);
+            }
+
+            if (CIF != "Select From List")
+            {
+                predicate = CombinePredicates(predicate, x => x.M_CIF == CIF);
+            }
+
+            if (status != null)
+            {
+                predicate = CombinePredicates(predicate, x => x.STATUS == status);
+            }
+
+            if (FromDate != null && Todate != null)
+            {
+                predicate = CombinePredicates(predicate, x => x.DWSTOREDATETIME >= FromDate && x.DWSTOREDATETIME <= Todate);
+            }
+
+           // enumerableData = enumerableData.Where(predicate);
+
+            var enumerableData =  _dbContext.EBL_Migrations                                                          
+                                                            .AsEnumerable() // Evaluate the query locally
+                                                            .Where(predicate)
+                                                            .Select (x=> new EBL_MigrationDTO
+                                                            {
+                                                                DWDOCID = x.DWDOCID,
+                                                                DATA_CLASS = x.M_DATA_CLASS,
+                                                                ACCOUNT_NO = x.M_ACCOUNT_NO,
+                                                                DWSTOREDATETIME = x.DWSTOREDATETIME,
+                                                                DocumentName = x.M_DOCUMENT_NAME,
+                                                                ProductType = x.M_PRODUCT_TYPE,
+                                                                CIF = x.M_CIF,
+                                                                BranchCode = x.M_PRODUCT_BRANCH,
+                                                                //DWSTOREDATETIME_con = x.DWSTOREDATETIME.ToString("U"),
+                                                                STATUS = x.M_STATUS,
+                                                                // DATA_CLASS=x.DATA_CLASS
+                                                            })
+                                                            .OrderByDescending(x => x.DWDOCID);
+ 
+            gameInfos = enumerableData.ToList();
+
+            return gameInfos;
+
+        }
     }
 
     //internal class T

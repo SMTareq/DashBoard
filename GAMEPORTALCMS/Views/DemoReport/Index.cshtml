@@ -1,0 +1,1026 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 360px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 310px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    #container {
+        height: 400px;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    input[type="number"] {
+        min-width: 50px;
+    }
+
+    .select2-container .select2-selection--single {
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        height: 31px !important;
+        user-select: none;
+        text-align: center !important;
+        -webkit-user-select: none
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding-left: 0;
+        height: auto;
+        margin-top: -9px !important;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: floralwhite !important;
+    }
+
+</style>
+
+<div id="vc_app">
+    <div class="container-fluid p-3">
+        <h6 class="dashboard-mytitle"><i class="fa fa-arrows-alt" aria-hidden="true"></i> Report</h6>
+        <hr />
+        <div class="card mt-2" v-cloak>
+
+            <div class="card-body">
+
+                <div class="col-12">
+
+                    <div class="button-container">
+
+                        <div class="input-group input-group-sm" style="width:1550px; margin-left: 1px;">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="" style="font-weight: bold;">Department</label>
+                            </div>
+
+                            <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
+                                <option value="1">EBL Migration</option>
+                                <option value="2">EBL POC</option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblAccountNo" for="" style="font-weight: bold;">M Account No </label>
+                            </div>
+
+                            <select v-model="SelectAccountNo" class="custom-select select2" id="Acc" style="width:18%">
+                                <option v-for="item in AccountNoPopulate" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblProductType" for="" style="font-weight: bold;">M Product Type </label>
+                            </div>
+
+                            <select v-model="SelectProductType" class="custom-select select2" id="ProductType" style="width:18%">
+                                <option v-for="item in ProductTypePopulate" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblProductBranch" for="" style="font-weight: bold;">M Product Branch</label>
+                            </div>
+
+                            <select v-model="SelectProductBranch" class="custom-select select2" id="ProductBranch" style="width:18%">
+                                <option v-for="item in portalList" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+
+                            @* <div class="row">
+                            <button type="button" class="btn btn-outline-info btn-sm" style="width:60px" @@Click="Onchange()">Reset</button>
+                            </div> *@
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12">
+
+                    <div class="button-container">
+
+                        <div class="input-group input-group-sm" style="width: 1550px; margin-left: 1px;">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblCIF" for="" style="font-weight: bold;">M CIF </label>
+                            </div>
+
+                            <select v-model="SelectCIF" class="custom-select select2" id="CIF" style="width:20%">
+                                <option v-for="item in CIFList" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblStatus" for="" style="font-weight: bold;">M Status</label>
+                            </div>
+
+                            <select v-model="selectedGameType" class="custom-select select2" id="Status" style="width:20%">
+                                <option value="0">Select Status</option>
+                                <option v-for="item in statusPopulate" :key="item.status" :value="item.status">
+                                    {{ item.status }}
+                                </option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="" style="font-weight: bold;">From Date</label>
+                            </div>
+                            <input type="date" class="form-control" placeholder="From Date" required v-model="ListFromDate" style="width:18%">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="" style="font-weight: bold;">To Date</label>
+                            </div>
+                            <input type="date" class="form-control" placeholder="To Date" required v-model="ListToDate" style="width:18%">
+
+                            <div class="row">
+                                <button type="button" class="btn btn-outline-info btn-sm" style="width:60px" @@Click="getData()">Search</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card mt-2" v-cloak>
+            <div class="card-body">
+
+                <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==1">
+
+                    <div class="row">
+
+                        <div class="col-md-5">
+                            <h4>EBL Migration List</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
+                            <button id="downloadPdf5" class="btn btn-outline-info btn-sm" onclick="convertHTMLtoPDF()">PDF</button>
+                            <button id="EamilSend" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;" id="appp">
+                 
+                        <table class="table table-bordered table-striped" border="1">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+
+                                    <th v-for="(column, index) in columns" :key="index" draggable @@dragstart="dragStart(index)" @@dragover.prevent @@drop="drop(index)">
+                                        {{ column }} <span v-if="columns.length > 0" class="remove-button" @@click="removeColumn(index)">&#215;</span>
+                                                                          
+                                    </th>
+
+                                    <th>Document</th>
+                                </tr>
+                            </thead>
+
+                            @* filteredGames *@
+
+                            <tbody>
+                                <tr v-for="(row, rowIndex) in filteredGames" :key="rowIndex">
+
+                                    <td style="font-size:14.5px">{{ getSerialNumber(rowIndex) }}</td>
+
+                                    <td v-for="(column, colIndex) in columns" :key="colIndex" v-if="visibleColumns.includes(column)">
+                                        {{ row[column] }}
+                                    </td>
+
+                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=589317ba-3a03-43fb-b882-eac5682d5fa1&did=' + row.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                      @*   <span v-if="columns.length === 0">
+                            <button @@click="reloadColumns">Reload</button>
+                        </span> *@
+
+                    </div>
+                </div>
+
+                <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==2">
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4>EBL POC List</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <button v-on:click="exportToExcelPOC" class="btn btn-outline-info btn-sm">Excel</button>
+                            <button id="downloadPdf" class="btn btn-outline-info btn-sm" onclick="convertHTMLtoPDFf()">PDF</button>
+                            <button id="EamilSende" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+
+                     @*    <table class="table table-bordered table-striped" id="gameTablee" style="table-layout: fixed;">
+
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Document Name</th>
+                                    <th>Data Class </th>
+                                    <th>Account No </th>
+                                    <th>Product Type </th>
+                                    <th>Product Branch </th>
+                                    <th>CIF </th>
+                                    <th>Status </th>
+                                    <th>Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(game,index) in filteredGames" :key="game.DWDOCID">
+                                    <td style="font-size:14.5px">{{ getSerialNumber(index) }}</td>
+                                    <td style="font-size:14.5px">{{ game.documenT_NAME }}</td>
+                                    <td style="font-size:14.5px">{{ game.datA_CLASS }}</td>
+                                    <td style="font-size:14.5px">{{ game.accounT_NO }}</td>
+                                    <td style="font-size:14.5px">{{ game.producT_TYPE }}</td>
+                                    <td style="font-size:14.5px">{{ game.branchCode }}</td>
+                                    <td style="font-size:14.5px">{{ game.cif }}</td>
+                                    <td style="font-size:14.5px">{{ game.status }}</td>
+
+                                    For_Developer
+                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=87581c95-04a4-424f-9b6b-825de0bad060&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td> 
+
+                                    For_User
+                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
+
+                                </tr>
+                            </tbody>
+                        </table> *@
+
+
+                        <table class="table table-bordered table-striped" border="1">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+
+                                    <th v-for="(column, index) in columns" :key="index" draggable @@dragstart="dragStart(index)" @@dragover.prevent @@drop="drop(index)">
+                                        {{ column }} <span v-if="columns.length > 0" class="remove-button" @@click="removeColumn(index)">&#215;</span>
+
+                                    </th>
+
+                                    <th>Document</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+                                <tr v-for="(row, rowIndex) in filteredGames" :key="rowIndex">
+
+                                    <td style="font-size:14.5px">{{ getSerialNumber(rowIndex) }}</td>
+
+                                    <td v-for="(column, colIndex) in columns" :key="colIndex" v-if="visibleColumns.includes(column)">
+                                        {{ row[column] }}
+                                    </td>
+
+                                    @*For_Developer*@
+                                    @*                                     <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=87581c95-04a4-424f-9b6b-825de0bad060&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td> *@
+
+                                    @*For_User*@
+                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal" id="mdl_game" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Mail  Box</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <form action="javascript:;" data-vv-scope="frmgame">
+
+                                    <div class="form-row">
+
+                                        <div class="row col-12">
+
+                                            <div class="col">
+
+                                                <template>
+                                                    <div>
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span style="font-size: 14px" class="input-group-text">Mail</span>
+                                                            </div>
+
+                                                            <select v-model="selectedEblEmployee" class="custom-select">
+                                                                <option v-for="item in EmployeeInfo" :key="item.email" :value="item.email">
+                                                                    {{ item.name }}
+                                                                </option>
+                                                            </select>
+
+                                                        </div>
+
+                                                    </div>
+                                                </template>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btn_mail" class="btn btn-info" v-on:click="sendTableDataToBackend"><i class="fa fa-envelope"></i> Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+        function convertHTMLtoPDF() {
+            const { jsPDF } = window.jspdf;
+
+            let doc = new jsPDF('l', 'mm', [1450, 1350]);
+            let pdfjs = document.querySelector('#gameTable');
+
+            let rows = pdfjs.querySelectorAll('tr');
+
+            // rows.forEach(row => {
+            //     row.deleteCell(8); // Index 1 is the second column
+            // });
+
+            doc.html(pdfjs, {
+                callback: function (doc) {
+                    doc.save("EblMigration.pdf");
+                },
+                x: 7,
+                y: 7
+            });
+
+        }
+
+        function convertHTMLtoPDFf() {
+
+            const { jsPDF } = window.jspdf;
+
+            let doc = new jsPDF('l', 'mm', [1450, 1350]);
+            let pdfjs = document.querySelector('#gameTablee');
+
+            let rows = pdfjs.querySelectorAll('tr');
+
+            doc.html(pdfjs, {
+                callback: function (doc) {
+                    doc.save("EblPOC.pdf");
+                },
+                x: 7,
+                y: 7
+            });
+
+        }
+
+
+    </script>
+
+  @*   <script src="~/js/report.js"></script> *@
+
+
+    <script>
+        var app = new Vue({
+
+            el: '#vc_app',
+            data() {
+                return {
+                    selectedEblEmployee: 'admin@petersengineering.com',
+                    selectedPIEDepartment: '1',
+                    portalList: [],
+                    statusPopulate: [],
+                    EmployeeInfo: [],
+
+                    selectedCategory: '',
+                    selectedGameType: '0',
+
+                    selectedDepartment: '1',
+                    SelectDocClassType: 'Select From List',
+
+                    SelectAccountNo: '',
+                    SelectProductBranch: '',
+                    SelectCIF: '',
+                    SelectProductType: '',
+
+                    ProductTypePopulate: [],
+                    CIFList: [],
+                    AccountNoPopulate: [],
+
+                    typeSelected: '',
+
+                    columns: ['documentName', 'datA_CLASS', 'accounT_NO', 'productType', 'branchCode', 'cif', 'status'], // Initial columns
+
+                    draggedIndex: null,
+
+                    gateCategoryList: [],
+                    searchTerm: '',
+                    itemG: {},
+                    isActiveChecked: false,
+                    datatableOptions: {
+                        searching: true,
+                        paging: true,
+                        lengthChange: false,
+                        ordering: true,
+                        info: false,
+                        responsive: true,
+                    },
+                    filteredGames: [],
+                    PiE: [],
+                    BarChartZ: [],
+                    LineChart: [],
+                    dataa: [],
+                    selectedFile: null,
+                    xlsxLoaded: false,
+                    jsPDFLoaded: false,
+                    ListFromDate: null,
+                    ListToDate: null,
+                    graphFromDate: null,
+                    graphToDate: null
+                };
+            },
+            computed: {
+                visibleColumns() {
+                    // Filter out columns that are not visible
+                    return this.columns.filter(column => this.isColumnVisible(column));
+                }
+            },
+            methods: {
+
+                exportToPDF() {
+                    // Options for the PDF export
+                    const options = {
+                        filename: 'people.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: {},
+                        jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+                    };
+
+                    // Perform the PDF export
+                    this.$htmlToPdf.convert('#appp', options);
+
+                    // const doc = new jsPDF({
+                    //     orientation: "landscape",
+                    //     unit: "in",
+                    //     format: [4, 2]
+                    // });
+
+                    // doc.text("Hello world!", 1, 1);
+                    // doc.save("two-by-four.pdf");
+                },
+
+                SendMain() {
+                    this.itemG = {};
+                    $('#mdl_game').modal('show');
+                },
+
+                exportToExcel() {
+                    if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
+                    const wb = XLSX.utils.book_new();
+                    const ws = XLSX.utils.json_to_sheet(this.filteredGames);
+                    XLSX.utils.book_append_sheet(wb, ws, 'People');
+                    XLSX.writeFile(wb, 'Eastern_Bank_PLC_Migration.xlsx');
+                },
+
+                exportToExcelPOC() {
+                    if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
+                    const wb = XLSX.utils.book_new();
+                    const ws = XLSX.utils.json_to_sheet(this.filteredGames);
+                    XLSX.utils.book_append_sheet(wb, ws, 'People');
+                    XLSX.writeFile(wb, 'Eastern_Bank_PLC_POC.xlsx');
+                },
+
+                Onchange() {
+
+                    // const DeptId = $("#DepartmentId").val();
+
+                    if (this.selectedDepartment == "1") {
+
+                        $('#lblAccountNo').text('M Account No');
+                        $('#lblProductType').text('M Product Type');
+                        $('#lblProductBranch').text('M Product Branch');
+                        $('#lblCIF').text('M CIF');
+                        $('#lblStatus').text('M Status');
+
+                        // Document Name Populate
+                        helper.get('api/EBL_Migration/EblAccountNoPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.AccountNoPopulate = [];
+                                this.AccountNoPopulate = response;
+                                this.SelectAccountNo = 'Select From List'
+                            });
+
+                        // Product Type Populate
+                        helper.get('api/EBL_Migration/EblProductTypePopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.ProductTypePopulate = [];
+                                this.ProductTypePopulate = response;
+                                this.SelectProductType = 'Select From List'
+                            });
+
+                        // Data Class Populate
+                        helper.get('api/EBL_Migration/EblBranchCodePopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.portalList = [];
+                                this.portalList = response;
+                                this.SelectProductBranch = 'Select From List'
+                            });
+
+                        // Status Populate
+                        helper.get('api/EBL_Migration/EblCIFPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.CIFList = [];
+                                this.CIFList = response;
+                                this.SelectCIF = 'Select From List'
+                                // console.log(response);
+                            });
+
+                        // Status Populate
+                        helper.get('api/EBL_Migration/EblStatusPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.statusPopulate = [];
+                                this.statusPopulate = response;
+                                this.selectedGameType = '0'
+                                // console.log(response);
+                            });
+                    }
+                    if (this.selectedDepartment == "2") {
+
+                        $('#lblAccountNo').text('Account No');
+                        $('#lblProductType').text('Product Type');
+                        $('#lblProductBranch').text('Product Branch');
+                        $('#lblCIF').text('CIF');
+                        $('#lblStatus').text('Status');
+
+                        // Document Name Populate
+                        helper.get('api/EBL_Migration/EblAccountNoPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.AccountNoPopulate = [];
+                                this.AccountNoPopulate = response;
+                                this.SelectAccountNo = 'Select From List'
+                            });
+
+                        // Data Class Populate
+                        helper.get('api/EBL_Migration/EblBranchCodePopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.portalList = [];
+                                this.portalList = response;
+                                this.SelectProductBranch = 'Select From List'
+                            });
+
+                        // Product Type Populate
+                        helper.get('api/EBL_Migration/EblProductTypePopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.ProductTypePopulate = [];
+                                this.ProductTypePopulate = response;
+                                this.SelectProductType = 'Select From List'
+                            });
+
+                        // Status Populate
+                        helper.get('api/EBL_Migration/EblCIFPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.CIFList = [];
+                                this.CIFList = response;
+                                this.SelectCIF = 'Select From List'
+                                // console.log(response);
+                            });
+
+                        // Status Populate
+                        helper.get('api/EBL_Migration/EblStatusPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.statusPopulate = [];
+                                this.statusPopulate = response;
+                                this.selectedGameType = '0'
+                            });
+                    }
+                },
+
+                GetEmployeeMailInfo() {
+                    helper.get('api/EBLLogin/EBLEmployeeInfo',
+                        {},
+                        (response) => {
+                            this.EmployeeInfo = [];
+                            this.EmployeeInfo = response;
+
+                        });
+                },
+
+                getData() {
+
+                    const DepartmentId = $("#DepartmentId").val();
+                    // const gameTypeId = this.selectedGameType;
+                    const gameTypeId = $("#Status").val();
+
+                    const AccountNo = $("#Acc").val();
+                    const fromdate = this.ListFromDate;
+                    const todate = this.ListToDate;
+
+                    // const ProductBranch = this.SelectProductBranch;
+                    // const ProductType = this.SelectProductType;
+                    const ProductBranch = $("#ProductBranch").val();
+                    const ProductType = $("#ProductType").val();
+
+                    // const CIF = this.SelectCIF;
+                    const CIF = $("#CIF").val();
+
+                    if (DepartmentId == 1) {
+
+                        helper.get('api/EBL_Migration/MigrationList',
+                            { AccountNo: AccountNo, status: gameTypeId, FromDate: fromdate, Todate: todate, ProductBranch: ProductBranch, ProductType: ProductType, CIF: CIF },
+                            (response) => {
+
+                                this.filteredGames = [];
+                                this.filteredGames = response;
+                                this.selectedDepartment = DepartmentId;
+                                this.SelectAccountNo = AccountNo;
+                                this.SelectProductType = ProductType;
+                                this.SelectProductBranch = ProductBranch;
+                                this.SelectCIF = CIF;
+                                this.selectedGameType = gameTypeId
+
+                            });
+                    }
+
+                    if (DepartmentId == 2) {
+
+                        helper.get('api/EBL_Migration/EBLPOCList',
+                            { AccountNo: AccountNo, status: gameTypeId, FromDate: fromdate, Todate: todate, ProductBranch: ProductBranch, ProductType: ProductType, CIF: CIF },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.filteredGames = response;
+                                this.selectedDepartment = DepartmentId;
+                                this.SelectAccountNo = AccountNo;
+                                this.SelectProductType = ProductType;
+                                this.SelectProductBranch = ProductBranch;
+                                this.SelectCIF = CIF;
+                                this.selectedGameType = gameTypeId
+
+                            });
+                    }
+                },
+
+                sendTableDataToBackend() {
+
+                    if (this.filteredGames == null || this.filteredGames == "undefined" || this.filteredGames == "") {
+
+                        $.notify("There is no data in the list below", 'error');
+                        $('#mdl_game').modal('hide');
+
+                    } else {
+
+                        var jsonData = {};
+
+                        jsonData["MyProperty"] = this.selectedEblEmployee
+
+                        var jsonObjs = [];
+
+                        $.each(this.filteredGames, function (index, filteredGames) {
+
+                            var theObj = {};
+                            // Access properties of each JSON object
+                            var dataClass = filteredGames.datA_CLASS;
+                            var Account = filteredGames.accounT_NO;
+                            var status = filteredGames.status;
+                            var Date = filteredGames.dwstoredatetime;
+
+                            theObj["M_DATA_CLASS"] = dataClass;
+                            theObj["M_ACCOUNT_NO"] = Account;
+                            theObj["STATUS"] = status;
+                            theObj["DWSTOREDATETIME"] = Date;
+
+                            jsonObjs.push(theObj);
+                            jsonData["mailBodies"] = jsonObjs;
+
+                        });
+
+                        $.ajax({
+                            url: '/login/Mailsend',
+                            type: 'POST',
+                            data: {
+                                jsonData: jsonData
+                            },
+                            beforeSend: function () {
+                                $('#btn_mail').prop('disabled', true);
+                            },
+                            success: function (response) {
+
+                                if (response.success) {
+                                    $('#btn_mail').prop('disabled', false);
+                                    $('#mdl_game').modal('hide');
+                                    $.notify(response.message, 'success');
+                                } else {
+                                    $('#btn_mail').prop('disabled', false);
+                                    $.notify(response.message, 'error');
+                                }
+                            },
+                            Complete: function () {
+
+                                $('#btn_mail').prop('disabled', false);
+                            }
+                        });
+                    }
+                },
+
+                openUrl(url) {
+                    window.open(url, '_blank');
+                },
+
+                getSerialNumber(index) {
+                    // Add 1 to the index since indexing usually starts from 0
+                    return index + 1;
+                },
+
+                //
+
+                dragStart(index) {
+                    this.draggedIndex = index;
+                },
+                drop(index) {
+                    const draggedColumn = this.columns[this.draggedIndex];
+                    this.columns.splice(this.draggedIndex, 1); // Remove from old position
+                    this.columns.splice(index, 0, draggedColumn); // Insert at new position
+                },
+                addColumn() {
+                    const newColumn = prompt('Enter column name:');
+                    if (newColumn) {
+                        this.columns.push(newColumn);
+                    }
+                },
+                removeColumn(index) {
+                    this.columns.splice(index, 1);
+                },
+                reloadColumns() {
+                    // Reset columns to initial state
+                    this.columns = ['Name', 'Age', 'City', 'Country', 'Status'];
+                },
+                isColumnVisible(column) {
+                    // Implement logic to determine if a column is visible or not
+                    // For now, assume all columns are visible
+                    return true;
+                },
+                exportToExcel() {
+                    // Filter data based on visible columns
+                    const filteredData = this.filteredGames.map(row => {
+                        const filteredRow = {};
+                        this.visibleColumns.forEach(column => {
+                            filteredRow[column] = row[column];
+                        });
+                        return filteredRow;
+                    });
+
+                    // Create worksheet
+                    const ws = XLSX.utils.json_to_sheet(filteredData);
+
+                    // Create workbook
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+                    // Save workbook to file
+                    XLSX.writeFile(wb, 'exported_data.xlsx');
+                }
+            },
+            mounted() {
+
+                helper.blockUI();
+
+                // this.$nextTick(() => {
+
+                //     console.log("USb");
+                //     $('#gameTable').DataTable();
+                // });
+
+                this.$nextTick(() => {
+                    $('.select2').select2();
+                });
+                //excel loading
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';
+                script.onload = () => {
+                    this.xlsxLoaded = true; // Set flag to true when script is loaded
+                };
+                document.head.appendChild(script);
+
+                this.Onchange();
+                this.GetEmployeeMailInfo();
+                helper.unBlockUI();
+
+            },
+
+        });
+    </script>
+
+    <style>
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .remove-button {
+            margin-left: 5px;
+            cursor: pointer;
+            color: red;
+        }
+    </style>
+}
+
+
+
+
+

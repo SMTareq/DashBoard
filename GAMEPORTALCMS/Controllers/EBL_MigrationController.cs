@@ -29,10 +29,11 @@ namespace GAMEPORTALCMS.Controllers
         [HttpGet("MigrationList")]
         public IActionResult GetEBL_MigrationList(string? AccountNo, string? status, DateTime? FromDate, DateTime? Todate, string ProductBranch, string? ProductType, string? CIF)
         {
-
             try
             {
+               // var data = eBL_Migration.GetEBLMigrationData(AccountNo, status, FromDate, Todate, ProductBranch, ProductType, CIF);
                 var data = eBL_Migration.GetEBLMigrationData(AccountNo, status, FromDate, Todate, ProductBranch, ProductType, CIF);
+                
                 return Ok(data);
             }
             catch (Exception e)

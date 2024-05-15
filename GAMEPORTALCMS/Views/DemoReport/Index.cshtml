@@ -297,6 +297,10 @@
                             <button id="downloadPdf5" class="btn btn-outline-info btn-sm" @@click="exportToPDF()">PDF</button>
                             
                             <button id="EamilSend" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
+
+                            <span v-if="columns.length === 0">
+                                <button class="btn btn-outline-info btn-sm" @@click="reloadColumns">Reload</button>
+                            </span>
                         </div>
                     </div>
                     <div style="overflow-x: auto;" id="appp">
@@ -348,6 +352,11 @@
                             <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>                 
                             <button id="downloadPdf5" class="btn btn-outline-info btn-sm" @@click="exportToPDF()">PDF</button>
                             <button id="EamilSende" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
+                            <span v-if="columns.length === 0">
+                                <button class="btn btn-outline-info btn-sm" @@click="reloadColumns">Reload</button>
+                            </span>
+
+
                         </div>
                     </div>
 
@@ -420,13 +429,9 @@
                                     @*For_User*@
                                     @*<td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + row.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td> *@
 
-
                                 </tr>
                             </tbody>
                         </table>
-
-
-
 
                     </div>
                 </div>
@@ -946,7 +951,6 @@
                 },
 
                 //
-
                 dragStart(index) {
                     this.draggedIndex = index;
                 },
@@ -993,8 +997,7 @@
                     // Save workbook to file
                     XLSX.writeFile(wb, 'exported_data.xlsx');
                 }
-
-              
+            
             },
             mounted() {
 

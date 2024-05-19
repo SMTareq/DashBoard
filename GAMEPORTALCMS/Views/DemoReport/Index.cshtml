@@ -520,52 +520,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-    <script type="text/javascript">
-        function convertHTMLtoPDF() {
-            const { jsPDF } = window.jspdf;
-
-            let doc = new jsPDF('l', 'mm', [1450, 1350]);
-            let pdfjs = document.querySelector('#gameTable');
-
-            let rows = pdfjs.querySelectorAll('tr');
-
-            // rows.forEach(row => {
-            //     row.deleteCell(8); // Index 1 is the second column
-            // });
-
-            doc.html(pdfjs, {
-                callback: function (doc) {
-                    doc.save("EblMigration.pdf");
-                },
-                x: 7,
-                y: 7
-            });
-
-        }
-
-        function convertHTMLtoPDFf() {
-
-            const { jsPDF } = window.jspdf;
-
-            let doc = new jsPDF('l', 'mm', [1450, 1350]);
-            let pdfjs = document.querySelector('#gameTablee');
-
-            let rows = pdfjs.querySelectorAll('tr');
-
-            doc.html(pdfjs, {
-                callback: function (doc) {
-                    doc.save("EblPOC.pdf");
-                },
-                x: 7,
-                y: 7
-            });
-
-        }
-
-
-    </script>
-
-  @*   <script src="~/js/report.js"></script> *@
 
     <script>
         var app = new Vue({
@@ -647,6 +601,9 @@
 
                     // Add table headers
                     const headers = columns.map(column => ({ title: column, dataKey: column }));
+
+                    console.log(table);
+
                     rows.push(headers.reduce((acc, cur) => ({ ...acc, [cur.dataKey]: cur.title }), {}));
 
                     // Add table rows
@@ -969,8 +926,14 @@
                     this.columns.splice(index, 1);
                 },
                 reloadColumns() {
+
+
+                    this.filteredGames;
+
                     // Reset columns to initial state
                     this.columns = ['Name', 'Age', 'City', 'Country', 'Status'];
+
+                    
                 },
                 isColumnVisible(column) {
                     // Implement logic to determine if a column is visible or not

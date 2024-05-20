@@ -34,7 +34,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
                     if (User.MyProperty == "admin@petersengineering.com")
                     {
                         msg.To.Add("dereklee@digiqoresystems.com");
-                      // msg.To.Add("tareq.creatrixbd@gmail.com");                    
+                        // msg.To.Add("tareq.creatrixbd@gmail.com");                    
                     }
                     else
                     {
@@ -123,6 +123,11 @@ namespace GAMEPORTALCMS.Repository.Implementation
                 worksheet.Cells[1, 3].Value = "Status";
                 worksheet.Cells[1, 4].Value = "DW STORE DATETIME";
 
+                worksheet.Cells[1, 5].Value = "Document Name";
+                worksheet.Cells[1, 6].Value = "Branch Code";
+                worksheet.Cells[1, 7].Value = "Product Type";
+                worksheet.Cells[1, 8].Value = "Cif";
+       
                 // Populate data
                 int row = 2;
                 foreach (var person in personList.mailBodies)
@@ -131,6 +136,12 @@ namespace GAMEPORTALCMS.Repository.Implementation
                     worksheet.Cells[row, 2].Value = person.M_ACCOUNT_NO;
                     worksheet.Cells[row, 3].Value = person.STATUS;
                     worksheet.Cells[row, 4].Value = person.DWSTOREDATETIME;
+
+                    worksheet.Cells[row, 5].Value = person.DocumentName;
+                    worksheet.Cells[row, 6].Value = person.BranchCode;
+                    worksheet.Cells[row, 7].Value = person.ProductType;
+                    worksheet.Cells[row, 8].Value = person.Cif;
+
                     row++;
                 }
                 // Save the Excel package to a file

@@ -58,7 +58,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
                         await _context.SaveChangesAsync();
 
                     }
-
                 }
                 else
                 {
@@ -81,7 +80,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
                     await _context.SaveChangesAsync();
                 }
 
-
                 return true;
             }
             catch (Exception ex)
@@ -89,7 +87,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                 return false;
             }
-
 
         }
 

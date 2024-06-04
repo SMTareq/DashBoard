@@ -34,8 +34,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
         {
             _dbContext = dbContext;
         }
-
-       
+     
         public List<EBLPOCDTO> GetEblProductTypeLoadSync(string? DepartmentId)
         {
             List<EBLPOCDTO> gameInfos = new List<EBLPOCDTO>();
@@ -117,7 +116,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
             }
             return gameInfos;
         }
-
 
         public List<EBLPOCDTO> GetEblBrachCodeLoadSync(string? DepartmentId)
         {
@@ -289,7 +287,6 @@ namespace GAMEPORTALCMS.Repository.Implementation
         {
             List<EBLPOCDTO> gameInfos = new List<EBLPOCDTO>();
        
-  
             Func<_EBL_POC, bool> predicate = x => x.DWDOCID != null;
 
             if (AccountNo == "Select From List")

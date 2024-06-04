@@ -1,5 +1,4 @@
 ﻿
-
 var helper = function () {
 
     var months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
@@ -562,7 +561,6 @@ var helper = function () {
         });
     };
 
-
     var _handleError = function (jqXHR, textStatus, errorThrown) {
         console.log(jqXHR)
         var msg = '';
@@ -873,7 +871,6 @@ var helper = function () {
     var money = function (selector) {
     };
 
-
     var blockUI = function (ctrl) {
         ctrl = isNullOrEmpty(ctrl) ? 'body' : ctrl;
         $(ctrl).loading({
@@ -926,8 +923,6 @@ var helper = function () {
         }
         return str;
     };
-
-
 
     var init = function () {
         _globalEventHandler();
@@ -1002,8 +997,6 @@ var modalSize = function () {
 }();
 
 
-
-
 $(document).ready(function () {
 
     helper.init();
@@ -1052,7 +1045,6 @@ jQuery.validator.setDefaults({
         }
     }
 });
-
 
 var AlertTypes = function () {
     var success = 'success';

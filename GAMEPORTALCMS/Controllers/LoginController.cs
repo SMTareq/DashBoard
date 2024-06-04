@@ -33,9 +33,18 @@ namespace GAMEPORTALCMS.Controllers
             }
             else
             {
-                HttpContext.Session.SetString("UserName", data.name);
-                ViewBag.UserName = data.name;
-                return new JsonResult(new ResponseModel { Success = true, Message = "Login successfull" });
+                if (password.Trim() == "admin")
+                {
+                    HttpContext.Session.SetString("UserName", data.name);
+                    ViewBag.UserName = data.name;
+                    return new JsonResult(new ResponseModel { Success = true, Message = "Login successfull" });
+
+                }
+                else
+                {
+                    return new JsonResult(new ResponseModel { Success = false, Message = "Username and password do not match" });
+                }
+       
             }
             //if (userName == "" && password == "")
             //{
@@ -58,8 +67,7 @@ namespace GAMEPORTALCMS.Controllers
         }
 
         public async Task<IActionResult> Mailsend(MailSendDTO jsonData)
-        {
-            
+        {           
             bool data = await _mail.SendMail(jsonData);
             if (data)
             {
@@ -92,7 +100,6 @@ namespace GAMEPORTALCMS.Controllers
             //}
             //else
             //{
-
             //    if (userName == "admin" && password == "admin")
             //    {                  
             //        HttpContext.Session.SetString("UserName", "admin");

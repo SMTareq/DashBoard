@@ -47,7 +47,6 @@ namespace GAMEPORTALCMS.Data
             modelBuilder.Entity<EBL_Migration>().HasKey(u => u.DWDOCID);
             modelBuilder.Entity<_EBL_POC>().HasKey(u=>u.DWDOCID);
 
-
         }
     }
 }

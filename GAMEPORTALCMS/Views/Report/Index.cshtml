@@ -216,12 +216,7 @@
                                     {{ item.datA_CLASS }}
                                 </option>
                             </select>
-
-                            @* <div class="row">
-                            <button type="button" class="btn btn-outline-info btn-sm" style="width:60px" @@Click="Onchange()">Reset</button>
-                            </div> *@
-
-
+                         
                         </div>
 
                     </div>
@@ -398,7 +393,6 @@
                         </tbody>
                         </table> *@
 
-
                         <table class="table table-bordered table-striped" border="1">
                             <thead>
                                 <tr>
@@ -426,10 +420,10 @@
 
                                     @*For_Developer*@
 
-                                    @*<td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=87581c95-04a4-424f-9b6b-825de0bad060&did=' + row.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td> *@
+                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=87581c95-04a4-424f-9b6b-825de0bad060&did=' + row.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
 
                                     @*For_User*@
-                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + row.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
+                                    @* <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + row.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td> *@
 
                                 </tr>
                             </tbody>
@@ -465,20 +459,15 @@
                                                             <div class="input-group-prepend">
                                                                 <span style="font-size: 14px" class="input-group-text">Mail</span>
                                                             </div>
-
                                                             <select v-model="selectedEblEmployee" class="custom-select">
                                                                 <option v-for="item in EmployeeInfo" :key="item.email" :value="item.email">
                                                                     {{ item.name }}
                                                                 </option>
                                                             </select>
-
                                                         </div>
-
                                                     </div>
                                                 </template>
-
                                             </div>
-
                                         </div>
                                     </div>
                                 </form>

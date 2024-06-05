@@ -30,6 +30,7 @@ builder.Services.AddScoped<GamePortalClientRepository>();
 builder.Services.AddScoped<PromotionRepository>();
 builder.Services.AddScoped<EBL_MigrationRepo>();
 builder.Services.AddScoped<MailGenerator>();
+builder.Services.AddScoped<WorkSpaceRepo>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

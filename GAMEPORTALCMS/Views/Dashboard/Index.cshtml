@@ -150,7 +150,7 @@
 
                 <div class="small-box" style="background-color : aliceblue">
                     <div class="inner">
-                        <h3 id="TotalCR"></h3>
+                        <h3> {{TotalCR}} </h3>
                         <p class="fw-bold">Total CR </p>
                     </div>
                     <div class="icon">
@@ -164,7 +164,7 @@
 
                 <div class="small-box">
                     <div class="inner">
-                        <h3>350</h3>
+                        <h3>{{TotalAOF}}</h3>
                         <p>Total AOF </p>
                     </div>
                     <div class="icon">
@@ -188,7 +188,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-3 col-xs-6" style="display:none">
 
                 <div class="small-box" style="background-color : cornsilk">
                     <div class="inner">
@@ -508,6 +508,7 @@
             data() {
                 return {
                     TotalCR: '0',
+                    TotalAOF: '0',
                     EblMigra_Category: true,
                     EblPoc_Category: false,
                     selectedEblEmployee: 'admin@petersengineering.com',
@@ -581,9 +582,24 @@
                         this.EblMigra_Category = true;
                         this.EblPoc_Category = false;
 
+                        //TotalRecordOfPerCanicate
+                        helper.get('api/WorkSpace/Total_Record_Of_Per_Cabinate',
+                            { Cabinate_Id: this.selectedPIEDepartment },
+                            (response) => {
+                                this.TotalCR = response
+                            });
+
                     } else {
+
                         this.EblMigra_Category = false;
                         this.EblPoc_Category = true;
+
+                        //TotalRecordOfPerCanicate
+                        helper.get('api/WorkSpace/Total_Record_Of_Per_Cabinate',
+                            { Cabinate_Id: this.selectedPIEDepartment },
+                            (response) => {
+                                this.TotalCR = response
+                            });
                     }
                 },
 
@@ -614,12 +630,8 @@
                                 // console.log(response);
                             });
 
-                         //TotalRecordOfPerCanicate
-                         helper.get('api/WorkSpaceController/Total_Record_Of_Per_Cabinate',
-                            { Cabinate_Id: this.selectedDepartment },
-                            (response) => {                           
-                                $('#id').val(response) ;              
-                            });
+                         
+                       
                        
                     }
                     if (this.selectedDepartment == "2") {
@@ -646,12 +658,7 @@
                                 this.selectedGameType = '0'
                             });
 
-                          //TotalRecordOfPerCanicate
-                          helper.get('api/WorkSpaceController/Total_Record_Of_Per_Cabinate',
-                            { Cabinate_Id: this.selectedDepartment },
-                            (response) => {                           
-                                $('#id').val(response) ;              
-                            });
+                       
                     }
                 },
 
@@ -722,7 +729,7 @@
                                     },
                                     series: [
                                         {
-                                            name: 'percentage',
+                                            name: 'Total',
                                             colorByPoint: true,
                                             data: this.PiE
                                         }
@@ -803,19 +810,7 @@
                             });
                     }
                 },
-
-
-                __init__(){
-                    helper.get('api/WorkSpaceController/Total_Record_Of_Per_Cabinate',
-                            { Cabinate_Id: this.selectedDepartment },
-                            (response) => {                           
-                                $('#id').val(response) ;              
-                            });
-                },
-
-
-
-
+           
                 sendTableDataToBackend() {
 
                     if (this.filteredGames == null || this.filteredGames == "undefined" || this.filteredGames == "") {
@@ -898,54 +893,19 @@
                 //  this.Onchange();
                 this.GetEmployeeMailInfo();
 
-
                 // __init__();
 
-                  // helper.get('api/WorkSpaceController/Total_Record_Of_Per_Cabinate',
-                  //           { Cabinate_Id: this.selectedDepartment },
-                  //           (response) => {                           
-                  //               $('#id').val(response) ;              
-                  //           });
+                helper.get('api/WorkSpace/Total_Record_Of_Per_Cabinate',
+                    { Cabinate_Id: this.selectedPIEDepartment },
+                            (response) => {                           
+                               this.TotalCR = response.totalCR
+                               this.TotalAOF = response.totalAOF                                    
+                            });
                   
             },
 
         });
     </script>
-
-
-
-
-    
-<script>
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      cabinateId: '',
-      totalCount: null,
-      error: null
-    };
-  },
-  methods: {
-    async getTotalRecordCount() {
-      try {
-        const response = await axios.get(`/Total_Record_Of_Per_Cabinate`, {
-          params: {
-            Cabinate_Id: this.cabinateId
-          }
-        });
-        this.totalCount = response.data;
-        this.error = null;
-      } catch (e) {
-        this.error = e.response ? e.response.data : 'An error occurred';
-        this.totalCount = null;
-      }
-    }
-  }
-};
-</script>
-
 
 
 }

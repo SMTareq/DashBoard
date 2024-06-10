@@ -47,5 +47,66 @@ namespace GAMEPORTALCMS.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        [HttpGet("WorkSpaceBennerUser")]
+        public IActionResult GetWS_User(string? Dept)
+        {
+            try
+            {
+                var UserData = workspace.Get_WS_User(Dept);
+                return Ok(UserData);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("WorkSpaceBennerStatus")]
+        public IActionResult GetWS_Status(string? Dept)
+        {
+            try
+            {
+                var data = workspace.Get_WS_Status(Dept);
+
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("WorkSpacebennerAccountType")]
+        public IActionResult GetWS_AccountType(string? Dept)
+        {
+            try
+            {
+                var data = workspace.Get_WS_AccountType(Dept);
+
+                return Ok(data);
+
+            }catch(Exception e)
+            {
+                return BadRequest(e.Message);   
+            }
+        }
+
+        [HttpGet("WorkSpaceTotalRecord")]
+        public IActionResult GetWS_A(string? Dept)
+        {
+            try
+            {
+                var data = workspace.GetWorkStationRecord(Dept);
+                return Ok(data);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        
     }
 }

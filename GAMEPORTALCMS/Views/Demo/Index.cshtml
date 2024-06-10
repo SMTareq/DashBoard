@@ -16,171 +16,469 @@
         }
 
 </style>
+
+
+
+<style>
+
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 360px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 310px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    #container {
+        height: 400px;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td,
+    .highcharts-data-table th,
+    .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr,
+    .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    input[type="number"] {
+        min-width: 50px;
+    }
+
+</style>
+
 <div id="vc_app">
-    <div class="container-fluid" id="appD">
-        <div class="card mt-2">
-            <div class="card-header">
-                <div class="d-flex align-items-center">
-                    <h5 class="mr-auto">Game Info</h5>
-                </div>
-                <div class="card-body">
-                    <div class="col-12">
-                        <div class="row mb-3">
-                            <div class="input-group input-group-sm" style="width: 400px">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="balanceSheetDropdown">Game Portal</label>
-                                </div>
-                                <select class="custom-select" id="portalId" v-model="selectedGamePortal">
-                                    <option value="1">Play2Win</option>
-                                </select>
-                            </div>
+    <div class="container-fluid p-3">
+        <h6 class="dashboard-mytitle"><i class="fa fa-arrows-alt" aria-hidden="true"></i> Dashboard</h6>
+        <hr />
 
-                            <div class="input-group input-group-sm" style="width: 400px; margin-left: 10px;">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="balanceSheetDropdown">Game Type</label>
-                                </div>
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
 
-                                <select class="custom-select" id="gameTypeId" v-model="selectedGameType">
-                                    
-                                    <option value="">Select Game Type</option>
-                                    <option value="1">Downloadable</option>
-                                    <option value="2">Online</option>
-
-                                </select>
-                   
-                            </div>
-
-
-                            <div class="input-group input-group-sm" style="width: 400px; margin-left: 10px;">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="balanceSheetDropdown">Game Category</label>
-                                </div>
-
-                             
-                                <select v-model="categoryId" class="form-control" id="gameCategoryId">
-                                        <option value="">Select Game Type</option>
-                                        <option v-for="item in gateCategoryList" :key="item.id" :value="item.id">
-                                            {{ item.categoryName }}
-                                        </option>
-                                </select>
-
-
-                              
-                            </div>
-
-
-                            <button style="margin-left: 10px" class="btn btn-info btn-sm" @@click="getData()">Search</button>
-                        </div>
+                <div class="small-box" style="background-color : aliceblue">
+                    <div class="inner">
+                        <h3> {{TotalCR}} </h3>
+                        <p class="fw-bold">Total Record Of {{message}} </p>
                     </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer" style="color:black" @@click="WSAllRecord()">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
+            <div class="col-lg-3 col-xs-6">
 
-          
+                <div class="small-box">
+                    <div class="inner">
+                        <h3>{{TotalAOF}}</h3>
+                        <p>Total Account Type Of {{message}} </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer" style="color:black" @@click="WSAccountType()">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xs-6">
+
+                <div class="small-box" style="background-color : aliceblue">
+                    <div class="inner">
+                        <h3>{{TotalStatus}}</h3>
+                        <p>Total Status Of {{message}}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer" style="color:black" @@click="WSStatus()">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xs-6">
+
+                <div class="small-box" style="background-color : cornsilk">
+                    <div class="inner">
+                        <h3>{{TotalUser}}</h3>
+                        <p>Total User Of {{message}}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer" style="color:black" @@click="WSUser()">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
         </div>
+
+
+
+
         <div class="card mt-2" v-cloak>
+
             <div class="card-body">
-                <div class="col-12" id="OnlinegameLstId" v-if="typeSelected==2">
-                    <h4>Online Game List</h4>
 
-                    <div class="table-responsive mt-2" style="overflow-x: auto;">
-                        <div class="search-container">
-                            <input type="text" v-model="searchTerm" placeholder="Search">
+                <div class="col-md-12">
+                    <div class="button-container">
+                        <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">Department</label>
+                            </div>
+
+                            <select class="custom-select" id="DepartmentId" v-model="selectedPIEDepartment" @@change="OnchangeGraph()">
+                                <option value="1">EBL Migration</option>
+                                <option value="2">EBL POC</option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">Category</label>
+                            </div>
+                            <select v-if="EblMigra_Category" class="custom-select" v-model="selectedCategory">
+                                @*<option value="0">Select From List</option>*@
+                                <option value="Status">M Status</option>
+                                <option value="MCIF">M CIF</option>
+                                <option value="MPRODUCTTYPE">M PRODUCT TYPE</option>
+                                <option value="MPRODUCTBranch">M PRODUCT Branch</option>
+                                @*<option value="MDOCUMENTNAME">M DOCUMENT NAME</option>*@
+                                <option value="MOWNER">M OWNER</option>
+                                <option value="MTYPE">M TYPE</option>
+                                @*<option value="DOCClass">M Data Class</option>*@
+                                <option value="MUser">M User</option>
+                            </select>
+
+                            <select v-if="EblPoc_Category" class="custom-select" v-model="selectedCategory">
+                                @*<option value="0">Select From List</option>*@
+                                @*<option value="DOCUMENTNAME">DOCUMENT NAME</option>*@
+                                <option value="Status">Status</option>
+                                @* <option value="DOCClass">Data Class</option> *@
+                                <option value="PRODUCTTYPE">PRODUCT TYPE</option>
+                                <option value="PRODUCTBranch">PRODUCT Branch</option>
+                                <option value="MCIF">CIF</option>
+                                <option value="USER">USER</option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">From Date</label>
+                            </div>
+                            <input type="date" class="form-control" placeholder="From Date" required v-model="graphFromDate">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">To Date</label>
+                            </div>
+                            <input type="date" class="form-control" placeholder="To Date" required v-model="graphToDate">
+
+                            <div class="input-group-prepend">
+                                @* <button type="button" class="btn btn-outline-info btn-sm" @@Click="getDta()">Search</button> *@
+
+                                <button type="button" class="btn btn-outline-info btn-sm" @@Click="addCard()">Search</button>
+                            </div>
+
                         </div>
-                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
-
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Play URL</th>
-                                    <th>Banner Image</th>
-                                    <th>Preview Image</th>
-                                    <th>Portrait Image</th>
-                                    <th style="width:7%">Status</th>
-                                    <th style="width:7%">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="game in filteredGames" :key="game.id">
-                                    <td>{{ game.gameName }}</td>
-                                    <td>{{ game.categoryName }}</td>
-                                    <td>{{ game.gameURL }}</td>
-                                    <td><img :src="game.bannerImage" style="width:100%" alt="Banner Image"></td>
-                                    <td><img :src="game.previewImage" style="width:100%" alt="previewImage"></td>
-                                    <td><img :src="game.portraitImage" style="width:100%" alt="portraitImage"></td>
-
-                                    <td>
-                                        <span v-if="game.status==true" class="label label-success">Active</span>
-                                        <span v-if="game.status==false" class="label label-warning">InActive</span>
-                                    </td>
-                                    <td>
-                                        <a href="javascript:;" v-on:click="editGame(game)"><i class="far fa-edit"></i></a>
-                                        <a href="javascript:;"><i class="fas fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
-
-
                 </div>
-                <div class="col-12" id="OnlinegameLstId" v-if="typeSelected==1">
-                    <h4>Downloadable Game List</h4>
 
-                    <div class="table-responsive mt-2" style="overflow-x: auto;">
-                        <div class="search-container">
-                            <input type="text" v-model="searchTerm" placeholder="Search">
+            </div>
+
+        </div>
+
+
+       
+     @*    cards *@
+        <div id="card-container">
+            <div v-for="(card, index) in cards" :key="index" v-show="card.visible" class="card mt-2">
+                <div class="card-body">
+                    <h6>{{ card.title }}</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <figure class="highcharts-figure">
+                                <div :id="'container_Pie_' + index"></div>
+                            </figure>
                         </div>
-                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+                        <div class="col-md-6">
+                            <figure class="highcharts-figure">
+                                <div :id="'container_Bar_' + index"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Size</th>
-                                    <th>Android Version</th>
-                                    <th>APK Location</th>
-                                    <th>Banner Image</th>
-                                    <th>Preview Image</th>
-                                    <th>Portrait Image</th>
-                                    <th style="width:7%">Status</th>
-                                    <th style="width:7%">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="game in filteredGames" :key="game.id">
-                                    <td>{{ game.gameName }}</td>
-                                    <td>{{ game.categoryName }}</td>
-                                    <td>{{ game.size }}</td>
-                                    <td>{{ game.androidVersion }}</td>
-                                    <td>{{ game.apkLocation }}</td>
-                                    <td><img :src="game.bannerImage" style="width:100%" alt="Banner Image"></td>
-                                    <td><img :src="game.previewImage" style="width:100%" alt="previewImage"></td>
-                                    <td><img :src="game.portraitImage" style="width:100%" alt="portraitImage"></td>
 
-                                    <td>
-                                        <span v-if="game.status==true" class="label label-success">Active</span>
-                                        <span v-if="game.status==false" class="label label-warning">InActive</span>
-                                    </td>
-                                    <td>
-                                        <a href="javascript:;" @@click="editGame(game)"><i class="far fa-edit"></i></a>
-                                        <a href="javascript:;"><i class="fas fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+      
+
+        @*Search Area Start*@
+
+        <div class="card mt-2" v-cloak style="display:none">
+
+            <div class="card-body">
+
+                <div class="col-12">
+
+                    <div class="button-container">
+
+                        <div class="input-group input-group-sm" style="width: 1000px; margin-left: 1px;">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="">Department</label>
+                            </div>
+
+                            <select class="custom-select" id="DepartmentId" v-model="selectedDepartment" @@change="Onchange()">
+                                <option value="1">EBL Migration</option>
+                                <option value="2">EBL POC</option>
+                            </select>
+
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblDataClass" for="balanceSheetDropdown">M Data Class</label>
+                            </div>
+
+                            <select v-model="SelectDocClassType" class="custom-select">
+                                <option v-for="item in portalList" :key="item.datA_CLASS" :value="item.datA_CLASS">
+                                    {{ item.datA_CLASS }}
+                                </option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="lblStatus" for="balanceSheetDropdown">M Status</label>
+                            </div>
+
+                            <select v-model="selectedGameType" class="custom-select">
+                                <option value="0">Select Status</option>
+                                <option v-for="item in statusPopulate" :key="item.status" :value="item.status">
+                                    {{ item.status }}
+                                </option>
+                            </select>
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="balanceSheetDropdown">From Date</label>
+                            </div>
+                            <input type="date" class="form-control" placeholder="From Date" required v-model="ListFromDate">
+
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="balanceSheetDropdown">To Date</label>
+                            </div>
+                            <input type="date" class="form-control" placeholder="To Date" required v-model="ListToDate">
+
+                            <div class="input-group-prepend">
+
+                                @* <button type="button" class="btn btn-outline-info btn-sm" @@Click="getData()">Search</button> *@
+
+                                <button type="button" class="btn btn-outline-info btn-sm" @@Click="addCard()">Search</button>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
+
         </div>
-        <div class="modal" id="mdl_game" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
+
+        @*Search Area End*@
+
+        <div class="card mt-2" v-cloak style="display:none">
+            <div class="card-body">
+
+                <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==1">
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4>EBL Migration List</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <button v-on:click="exportToExcel" class="btn btn-outline-info btn-sm">Excel</button>
+                            <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+                            <button id="EamilSend" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+
+                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+                            <thead>
+                                <tr>
+                                    <th>Data Class </th>
+                                    <th>Account No</th>
+                                    <th>Status </th>
+                                    <th>Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="game in filteredGames" :key="game.DWDOCID">
+                                    <td>{{ game.datA_CLASS }}</td>
+                                    <td>{{ game.accounT_NO }}</td>
+                                    <td>{{ game.status }}</td>
+                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=589317ba-3a03-43fb-b882-eac5682d5fa1&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-12" id="OnlinegameLstId" v-if="selectedDepartment==2">
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4>EBL POC List</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <button v-on:click="exportToExcelPOC" class="btn btn-outline-info btn-sm">Excel</button>
+                            <button id="downloadPdf" class="btn btn-outline-info btn-sm">PDF</button>
+                            <button id="EamilSende" class="btn btn-outline-info btn-sm" @@click="SendMain">Mail</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+
+                        <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+
+                            <thead>
+                                <tr>
+                                    <th>Data Class </th>
+                                    <th>Account No </th>
+                                    <th>Status </th>
+                                    <th>Document</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="game in filteredGames" :key="game.DWDOCID">
+                                    <td>{{ game.datA_CLASS }}</td>
+                                    <td>{{ game.accounT_NO }}</td>
+                                    <td>{{ game.status }}</td>
+                                    <td><button class="btn btn-outline-info btn-sm" @@click="openUrl('https://presentationvm/DocuWare/Platform/WebClient/24750358-8e9c-4e5c-be1d-3d781846c471/Integration?fc=71a26a21-c727-4ea2-a05c-b7a2a14480ac&did=' + game.dwdocid + '&p=V')">View <i class="fa fa-angle-double-right"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Modal Start Hare *@
+
+        <div class="modal" id="mdl_WorkSpace_User" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Game Update</h5>
+                        <h5 class="modal-title">List Of User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -188,123 +486,192 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
-                                <form action="javascript:;" data-vv-scope="frmgame">
-                                    <div class="form-row">
-                                        <div class="row col-12">
-                                            <div class="col">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span style="font-size:14px" class="input-group-text">Game Name</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" v-model="itemG.gameName" placeholder="Game Name" aria-label="Game Name" aria-describedby="basic-addon1">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span style="font-size:14px" class="input-group-text">Category</span>
-                                                    </div>
-                                                    <select v-model="itemG.categoryId" class="form-control">
-                                                        <option v-for="item in gateCategoryList" :key="item.id" :value="item.id">
-                                                            {{ item.categoryName }}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row col-12">
-                                            <div class="col">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span style="font-size:14px" class="input-group-text">Banner Image</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" v-model="itemG.bannerImageMockURL">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span style="font-size:14px" class="input-group-text">Preview Image</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" v-model="itemG.previewImageMockURL">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row col-12">
-                                            <div class="col">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span style="font-size:14px" class="input-group-text">Portrait Image</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" v-model="itemG.portraitImageMockURL">
-                                                </div>
-                                            </div>
-                                            <div class="col" v-if="typeSelected == 1">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span style="font-size:14px" class="input-group-text">APK URL</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" v-model="itemG.apkMockURL">
-                                                </div>
-                                            </div>
-                                            <div class="col" v-if="typeSelected == 2">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span style="font-size:14px" class="input-group-text">Game URL</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" v-model="itemG.gameURL">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row col-12">
-                                            <div class="col">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span style="font-size:14px" class="input-group-text">Description</span>
-                                                    </div>
-                                                    <textarea class="form-control" v-model="itemG.description" rows="3"></textarea>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="row col-12">
-                                            <div class="col">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" v-model="itemG.status" id="isactiveCheckbox">
-                                                    <label style="margin-left:20px" class="form-check-label" for="isactiveCheckbox">
-                                                        Is Active
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </form>
+                                <div style="overflow-x: auto;">
+                                    <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+                                        <thead>
+                                            <tr>
+                                                <th>SN </th>
+                                                <th>User </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(row, rowIndex) in WorkSpaceUserList" :key="rowIndex">
+                                                <td style="font-size:14.5px">{{ getSerialNumber(rowIndex) }}</td>
+                                                <td>{{ row.user }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info" v-on:click="UpdateGame"><i class="far fa-save"></i> Save</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="modal" id="mdl_WorkSpace_Status" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">List Of Status </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div style="overflow-x: auto;">
+                                    <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+                                        <thead>
+                                            <tr>
+                                                <th>SN </th>
+                                                <th>Account Type </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(row, rowIndex) in WorkSpaceStatuslist" :key="rowIndex">
+                                                <td style="font-size:14.5px">{{ getSerialNumber(rowIndex) }}</td>
+                                                <td>{{ row.status }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="mdl_WorkSpace_AccountType" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">List Of Account Type</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div style="overflow-x: auto;">
+
+                                    <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+                                        <thead>
+                                            <tr>
+                                                <th>SN </th>
+                                                <th>Account Type </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr v-for="(row, rowIndex) in WorkSpaceAcccountTypeList" :key="rowIndex">
+                                                <td style="font-size:14.5px">{{ getSerialNumber(rowIndex) }}</td>
+                                                <td>{{ row.accountType }}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="mdl_WorkSpace_Record" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Number of Records</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div style="overflow-x: auto;">
+
+                                    <table class="table table-bordered table-striped" id="gameTable" style="table-layout: fixed;">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">SN </th>
+
+                                                <th with="20%">ACCOUNT NO  </th>
+                                                <th width="35%">Document Name</th>
+
+                                                <th width="20%">Branch Code</th>
+                                                <th width="20%">STATUS</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr v-for="(row, rowIndex) in WorkSpeceRecordList" :key="rowIndex">
+                                                <td style="font-size:14.5px">{{ getSerialNumber(rowIndex) }}</td>
+                                                <td>{{ row.accounT_NO }}</td>
+                                                <td>{{ row.documentName }}</td>
+                                                <td>{{ row.branchCode }}</td>
+                                                <td>{{ row.status }}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
-
 </div>
-@section scripts{
+
+@section scripts {
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="~/js/dashboard.js"></script>
+
     <script>
+
         var app = new Vue({
+
             el: '#vc_app',
             data() {
                 return {
-                    selectedGamePortal: 1,
-                    selectedGameType: '',
-                    categoryId:'',
+                    TotalCR: '0',
+                    TotalAOF: '0',
+                    TotalUser: '0',
+                    TotalStatus: '0',
+                    message: 'EBL Migration',
+                    EblMigra_Category: true,
+                    EblPoc_Category: false,
+                    selectedEblEmployee: 'admin@petersengineering.com',
+                    selectedPIEDepartment: '1',
+                    portalList: [],
+                    statusPopulate: [],
+                    EmployeeInfo: [],
+                    selectedCategory: '',
+                    selectedGameType: '0',
+                    selectedDepartment: '1',
+                    SelectDocClassType: 'Select From List',
                     typeSelected: '',
                     games: [],
                     gateCategoryList: [],
@@ -319,91 +686,679 @@
                         info: false,
                         responsive: true,
                     },
-                    ddlGameType:[],
+                    filteredGames: [],
+                    PiE: [],
+                    BarChartZ: [],
+                    LineChart: [],
+                    dataa: [],
+                    selectedFile: null,
+                    xlsxLoaded: false,
+                    jsPDFLoaded: false,
+                    ListFromDate: null,
+                    ListToDate: null,
+                    graphFromDate: null,
+                    graphToDate: null,
+
+                    //WorkSpaceBenner
+                    WorkSpaceUserList: null,
+                    WorkSpaceStatuslist: null,
+                    WorkSpaceAcccountTypeList: null,
+                    WorkSpeceRecordList: null,
+
+                    cards: [
+
+                    ],
+                    currentCardIndex: 0
+
                 };
             },
 
             computed: {
-                filteredGames() {
-                    if (!this.searchTerm) {
-                        return this.games;
-                    } else {
-                        const searchTermLower = this.searchTerm.toLowerCase();
-                        return this.games.filter(game => {
-                            return (
-                                game.gameName.toLowerCase().includes(searchTermLower) ||
-                                game.categoryName.toLowerCase().includes(searchTermLower)
-                            );
-                        });
-                    }
+
+                reversedCards() {
+                    return this.cards.slice().reverse();
                 }
             },
             methods: {
-                getData() {
-                    const portalId = this.selectedGamePortal;
-                    const gameTypeId = this.selectedGameType;
-                    const CategoryId = this.categoryId;
 
-                    this.typeSelected = gameTypeId;
+                addCard() {
 
-                    console.log(categoryId)
-                    helper.get('/game/GetGameList',
-                        { clientaValue: portalId, type: gameTypeId, catId: CategoryId.Id },
-                        (response) => {
-                            console.log(response);
-                            this.games = response;
+                    // if (this.selectedPIEDepartment == "1") {
 
-                        });
+                    //     var valuee = '';
+
+                    //     switch (this.selectedCategory) {
+                    //         case 'Status':
+                    //             valuee = 'M Status';
+                    //             break;
+                    //         case 'MCIF':
+                    //             valuee = 'M CIF';
+                    //             break;
+                    //         case 'MPRODUCTTYPE':
+                    //             valuee = 'M PRODUCT TYPE';
+                    //             break;
+                    //         case 'MPRODUCTBranch':
+                    //             valuee = 'M PRODUCT Branch';
+                    //             break;
+                    //         case 'MOWNER':
+                    //             valuee = 'M OWNER';
+                    //             break;
+                    //         case 'MTYPE':
+                    //             valuee = 'M TYPE';
+                    //             break;
+                    //         case 'MUser':
+                    //             valuee = 'M User';
+                    //             break;
+                    //         default:
+                    //             valuee = ''; // Return an empty string if no match found
+                    //     }
+                    //     const card = {
+                    //         title: (valuee) + ' Of EBl Migration',
+                    //         visible: true
+                    //     };
+
+                    //     this.cards.push(card);
+                    //     this.renderCharts(this.cards.length - 1);
+                    //     this.currentCardIndex++;
+
+                        
+                    // }
+
+                    // if (this.selectedPIEDepartment == "2") {
+
+                    //     const card = {
+                    //         title: (this.selectedCategory) + ' Of EBl POC',
+                    //         visible: true
+                    //     };
+                    //     this.cards.push(card);
+                    //     this.renderCharts(this.cards.length - 1);
+                    //     this.currentCardIndex++;
+
+
+                    // }
+
+                    const card = {
+                        title: (this.selectedCategory) + ' Of EBl POC',
+                        visible: true
+                    };
+                    this.cards.unshift(card);
+                    this.renderCharts(0); // Render charts for the new card at the beginning of the array
+                    this.currentCardIndex++;
+
                 },
-                editGame(game) {
-                    this.itemG = game;
+                renderCharts(index) {
+
+                    // this.cards.forEach((card, index) => {
+                    //     this.renderPieChart(index);
+                    //     this.renderBarChart(index);
+                    // });
+                    this.renderPieChart(index);
+                    this.renderBarChart(index);
+
+                },
+                renderPieChart(index) {
+
+                    PieDepartment = this.selectedPIEDepartment;
+                    CategoryType = this.selectedCategory;
+                    const gFromDate = this.graphFromDate;
+                    const gTodate = this.graphToDate;
+
+                    if (CategoryType == null || CategoryType == "undefined" || CategoryType == "") {
+
+                        $.notify("Please Select Category", 'error');
+                        // alert("Please Select Category");
+
+                    } else {
+
+                        helper.get('api/EBL_Migration/PIEChart',
+                            { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
+                            (response) => {
+                                this.PiE = [];
+                                this.PiE = response;
+                                console.log(response);
+
+                                Highcharts.chart('container_Pie_' + index, {
+                                    chart: {
+                                        type: 'pie'
+                                    },
+                                    title: {
+                                        text: '',
+                                        align: 'left'
+                                    },
+                                    tooltip: {
+                                        // valueSuffix: '%'
+                                    },
+
+                                    plotOptions: {
+                                        series: {
+                                            allowPointSelect: true,
+                                            cursor: 'pointer',
+                                            dataLabels: [{
+                                                enabled: true,
+                                                distance: 20
+                                            }, {
+                                                enabled: true,
+                                                distance: -40,
+                                                format: '{point.percentage:.1f}%',
+                                                style: {
+                                                    fontSize: '1.2em',
+                                                    textOutline: 'none',
+                                                    opacity: 0.7
+                                                },
+                                                filter: {
+                                                    operator: '>',
+                                                    property: 'percentage',
+                                                    value: 10
+                                                }
+                                            }]
+                                        }
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Total',
+                                            colorByPoint: true,
+                                            data: this.PiE
+                                        }
+                                    ]
+                                });
+
+
+                            });
+                    }
+
+                },
+                renderBarChart(index) {
+
+                    PieDepartment = this.selectedPIEDepartment;
+                    CategoryType = this.selectedCategory;
+                    const gFromDate = this.graphFromDate;
+                    const gTodate = this.graphToDate;
+
+                    if (CategoryType == null || CategoryType == "undefined" || CategoryType == "") {
+
+                        $.notify("Please Select Category", 'error');
+                        // alert("Please Select Category");
+
+                    } else {
+
+                        helper.get('api/EBL_Migration/BarChartForDashBoard',
+                            { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
+                            (response) => {
+                                this.BarChartZ = [];
+                                this.BarChartZ = response;
+
+                                Highcharts.chart('container_Bar_' + index, {
+                                    chart: {
+                                        type: 'column'
+                                    },
+                                    title: {
+                                        text: '',
+                                        align: 'left'
+                                    },
+                                    xAxis: {
+                                        categories: [],
+                                        crosshair: true,
+                                        accessibility: {
+                                            description: 'Countries'
+                                        }
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: ''
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: ' '
+                                    },
+                                    plotOptions: {
+                                        column: {
+                                            pointPadding: 0.2,
+                                            borderWidth: 0
+                                        }
+                                    },
+                                    series: this.BarChartZ
+                                });
+
+                            });
+                    }
+                },
+
+                SendMain() {
+                    this.itemG = {};
                     $('#mdl_game').modal('show');
-
                 },
-               
 
-                getGameCategory() {
-                    helper.get('/game/GetGameCategory',
+                showNextCard() {
+                    if (this.cardQueue.length > 0) {
+                        this.activeCard = this.cardQueue.shift();
+                        this.cardQueue.push(this.activeCard);
+                    }
+                },
+
+                exportToExcel() {
+                    if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
+                    const wb = XLSX.utils.book_new();
+                    const ws = XLSX.utils.json_to_sheet(this.filteredGames);
+                    XLSX.utils.book_append_sheet(wb, ws, 'People');
+                    XLSX.writeFile(wb, 'Eastern_Bank_PLC_Migration.xlsx');
+                },
+
+                exportToExcelPOC() {
+                    if (!this.xlsxLoaded) return; // Check if XLSX library is loaded
+                    const wb = XLSX.utils.book_new();
+                    const ws = XLSX.utils.json_to_sheet(this.filteredGames);
+                    XLSX.utils.book_append_sheet(wb, ws, 'People');
+                    XLSX.writeFile(wb, 'Eastern_Bank_PLC_POC.xlsx');
+                },
+
+                getSerialNumber(index) {
+                    // Add 1 to the index since indexing usually starts from 0
+                    return index + 1;
+                },
+
+                OnchangeGraph() {
+                    if (this.selectedPIEDepartment == "1") {
+
+                        this.EblMigra_Category = true;
+                        this.EblPoc_Category = false;
+
+                        //TotalRecordOfPerCanicate
+                        helper.get('api/WorkSpace/Total_Record_Of_Per_Cabinate',
+                            { Cabinate_Id: this.selectedPIEDepartment },
+                            (response) => {
+                                this.TotalCR = response.totalCR
+                                this.TotalAOF = response.totalAOF
+                                this.TotalStatus = response.totalStatus
+                                this.TotalUser = response.totalUser
+                                this.message = 'EBL Migration'
+                            });
+
+                    } else {
+
+                        this.EblMigra_Category = false;
+                        this.EblPoc_Category = true;
+
+                        //TotalRecordOfPerCanicate
+                        helper.get('api/WorkSpace/Total_Record_Of_Per_Cabinate',
+                            { Cabinate_Id: this.selectedPIEDepartment },
+                            (response) => {
+                                this.TotalCR = response.totalCR
+                                this.TotalAOF = response.totalAOF
+                                this.TotalStatus = response.totalStatus
+                                this.TotalUser = response.totalUser
+                                this.message = 'EBL POC'
+                            });
+                    }
+                },
+
+                Onchange() {
+
+                    if (this.selectedDepartment == "1") {
+
+                        $('#lblDataClass').text('M Data Class');
+                        $('#lblStatus').text('M Status');
+                        // Data Class Populate
+                        helper.get('api/EBL_Migration/EblDataClassPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.portalList = [];
+                                this.portalList = response;
+                                this.SelectDocClassType = 'Select From List'
+                            });
+
+                        // Status Populate
+                        helper.get('api/EBL_Migration/EblStatusPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.statusPopulate = [];
+                                this.statusPopulate = response;
+                                this.selectedGameType = '0'
+                                // console.log(response);
+                            });
+                    }
+                    if (this.selectedDepartment == "2") {
+
+                        $('#lblDataClass').text('Data Class');
+                        $('#lblStatus').text('Status');
+                        // Data Class Populate
+                        helper.get('api/EBL_Migration/EblDataClassPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.portalList = [];
+                                this.portalList = response;
+                                this.SelectDocClassType = 'Select From List'
+                            });
+
+                        // Status Populate
+                        helper.get('api/EBL_Migration/EblStatusPopulate',
+                            { DepartmentId: this.selectedDepartment },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.statusPopulate = [];
+                                this.statusPopulate = response;
+                                this.selectedGameType = '0'
+                            });
+
+                    }
+                },
+
+                GetEmployeeMailInfo() {
+                    helper.get('api/EBLLogin/EBLEmployeeInfo',
                         {},
                         (response) => {
+                            this.EmployeeInfo = [];
+                            this.EmployeeInfo = response;
+                        });
+                },
+
+                getDta() {
+
+                    PieDepartment = this.selectedPIEDepartment;
+                    CategoryType = this.selectedCategory;
+                    const gFromDate = this.graphFromDate;
+                    const gTodate = this.graphToDate;
+
+                    if (CategoryType == null || CategoryType == "undefined" || CategoryType == "") {
+
+                        $.notify("Please Select Category", 'error');
+                        // alert("Please Select Category");
+
+                    } else {
+
+                        helper.get('api/EBL_Migration/PIEChart',
+                            { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
+                            (response) => {
+                                this.PiE = [];
+                                this.PiE = response;
+                                console.log(response);
+
+                                Highcharts.chart('container', {
+                                    chart: {
+                                        type: 'pie'
+                                    },
+                                    title: {
+                                        text: '',
+                                        align: 'left'
+                                    },
+                                    tooltip: {
+                                        // valueSuffix: '%'
+                                    },
+
+                                    plotOptions: {
+                                        series: {
+                                            allowPointSelect: true,
+                                            cursor: 'pointer',
+                                            dataLabels: [{
+                                                enabled: true,
+                                                distance: 20
+                                            }, {
+                                                enabled: true,
+                                                distance: -40,
+                                                format: '{point.percentage:.1f}%',
+                                                style: {
+                                                    fontSize: '1.2em',
+                                                    textOutline: 'none',
+                                                    opacity: 0.7
+                                                },
+                                                filter: {
+                                                    operator: '>',
+                                                    property: 'percentage',
+                                                    value: 10
+                                                }
+                                            }]
+                                        }
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Total',
+                                            colorByPoint: true,
+                                            data: this.PiE
+                                        }
+                                    ]
+                                });
+
+
+                            });
+
+                        helper.get('api/EBL_Migration/BarChartForDashBoard',
+                            { Department: PieDepartment, type: CategoryType, Fromdate: gFromDate, Todate: gTodate },
+                            (response) => {
+                                this.BarChartZ = [];
+                                this.BarChartZ = response;
+
+                                Highcharts.chart('container_', {
+                                    chart: {
+                                        type: 'column'
+                                    },
+                                    title: {
+                                        text: '',
+                                        align: 'left'
+                                    },
+                                    xAxis: {
+                                        categories: [],
+                                        crosshair: true,
+                                        accessibility: {
+                                            description: 'Countries'
+                                        }
+                                    },
+                                    yAxis: {
+                                        min: 0,
+                                        title: {
+                                            text: ''
+                                        }
+                                    },
+                                    tooltip: {
+                                        valueSuffix: ' '
+                                    },
+                                    plotOptions: {
+                                        column: {
+                                            pointPadding: 0.2,
+                                            borderWidth: 0
+                                        }
+                                    },
+                                    series: this.BarChartZ
+                                });
+
+                            });
+                    }
+                },
+
+                WSUser() {
+                    helper.get('api/WorkSpace/WorkSpaceBennerUser',
+                        { Dept: this.selectedPIEDepartment },
+                        (response) => {
+
                             console.log(response);
-                            this.gateCategoryList = response;
+
+                            this.WorkSpaceUserList = [];
+                            this.WorkSpaceUserList = response;
+
+                            $('#mdl_WorkSpace_User').modal('show');
 
                         });
                 },
-                GetGameType() {
-                helper.get('/Demo/Get_Game_Type',
-                        {},
+
+                WSStatus() {
+                    helper.get('api/WorkSpace/WorkSpaceBennerStatus',
+                        { Dept: this.selectedPIEDepartment },
                         (response) => {
-                            console.log(response);
-                            this.ddlGameType = response;
+
+                            this.WorkSpaceStatuslist = [];
+                            this.WorkSpaceStatuslist = response;
+
+                            $('#mdl_WorkSpace_Status').modal('show');
 
                         });
                 },
-                UpdateGame() {
-                    debugger;
-                    console.log(this.itemG);
-                    helper.post('/game/UpdateGameInfo', this.itemG, (response) => {
-                        debugger;
-                        if (response) {
-                            this.getData();
-                            $('#mdl_game').modal('hide');
-                        }
-                        else {
-                            $.notify(response.message, 'error');
-                        }
-                    });
+
+                WSAccountType() {
+
+                    helper.get('api/WorkSpace/WorkSpacebennerAccountType',
+                        { Dept: this.selectedPIEDepartment },
+                        (response) => {
+
+
+                            console.log(response);
+
+                            this.WorkSpaceAcccountTypeList = [];
+                            this.WorkSpaceAcccountTypeList = response;
+
+                            $('#mdl_WorkSpace_AccountType').modal('show');
+
+                        });
                 },
 
-                
+                WSAllRecord() {
+
+                    helper.get('api/WorkSpace/WorkSpaceTotalRecord',
+                        { Dept: this.selectedPIEDepartment },
+                        (response) => {
+
+                            console.log(response);
+
+                            this.WorkSpeceRecordList = [];
+                            this.WorkSpeceRecordList = response;
+
+                            $('#mdl_WorkSpace_Record').modal('show');
+
+                        });
+                },
+
+                getData() {
+
+                    const DepartmetId = this.selectedDepartment;
+                    const gameTypeId = this.selectedGameType;
+                    const DepartmentId = this.selectedDepartment;
+                    const DocClass = this.SelectDocClassType;
+                    const fromdate = this.ListFromDate;
+                    const todate = this.ListToDate;
+                    if (DepartmetId == 1) {
+
+                        helper.get('api/EBL_Migration/MigrationList',
+                            { DocClass: DocClass, status: gameTypeId, FromDate: fromdate, Todate: todate },
+                            (response) => {
+
+                                this.filteredGames = [];
+                                this.filteredGames = response;
+                            });
+                    }
+
+                    if (DepartmetId == 2) {
+
+                        helper.get('api/EBL_Migration/EBLPOCList',
+                            { DocClass: DocClass, status: gameTypeId, FromDate: fromdate, Todate: todate },
+                            (response) => {
+                                this.filteredGames = [];
+                                this.filteredGames = response;
+                            });
+                    }
+                },
+
+                sendTableDataToBackend() {
+
+                    if (this.filteredGames == null || this.filteredGames == "undefined" || this.filteredGames == "") {
+
+                        $.notify("There is no data in the list below", 'error');
+                        $('#mdl_game').modal('hide');
+
+                    } else {
+
+                        var jsonData = {};
+
+                        jsonData["MyProperty"] = this.selectedEblEmployee
+
+                        var jsonObjs = [];
+                        $.each(this.filteredGames, function (index, filteredGames) {
+
+                            var theObj = {};
+                            // Access properties of each JSON object
+                            var dataClass = filteredGames.datA_CLASS;
+                            var Account = filteredGames.accounT_NO;
+                            var status = filteredGames.status;
+                            var Date = filteredGames.dwstoredatetime;
+
+                            theObj["M_DATA_CLASS"] = dataClass;
+                            theObj["M_ACCOUNT_NO"] = Account;
+                            theObj["STATUS"] = status;
+                            theObj["DWSTOREDATETIME"] = Date;
+
+                            jsonObjs.push(theObj);
+                            jsonData["mailBodies"] = jsonObjs;
+
+                        });
+
+                        $.ajax({
+                            url: '/login/Mailsend',
+                            type: 'POST',
+                            data: {
+                                jsonData: jsonData
+                            },
+                            beforeSend: function () {
+                                $('#btn_mail').prop('disabled', true);
+                            },
+                            success: function (response) {
+
+                                if (response.success) {
+                                    $('#btn_mail').prop('disabled', false);
+                                    $('#mdl_game').modal('hide');
+                                    $.notify(response.message, 'success');
+                                } else {
+                                    $('#btn_mail').prop('disabled', false);
+                                    $.notify(response.message, 'error');
+                                }
+                            },
+                            Complete: function () {
+
+                                $('#btn_mail').prop('disabled', false);
+                            }
+                        });
+                    }
+                },
+
+                openUrl(url) {
+                    window.open(url, '_blank');
+                }
             },
-
             mounted() {
+
                 //  this.getData();
-                this.getGameCategory();
-                this.GetGameType();
+                helper.blockUI();
+                helper.unBlockUI();
+
+                // this.getData();
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';
+                script.onload = () => {
+                    this.xlsxLoaded = true; // Set flag to true when script is loaded
+                };
+                document.head.appendChild(script);
+
+                //  this.Onchange();
+                this.GetEmployeeMailInfo();
+
+                // __init__();
+                helper.get('api/WorkSpace/Total_Record_Of_Per_Cabinate',
+                    { Cabinate_Id: this.selectedPIEDepartment },
+                    (response) => {
+                        this.TotalCR = response.totalCR
+                        this.TotalAOF = response.totalAOF
+                        this.TotalStatus = response.totalStatus
+                        this.TotalUser = response.totalUser
+                    });
+
+
             },
 
         });
+
     </script>
+
+
+
+
 }
+

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
 using System.Diagnostics;
 using GAMEPORTALCMS.Models.DTO;
+using GAMEPORTALCMS.Models.Response;
 namespace GAMEPORTALCMS.Repository.Implementation
 {
     public class WorkSpaceRepo
@@ -74,12 +75,30 @@ namespace GAMEPORTALCMS.Repository.Implementation
                             .Select(g => new
                             {
                              TotalCount = g.Count(),
-                             TotalAOF = g.Count(m => m.M_DATA_CLASS == "AOF")
+                            // TotalAOF = g.Count(m => m.M_DATA_CLASS == "AOF")
                             })
                             .FirstOrDefault();
 
-                        dTO.TotalCR =  counts?.TotalCount ?? 0;
-                        dTO.TotalAOF = counts?.TotalAOF ?? 0;
+                        var totalMAccount = _dbContext.EBL_Migrations
+                                     .Select(m => m.M_PRODUCT_TYPE)
+                                     .Distinct()
+                                     .Count();
+
+                        var totalDistinctMStatus = _dbContext.EBL_Migrations
+                                     .Select(m => m.M_STATUS)
+                                     .Distinct()
+                                     .Count();
+
+                        var totalMUser = _dbContext.EBL_Migrations
+                                    .Select(m => m.M_USER)
+                                    .Distinct()
+                                    .Count();
+
+                        dTO.TotalCR =  counts?.TotalCount ?? 0; // If TotalCount Is null Or blank Then it assign O
+                        dTO.TotalAOF = totalMAccount; // If TotalAof is Null Or Blank Then assign 0
+
+                        dTO.TotalStatus = totalDistinctMStatus;
+                        dTO.TotalUser = totalMUser;
 
                         break;
 
@@ -89,13 +108,30 @@ namespace GAMEPORTALCMS.Repository.Implementation
                            .GroupBy(m => 1)
                            .Select(g => new
                            {
-                               TotalCount = g.Count(),
-                               TotalAOF = g.Count(m => m.DATA_CLASS == "AOF")
+                               TotalCount = g.Count(), // Count All row 
+                              // TotalAOF = g.Count(m => m.DATA_CLASS == "AOF") // Count Total AOF 
                            })
                            .FirstOrDefault();
 
+                        var totalAccount = _dbContext._EBL_POCs
+                                     .Select(m => m.PRODUCT_TYPE)
+                                     .Distinct()
+                                     .Count();
+
+                        var totalDistinctStatus = _dbContext._EBL_POCs
+                                     .Select(m => m.STATUS)
+                                     .Distinct()
+                                     .Count();
+
+                        var totalUser = _dbContext._EBL_POCs
+                                    .Select(m => m.USER)
+                                    .Distinct()
+                                    .Count();
+
                         dTO.TotalCR = count?.TotalCount ?? 0; 
-                        dTO.TotalAOF = count?.TotalAOF ?? 0;
+                        dTO.TotalAOF = totalAccount;
+                        dTO.TotalStatus = totalDistinctStatus;
+                        dTO.TotalUser = totalUser;
 
                         break;
 
@@ -111,5 +147,171 @@ namespace GAMEPORTALCMS.Repository.Implementation
          
             return dTO;
         }
+
+        public List<WorkSpaceUserDTO> Get_WS_User(string Dept)
+        {
+            List<WorkSpaceUserDTO> userDTOs = new List<WorkSpaceUserDTO>();
+            switch (Dept)
+            {
+                case "1":
+
+                     var enumerableData = _dbContext.EBL_Migrations
+                       .Select(x => new WorkSpaceUserDTO
+                        {
+                           User = x.M_USER ?? "NUll"
+                        }
+                       )
+                       .Distinct()
+                       .ToList();
+
+                    userDTOs = enumerableData.ToList();
+
+                    break;
+
+                case "2":
+
+                    var enumerableData_Poc = _dbContext._EBL_POCs
+                       .Select(x => new WorkSpaceUserDTO{
+                           User = x.USER ?? "NUll"
+                        }
+                       )
+                       .Distinct()
+                       .ToList();
+
+                    userDTOs = enumerableData_Poc.ToList();
+
+                    break;
+            }                        
+            return userDTOs;
+        }
+
+        public List<WorkSpaceStatusDTO> Get_WS_Status(string Dept)
+        {
+            List<WorkSpaceStatusDTO> userDTOs = new List<WorkSpaceStatusDTO>();
+            switch (Dept)
+            {
+                case "1":
+
+                    var enumerableData = _dbContext.EBL_Migrations
+                      .Select(x => new WorkSpaceStatusDTO
+                      {
+                          Status = x.M_STATUS ?? "NUll"
+                      }
+                      )
+                      .Distinct()
+                      .ToList();
+
+                    userDTOs = enumerableData.ToList();
+
+                    break;
+
+                case "2":
+
+                    var enumerableData_Poc = _dbContext._EBL_POCs
+                       .Select(x => new WorkSpaceStatusDTO
+                       {
+                           Status = x.STATUS ?? "NUll"
+                       }
+                       )
+                       .Distinct()
+                       .ToList();
+
+                    userDTOs = enumerableData_Poc.ToList();
+
+                    break;
+            }
+            return userDTOs;
+        }
+
+        public List<WorkSpaceAccountTypeDTO> Get_WS_AccountType(string Dept)
+        {
+            List<WorkSpaceAccountTypeDTO> userDTOs = new List<WorkSpaceAccountTypeDTO>();
+            switch (Dept)
+            {
+                case "1":
+
+                    var enumerableData = _dbContext.EBL_Migrations
+                      .Select(x => new WorkSpaceAccountTypeDTO
+                      {
+                          // Account Type Means ProductType
+                          AccountType = x.M_PRODUCT_TYPE ?? "NUll"
+                      }
+                      )
+                      .Distinct()
+                      .ToList();
+
+                    userDTOs = enumerableData.ToList();
+
+                    break;
+
+                case "2":
+
+                    var enumerableData_Poc = _dbContext._EBL_POCs
+                       .Select(x => new WorkSpaceAccountTypeDTO
+                       {
+                           //Account Type Means ProductType
+                           AccountType = x.PRODUCT_TYPE ?? "NUll"
+                       }
+                       )
+                       .Distinct()
+                       .ToList();
+
+                    userDTOs = enumerableData_Poc.ToList();
+
+                    break;
+            }
+            return userDTOs;
+        }
+
+        public List<WorkSpaceTotalRecord> GetWorkStationRecord(string Dept)
+        {
+            List<WorkSpaceTotalRecord> records = new List<WorkSpaceTotalRecord>();
+
+            switch (Dept)
+            {
+                case "1":
+
+                    var enumerableData = _dbContext.EBL_Migrations
+                                                            .AsEnumerable() // Evaluate the query locally
+                                                 
+                                                            .Select(x => new WorkSpaceTotalRecord
+                                                            {
+                                                                DWDOCID = x.DWDOCID,
+                                                                DATA_CLASS = x.M_DATA_CLASS,
+                                                                ACCOUNT_NO = x.M_ACCOUNT_NO,                                                             
+                                                                DocumentName = x.M_DOCUMENT_NAME,
+                                                                ProductType = x.M_PRODUCT_TYPE,
+                                                                CIF = x.M_CIF,
+                                                                BranchCode = x.M_PRODUCT_BRANCH,                                                           
+                                                                STATUS = x.M_STATUS,                                                  
+                                                            })
+                                                            .OrderByDescending(x => x.DWDOCID);
+
+                    records = enumerableData.ToList();
+
+                    break;
+                case "2":
+                    var enumerableDatappoc = _dbContext._EBL_POCs
+                                                         .AsEnumerable() // Evaluate the query locally                                         
+                                                         .Select(x => new WorkSpaceTotalRecord
+                                                         {
+                                                             DWDOCID = x.DWDOCID,
+                                                             ACCOUNT_NO = x.ACCOUNT_NO,
+                                                             DATA_CLASS = x.DATA_CLASS,
+                                                             ProductType = x.PRODUCT_TYPE,
+                                                             DocumentName = x.DOCUMENT_NAME,
+                                                             CIF = x.CIF,
+                                                             BranchCode = x.BRANCH_CODE,
+                                                             STATUS = x.STATUS,
+                                                         })
+                                                         .OrderByDescending(x => x.DWDOCID);
+
+                    records = enumerableDatappoc.ToList();
+                    break;
+            }
+            return records;
+          
+        }
     }
 }
+

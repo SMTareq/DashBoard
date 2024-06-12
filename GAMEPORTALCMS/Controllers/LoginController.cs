@@ -24,6 +24,13 @@ namespace GAMEPORTALCMS.Controllers
             return View();
         }
 
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+
+
         public async Task<IActionResult> ValidateUser(string userName, string password)
         {
             var data = await _userrepository.ValidateUser(userName, password);

@@ -319,7 +319,7 @@
 
     sendTableDataToBackend() {
 
-                    if (this.filteredGames == null || this.filteredGames == "undefined" || this.filteredGames == "") {
+                   if (this.filteredGames == null || this.filteredGames == "undefined" || this.filteredGames == "") {
 
         $.notify("There is no data in the list below", 'error');
     $('#mdl_game').modal('hide');

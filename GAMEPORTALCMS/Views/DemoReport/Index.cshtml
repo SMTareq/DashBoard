@@ -296,6 +296,14 @@
         </div>
 
 
+
+   
+
+
+        <h3>ttttttt</h3>
+        <div v-html="renderCardsInReverse()"></div>
+
+
       
         @*Search Area Start*@
 
@@ -689,13 +697,14 @@
                     
                     
                 };
+
+
+
             },
 
             computed: {
 
-                // reversedList() {
-                //     return this.cards.slice().reverse();   
-                // }
+               
             },
             methods: {
 
@@ -744,10 +753,6 @@
                         this.renderCharts(this.cards.length - 1);
                         this.currentCardIndex++;
 
-
-
-                       
-
                     }
 
                     if (this.selectedPIEDepartment == "2") {
@@ -784,14 +789,67 @@
                     }
                 },
 
+
+
+
+
+
                 renderCharts(index) {
 
                      this.renderPieChart('container_Pie_' + index);
-                     this.renderBarChart('container_Pie_' + index);
-                     this.cards.reverse();
+                     this.renderBarChart('container_Bar_' + index);
+                     //this.cards.reverse();
+
+
+                      // for (let i = this.cards.length - 1; i >= 0; i--) {
+                      //          console.log(this.cards[i]);
+                      //     }
                 },
 
 
+
+ 
+
+
+
+
+   renderCardsInReverse() {
+    let html = '';
+    for (let i = this.cards.length - 1; i >= 0; i--) {
+      const card = this.cards[i];
+  
+      console.log(card.PiE);
+
+      html += `
+        <div class="card mt-2">
+          <div class="card-body">
+              <h6>${card.title}</h6>
+              <div class="row">
+                  <div class="col-md-6">
+                      <figure class="highcharts-figure">
+                          <div id="container_Pie_${i}"></div>
+                      </figure>
+                  </div>
+                  <div class="col-md-6">
+                      <figure class="highcharts-figure">
+                          <div id="container_Bar_${i}"></div>
+                      </figure>
+                  </div>
+              </div>
+          </div>
+        </div>
+      `;
+      
+      console.log(i)
+    
+  
+   
+    return html;
+  }
+  }
+  ,
+
+  
               
                
                 renderPieChart(index) {

@@ -29,8 +29,6 @@ namespace GAMEPORTALCMS.Controllers
             return View();
         }
 
-
-
         public async Task<IActionResult> ValidateUser(string userName, string password)
         {
             var data = await _userrepository.ValidateUser(userName, password);
@@ -40,18 +38,11 @@ namespace GAMEPORTALCMS.Controllers
             }
             else
             {
-                if (password.Trim() == "admin")
-                {
+                
                     HttpContext.Session.SetString("UserName", data.name);
                     ViewBag.UserName = data.name;
                     return new JsonResult(new ResponseModel { Success = true, Message = "Login successfull" });
-
-                }
-                else
-                {
-                    return new JsonResult(new ResponseModel { Success = false, Message = "Username and password do not match" });
-                }
-       
+                
             }
             //if (userName == "" && password == "")
             //{
@@ -85,7 +76,6 @@ namespace GAMEPORTALCMS.Controllers
                 return new JsonResult(new ResponseModel { Success = false, Message = "error" });
             }
         }
-
 
         [HttpPost("UserLogin")]
         public async Task<IActionResult> UserLogin(string userName, string password)

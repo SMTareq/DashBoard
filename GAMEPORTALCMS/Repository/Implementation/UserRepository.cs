@@ -24,13 +24,11 @@ namespace GAMEPORTALCMS.Repository.Implementation
         }
 
         public async Task<DWUser> ValidateUser(string userName,string password)
-        {
-
-         
+        {    
             DWUser data = new DWUser();
             try
             {
-                 data = await _loginDBContext.DWUsers.FirstOrDefaultAsync(x => x.name == userName);
+                 data = await _loginDBContext.DWUsers.FirstOrDefaultAsync(x => x.name == userName &&  x.email == password);
                 // string Mew= Decrypt(data.password, "0123456789abcdef0123456789abcdef", "0123456789abcdef");
             }
             catch (Exception ex)

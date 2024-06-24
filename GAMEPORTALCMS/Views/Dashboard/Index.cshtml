@@ -275,7 +275,7 @@
         </div>
 
 
-        <div id="card-container">
+      @*   <div id="card-container">
             <div v-for="(card, index) in cards" :key="index" v-show="card.visible" class="card mt-2">
                 <div class="card-body">
                     <h6>{{ card.title }}</h6>
@@ -288,6 +288,27 @@
                         <div class="col-md-6">
                             <figure class="highcharts-figure">
                                 <div :id="'container_Bar_' + index"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> *@
+
+
+        <div id="card-container">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <h6>{{ title_ }}</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <figure class="highcharts-figure">
+                                <div id="container_Pie_"></div>
+                            </figure>
+                        </div>
+                        <div class="col-md-6">
+                            <figure class="highcharts-figure">
+                                <div id="container_Bar_"></div>
                             </figure>
                         </div>
                     </div>
@@ -677,14 +698,9 @@
                     WorkSpaceStatuslist: null,
                     WorkSpaceAcccountTypeList: null,
                     WorkSpeceRecordList: null,
-
-                    cards: [
-
-                    ],
-                    currentCardIndex: 0
-
-
-
+                    title_:'',
+                   
+                   
                 };
             },
 
@@ -728,15 +744,17 @@
                             default:
                                 valuee = ''; // Return an empty string if no match found
                         }
-                        const card = {
-                            title: (valuee) + ' Of EBL Migration',
-                            visible: true
-                        };
+                        // const card = {
+                        //     title: (valuee) + ' Of EBL Migration',
+                        //     visible: true,
 
+                        //     PiE_M: [],
+                        //     BarChartZ_M: [],
+                        // };
 
-                        this.cards.push(card);
-                        this.renderCharts(this.cards.length - 1);
-                        this.currentCardIndex++;
+                      //  this.cards.push(card);
+                        this.renderCharts(valuee + 'Of EBL Migration');
+                      //  this.currentCardIndex++;
 
                     }
 
@@ -764,28 +782,30 @@
                             default:
                                 Poc_valuee = ''; // Return an empty string if no match found
                         }
-                        const card = {
-                            title: (Poc_valuee) + ' Of EBL POC',
-                            visible: true
-                        };
-                        this.cards.push(card);
-                        this.renderCharts(this.cards.length - 1);
-                        this.currentCardIndex++;
+                        // const card = {
+                        //     title: (Poc_valuee) + ' Of EBL POC',
+                        //     visible: true,
+
+                         
+                        // };
+                     
+                        this.renderCharts(Poc_valuee + ' Of EBL POC');
+
+
+                        //For Multi Function 
+                        //this.cards.push(card);
+                        //this.renderCharts(this.cards.length - 1);
+                        // this.currentCardIndex++;
                     }
                 },
 
                 renderCharts(index) {
-
-                    // this.cards.forEach((card, index) => {
-                    //     this.renderPieChart(index);
-                    //     this.renderBarChart(index);
-                    // });
+                  
                     this.renderPieChart(index);
                     this.renderBarChart(index);
-
+               
                 },
                 renderPieChart(index) {
-
 
                     PieDepartment = this.selectedPIEDepartment;
                     CategoryType = this.selectedCategory;
@@ -804,9 +824,8 @@
                             (response) => {
                                 this.PiE = [];
                                 this.PiE = response;
-                                console.log(response);
-
-                                Highcharts.chart('container_Pie_' + index, {
+                                this.title_ = index;
+                                Highcharts.chart('container_Pie_', {
                                     chart: {
                                         type: 'pie'
                                     },
@@ -852,15 +871,11 @@
                                         }
                                     ]
                                 });
-
-
                             });
                     }
 
                 },
                 renderBarChart(index) {
-
-
 
                     PieDepartment = this.selectedPIEDepartment;
                     CategoryType = this.selectedCategory;
@@ -879,8 +894,8 @@
                             (response) => {
                                 this.BarChartZ = [];
                                 this.BarChartZ = response;
-
-                                Highcharts.chart('container_Bar_' + index, {
+                                //this.title_ = index;
+                                Highcharts.chart('container_Bar_', {
                                     chart: {
                                         type: 'column'
                                     },
@@ -1032,7 +1047,6 @@
                                 this.statusPopulate = response;
                                 this.selectedGameType = '0'
                             });
-
                     }
                 },
 
@@ -1161,9 +1175,7 @@
                     helper.get('api/WorkSpace/WorkSpaceBennerUser',
                         { Dept: this.selectedPIEDepartment },
                         (response) => {
-
-                            console.log(response);
-
+                          
                             this.WorkSpaceUserList = [];
                             this.WorkSpaceUserList = response;
 
@@ -1190,10 +1202,7 @@
                     helper.get('api/WorkSpace/WorkSpacebennerAccountType',
                         { Dept: this.selectedPIEDepartment },
                         (response) => {
-
-
-                            console.log(response);
-
+                         
                             this.WorkSpaceAcccountTypeList = [];
                             this.WorkSpaceAcccountTypeList = response;
 
@@ -1207,9 +1216,7 @@
                     helper.get('api/WorkSpace/WorkSpaceTotalRecord',
                         { Dept: this.selectedPIEDepartment },
                         (response) => {
-
-                            console.log(response);
-
+                       
                             this.WorkSpeceRecordList = [];
                             this.WorkSpeceRecordList = response;
 
@@ -1338,15 +1345,10 @@
                         this.TotalAOF = response.totalAOF
                         this.TotalStatus = response.totalStatus
                         this.TotalUser = response.totalUser
-                    });
-
-             
+                    });            
             },
 
         });
-
-
-
 
     </script>
 

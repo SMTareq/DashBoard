@@ -4,8 +4,8 @@ using System.Reflection;
 
 namespace GAMEPORTALCMS.Models.Entity
 {
-   // [Table("EBL_POC", Schema = "dbo")]
-    [Table("_EBL_POC", Schema = "dbo")]
+    [Table("EBL_POC", Schema = "dbo")]
+    //[Table("_EBL_POC", Schema = "dbo")]
     public class _EBL_POC
     {
             public int DWDOCID { get; set; }

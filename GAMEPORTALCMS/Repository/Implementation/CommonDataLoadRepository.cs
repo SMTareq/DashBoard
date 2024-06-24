@@ -13,11 +13,11 @@ namespace GAMEPORTALCMS.Repository.Implementation
             this._context = context;
         }
 
-        public async Task<List<GameType>> GetGameType()
-        {
-            var data = await _context.GameTypes.AsNoTracking().ToListAsync();
-            return data;
+        //public async Task<List<GameType>> GetGameType()
+        //{
+        //    var data = await _context.GameTypes.AsNoTracking().ToListAsync();
+        //    return data;
 
-        }
+        //}
     }
 }

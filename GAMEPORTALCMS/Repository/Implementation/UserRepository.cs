@@ -98,65 +98,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
             }
         }
 
-        #region CMSUSERCRUD
-        public async Task<List<CMSuserDTO>> GetAllCMSUser()
-        {
-            var data = await _dbContext.CMSUsers.Select(x => new CMSuserDTO
-            {
-                Id = x.Id,
-
-                Username = x.Username,
-                UserCode = x.UserCode,
-                Password = x.Password,
-                IsBlock = x.IsBlock,
-
-            }).OrderBy(x => x.Username).ToListAsync();
-
-            return data;
-        }
-
-        public async Task<bool> SaveCMSUser(CMSuserDTO cat, string sessinUser)
-        {
-            try
-            {
-                if (cat.Id > 0)
-                {
-                    var category = await _dbContext.CMSUsers.FirstOrDefaultAsync(x => x.Id == cat.Id);
-                    if (category != null)
-                    {
-                        category.Username = cat.Username;
-                        category.Password = cat.Password;
-                        category.IsBlock = cat.IsBlock;
-                        await _dbContext.SaveChangesAsync();
-                    }
-                }
-                else
-                {
-                    var maxId = await _dbContext.CMSUsers.OrderByDescending(u => u.Id).FirstOrDefaultAsync();
-
-                    var category = new CMSUser
-                    {
-                        Username = cat.Username,
-                        UserCode = "CU"+ cat.Username + maxId.Id,
-                        Password = cat.Password,
-                        IsBlock = cat.IsBlock,
-                        //CreatedBy = sessinUser,
-                        //CreatedDate = DateTime.Now,
-                    };
-                    _dbContext.CMSUsers.Add(category);
-                    await _dbContext.SaveChangesAsync();
-                }
-                return true;
-
-            }
-            catch (Exception ex)
-            {
-
-                return false;
-            }
-
-        }
-        #endregion
+     
 
         #region UserCRUD
         public async Task<List<User>> GetAllUser()

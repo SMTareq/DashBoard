@@ -1481,7 +1481,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
             if (status != null)
             {
-                predicate = CombinePredicates(predicate, x => x.STATUS == status);
+                predicate = CombinePredicates(predicate, x => x.M_STATUS == status);
             }
 
             if (FromDate != null && Todate != null)

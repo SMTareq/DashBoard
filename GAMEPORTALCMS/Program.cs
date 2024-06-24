@@ -20,14 +20,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddScoped<GameRepository>();
-builder.Services.AddScoped<GameCategoryService>();
-builder.Services.AddScoped<PatchRepository>();
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<PatchGameRepository>();
 builder.Services.AddScoped<CommonDataLoadRepository>();
-builder.Services.AddScoped<GamePortalClientRepository>();
-builder.Services.AddScoped<PromotionRepository>();
 builder.Services.AddScoped<EBL_MigrationRepo>();
 builder.Services.AddScoped<MailGenerator>();
 builder.Services.AddScoped<WorkSpaceRepo>();
@@ -40,11 +34,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=login}/{action=Index}/{id?}");
-
 app.Run();

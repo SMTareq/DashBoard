@@ -1,4 +1,5 @@
-﻿
+﻿/// <reference path="../vue/excel.js" />
+
     var app = new Vue({
 
         el: '#vc_app',
@@ -471,7 +472,10 @@
         });
     //excel loading
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';
+        /*script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.2/dist/xlsx.full.min.js';*/
+
+        script.src = '~/vue/excel.js';
+
                 script.onload = () => {
         this.xlsxLoaded = true; // Set flag to true when script is loaded
                 };

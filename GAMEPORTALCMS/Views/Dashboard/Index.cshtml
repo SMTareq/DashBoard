@@ -156,7 +156,7 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer" style="color:black" @@click="WSAllRecord()">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer" style="color:black" @@click="WSAllRecord()">More info(Last 7 days) <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -170,7 +170,7 @@
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer" style="color:black" @@click="WSAccountType()">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer" style="color:black" @@click="WSAccountType()">More info(Last 7 days) <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -184,7 +184,7 @@
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer" style="color:black" @@click="WSStatus()">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer" style="color:black" @@click="WSStatus()">More info(Last 7 days) <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -585,7 +585,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Number of Records</h5>
+                        <h5 class="modal-title">Number of records</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -635,11 +635,38 @@
 
 @section scripts {
 
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/series-label.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    @* <script src="https://code.highcharts.com/highcharts.js"></script> *@
+
+    <script src="~/highchart/code/highcharts.js"></script>
+    <script src="~/highchart/code/highcharts.src.js"></script>
+@*     <a href="~/highchart/code/highcharts.js.map">~/highchart/code/highcharts.js.map</a> *@
+
+    @* <script src="https://code.highcharts.com/modules/series-label.js"></script> *@
+
+    <script src="~/highchart/code/modules/series-label.js"></script>
+    <script src="~/highchart/code/modules/series-label.src.js"></script>
+@*     <a href="~/highchart/code/modules/series-label.js.map">~/highchart/code/modules/series-label.js.map</a> *@
+
+    @* <script src="https://code.highcharts.com/modules/exporting.js"></script> *@
+
+    <script src="~/highchart/code/modules/exporting.js"></script>
+    <script src="~/highchart/code/modules/exporting.src.js"></script>
+@*     <a href="~/highchart/code/modules/exporting.js.map">~/highchart/code/modules/exporting.js.map</a> *@
+
+    @* <script src="https://code.highcharts.com/modules/export-data.js"></script> *@
+
+    <script src="~/highchart/code/modules/export-data.js"></script>
+    <script src="~/highchart/code/modules/export-data.src.js"></script>
+@*     <a href="~/highchart/code/modules/export-data.js.map">~/highchart/code/modules/export-data.js.map</a> *@
+
+
+    @* <script src="https://code.highcharts.com/modules/accessibility.js"></script> *@
+
+    <script src="~/highchart/code/modules/accessibility.js"></script>
+    <script src="~/highchart/code/modules/accessibility.src.js"></script>
+@*     <a href="~/highchart/code/modules/accessibility.js.map">~/highchart/code/modules/accessibility.js.map</a> *@
+
 
 
     <script>

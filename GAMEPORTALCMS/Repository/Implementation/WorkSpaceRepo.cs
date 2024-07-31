@@ -188,11 +188,12 @@ namespace GAMEPORTALCMS.Repository.Implementation
         public List<WorkSpaceStatusDTO> Get_WS_Status(string Dept)
         {
             List<WorkSpaceStatusDTO> userDTOs = new List<WorkSpaceStatusDTO>();
+            var sevenDaysAgo = DateTime.Now.AddDays(-7).Date;
             switch (Dept)
             {
                 case "1":
 
-                    var enumerableData = _dbContext.EBL_Migrations
+                    var enumerableData = _dbContext.EBL_Migrations.Where(x => x.DWSTOREDATETIME.Date >= sevenDaysAgo)
                       .Select(x => new WorkSpaceStatusDTO
                       {
                           Status = x.M_STATUS ?? "NUll"
@@ -207,7 +208,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                 case "2":
 
-                    var enumerableData_Poc = _dbContext._EBL_POCs
+                    var enumerableData_Poc = _dbContext._EBL_POCs.Where(x => x.DWSTOREDATETIME.Date >= sevenDaysAgo)
                        .Select(x => new WorkSpaceStatusDTO
                        {
                            Status = x.STATUS ?? "NUll"
@@ -226,11 +227,15 @@ namespace GAMEPORTALCMS.Repository.Implementation
         public List<WorkSpaceAccountTypeDTO> Get_WS_AccountType(string Dept)
         {
             List<WorkSpaceAccountTypeDTO> userDTOs = new List<WorkSpaceAccountTypeDTO>();
+
+            var sevenDaysAgo = DateTime.Now.AddDays(-7).Date;
+
+
             switch (Dept)
             {
                 case "1":
 
-                    var enumerableData = _dbContext.EBL_Migrations
+                    var enumerableData = _dbContext.EBL_Migrations.Where(x => x.DWSTOREDATETIME.Date >= sevenDaysAgo)
                       .Select(x => new WorkSpaceAccountTypeDTO
                       {
                           // Account Type Means ProductType
@@ -246,7 +251,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                 case "2":
 
-                    var enumerableData_Poc = _dbContext._EBL_POCs
+                    var enumerableData_Poc = _dbContext._EBL_POCs.Where(x => x.DWSTOREDATETIME.Date >= sevenDaysAgo)
                        .Select(x => new WorkSpaceAccountTypeDTO
                        {
                            //Account Type Means ProductType
@@ -267,11 +272,14 @@ namespace GAMEPORTALCMS.Repository.Implementation
         {
             List<WorkSpaceTotalRecord> records = new List<WorkSpaceTotalRecord>();
 
+            var sevenDaysAgo = DateTime.Now.AddDays(-7).Date;
+
             switch (Dept)
             {
+                 
                 case "1":
-
-                    var enumerableData = _dbContext.EBL_Migrations
+                 
+                    var enumerableData = _dbContext.EBL_Migrations.Where(x => x.DWSTOREDATETIME.Date >= sevenDaysAgo)
                                                             .AsEnumerable() // Evaluate the query locally
                                                  
                                                             .Select(x => new WorkSpaceTotalRecord
@@ -291,7 +299,7 @@ namespace GAMEPORTALCMS.Repository.Implementation
 
                     break;
                 case "2":
-                    var enumerableDatappoc = _dbContext._EBL_POCs
+                    var enumerableDatappoc = _dbContext._EBL_POCs.Where(x => x.DWSTOREDATETIME.Date >= sevenDaysAgo)
                                                          .AsEnumerable() // Evaluate the query locally                                         
                                                          .Select(x => new WorkSpaceTotalRecord
                                                          {
